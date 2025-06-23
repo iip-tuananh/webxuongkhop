@@ -22,7 +22,9 @@
                     <div class="hero-header">
                         <h1 class="text-anime-style-1">{{ $blog->name }}</h1>
                         <div class="space28"></div>
-                        <a href="index.html" class="bradecrumb">Home <i class="fa-solid fa-angle-right"></i> Our Blog <i class="fa-solid fa-angle-right"></i> Blog Details</a>
+                        <a href="{{ route('front.home-page') }}" class="bradecrumb">Trang chủ
+                            <i class="fa-solid fa-angle-right"></i> {{ $blog->type == 'post' ? 'Tin tức' : 'Tuyển dụng' }}
+                            <i class="fa-solid fa-angle-right"></i>{{ $blog->name }}</a>
                     </div>
                 </div>
             </div>
