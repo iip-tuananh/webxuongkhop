@@ -239,7 +239,8 @@ request()->is('admin/categories') || request()->is('admin/categories*') || reque
 
 
 
-            <li class="nav-item has-treeview  {{ request()->is('admin/stores') ||  request()->is('admin/banners') ||  request()->is('admin/origins') || request()->is('admin/manufacturers/*') || request()->is('admin/attributes') ? 'menu-open' : '' }} ">
+            <li class="nav-item has-treeview  {{ request()->is('admin/stores') ||  request()->is('admin/banners') ||
+request()->is('admin/origins') || request()->is('admin/manufacturers/*') || request()->is('admin/orders') ? 'menu-open' : '' }} ">
 
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-newspaper"></i>
@@ -273,6 +274,12 @@ request()->is('admin/categories') || request()->is('admin/categories*') || reque
 {{--                        </a>--}}
 {{--                    </li>--}}
 
+                    <li class="nav-item">
+                        <a href="{{ route('orders.index') }}" class="nav-link {{ Request::routeIs('orders.index') ? 'active' : '' }}">
+                            <i class="far fas  fa-angle-right nav-icon"></i>
+                            <p>Quản lý đơn hàng</p>
+                        </a>
+                    </li>
 
                     <li class="nav-item has-treeview">
                         <a href="{{ route('Review.index') }}" class="nav-link {{ Request::routeIs('Review.index') ? 'active' : '' }}">

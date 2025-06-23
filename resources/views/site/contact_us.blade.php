@@ -63,12 +63,11 @@
         </div>
     </div>
 
-    <div class="contact-inner-section-area sp2" ng-controller="contactPage">
+    <div class="contact-inner-section-area sp2" style="padding: 30px 0 70px" ng-controller="contactPage">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 m-auto">
                     <div class="heading4 text-center space-margin60">
-                        <div class="space24"></div>
                         <h2 class="vl-section-title text-anime-style-3">{{ $config->web_title }}</h2>
                     </div>
                 </div>

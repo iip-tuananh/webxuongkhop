@@ -15,8 +15,6 @@
                 <div class="footer-widget-area foot-padding1" style="padding-left: 30px">
                     <h3>Menu</h3>
                     <ul>
-
-
                         <li><a href="{{ route('front.home-page') }}">Trang chủ</a></li>
                         <li><a href="{{ route('front.about_page') }}">Về chúng tôi</a></li>
                         <li><a href="{{ route('front.products') }}">Sản phẩm</a></li>
@@ -196,7 +194,7 @@
 
             </style>
 
-            <div class="col-lg col-md-6">
+            <div class="col-lg col-md-6 footer-register-form">
                 <div class="footer-consult-form">
                     <div class="title">Đăng ký nhận tư vấn</div>
                     <div class="subtitle">

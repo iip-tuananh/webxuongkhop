@@ -323,6 +323,50 @@
         }
     }
 
+    @media (max-width: 768px) {
+        .homepage4-body .vl-transparent-header .vl-logo img {
+            width: auto;
+            height: 80px;
+        }
+
+        .footer-register-form {
+            margin-top: 20px;
+        }
 
 
+        /* Thu nhỏ khoảng cách khung */
+        .play-btn {
+            position: absolute; /* nếu bạn đang dùng absolute */
+            bottom: 8px; /* lùi sát đáy hơn */
+            right: 8px; /* lùi sát mép phải hơn */
+        }
+
+        /* Thu font và padding cho link */
+        .play-btn a.popup-youtube {
+            font-size: 14px !important; /* override style inline */
+            padding: 4px 6px; /* co gọn padding */
+            line-height: 1; /* cho khớp chiều cao */
+        }
+
+        /* Khoảng cách giữa icon và text */
+        .play-btn a.popup-youtube span {
+            margin-right: 4px;
+        }
+
+        /* Thu nhỏ icon play */
+        .play-btn a.popup-youtube i.fa-play {
+            font-size: 16px;
+        }
+
+        .others-section-area .video-play-area .play-btn a span {
+            height: 50px;
+            width: 50px;
+            line-height: 50px;
+        }
+
+        .others-section-area .video-play-area .play-btn {
+            bottom: 10px;
+        }
+
+    }
 </style>

@@ -84,7 +84,6 @@ class CartController extends Controller
         $total = \Cart::getTotal();
         $cartItems = \Cart::getContent();
         $totalPriceCart = \Cart::getTotal();
-
         $config = Config::query()->find(1);
 
         return view('site.orders.checkout', compact('cartCollection', 'total' ,'cartItems', 'totalPriceCart', 'config'));

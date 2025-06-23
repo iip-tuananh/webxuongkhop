@@ -848,7 +848,7 @@
                  type: 'POST',
                  url: url,
                  headers: {
-                     'X-CSRF-TOKEN': "{{csrf_token()}}"
+                     'X-CSRF-TOKEN': CSRF_TOKEN
                  },
                  data: {
                      'qty': parseInt($scope.item_qty)

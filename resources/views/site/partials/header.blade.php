@@ -31,6 +31,7 @@
                 </div>
 {{--                <div class="space16 d-lg-block d-none"></div>--}}
             </div>
+
             <div class="row align-items-center row-bg1">
                 <div class="col-lg-2 col-md-6 col-6">
                     <div class="vl-logo">

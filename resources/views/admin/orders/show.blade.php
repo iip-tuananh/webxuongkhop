@@ -104,18 +104,7 @@
                             </tr>
                             <tr>
                                 <td colspan="4" class="text-right"><b>Tổng thành tiền: </b></td>
-                                <td class="text-right"><b><% form.total_before_discount | number %></b></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class="text-right"><b>Giảm giá: </b><br>
-                                    <span ng-if="form.discount_code" class="text-danger">
-                                        <i class="fa fa-tag"></i> <% form.discount_code ? 'Voucher: ' + form.discount_code : '' %>
-                                    </span>
-                                </td>
-                                <td class="text-right"><b><% form.discount_value | number %></b></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class="text-right"><b>Thành tiền sau giảm: </b></td>
+                                <td class="text-right"><b></b></td>
                                 <td class="text-right"><b><% form.total_after_discount | number %></b></td>
                             </tr>
                             </tbody>
@@ -146,6 +135,17 @@
             $scope.form = new Order(@json($order), {scope: $scope});
             $scope.statuses = @json(\App\Model\Admin\Order::STATUSES);
             $scope.$applyAsync();
+
+            $scope.getTotal = function(){
+                var sum = 0;
+                angular.forEach($scope.form.details, function(detail){
+                    var price = detail.price;
+                    sum += detail.qty * price;
+                });
+                return sum;
+
+            };
+            $scope.form.total_after_discount = $scope.getTotal();
 
             $scope.getStatus = function (status) {
                 let obj = $scope.statuses.find(val => val.id == status);

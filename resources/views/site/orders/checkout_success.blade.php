@@ -2124,13 +2124,13 @@
                                     <td class="product-image">
                                     <div class="product-thumbnail">
                                         <div class="product-thumbnail-wrapper">
-                                            <img class="product-thumbnail-image" alt="{{$detail->product->name}}" src="{{$detail->product->image->path}}" />
+                                            <img class="product-thumbnail-image" alt="{{$detail->product->name ?? ''}}" src="{{ @$detail->product->image->path ?? '' }}" />
                                             </div>
                                             <span class="product-thumbnail-quantity" aria-hidden="true">{{$detail->qty}}</span>
                                         </div>
                                     </td>
                                     <td class="product-description">
-                                    <span class="product-description-name order-summary-emphasis">{{$detail->product->name}}</span>
+                                    <span class="product-description-name order-summary-emphasis">{{$detail->product->name ?? ''}}</span>
                                     <div class="product-description-variant order-summary-small-text">
                                         {{$detail->type}}
                                     </div>

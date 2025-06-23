@@ -544,6 +544,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
         Route::get('/', 'Admin\OrderController@index')->name('orders.index');
         Route::get('/searchData', 'Admin\OrderController@searchData')->name('orders.searchData');
         Route::get('/{id}/show', 'Admin\OrderController@show')->name('orders.show');
+        Route::get('/{id}/delete', 'Admin\OrderController@delete')->name('orders.delete');
         Route::post('/update-status','Admin\OrderController@updateStatus')->name('orders.update.status');
     });
 

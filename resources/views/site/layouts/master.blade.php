@@ -26,7 +26,7 @@
     <div class="vl-offcanvas">
         <div class="vl-offcanvas-wrapper">
             <div class="vl-offcanvas-header d-flex justify-content-between align-items-center mb-90">
-                <div class="vl-offcanvas-logo">
+                <div class="vl-offcanvas-logo" style="filter: none !important;">
                     <a href="{{ route('front.home-page') }}"><img src="{{ @$config->image->path ?? '' }}" alt=""></a>
                 </div>
                 <div class="vl-offcanvas-close">

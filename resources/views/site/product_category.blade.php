@@ -22,27 +22,66 @@
             text-stroke: 1px #007bff !important;                /* chuẩn CSS hiện tại */
 
         }
+
+        .inner-header-section-area {
+            padding: 200px 0 0px !important;
+            position: relative;
+            overflow: hidden;    /* để image không vươn ra ngoài */
+        }
+
+        /* Ảnh co giãn theo chiều rộng, giữ tỉ lệ */
+        .inner-header-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;   /* nếu bạn có phần overlay, hoặc muốn cắt mép ngang */
+        }
+
+        /* Nếu bạn có nội dung overlay (chữ, nút), đặt nó lên trên ảnh */
+        .inner-header-content {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            /* ví dụ căn giữa: */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            /* thêm padding/màu nền bán trong suốt nếu cần */
+        }
+
+        /* Chỉ riêng trên mobile, nếu muốn ảnh không cắt mép, hiển thị trọn vẹn: */
+        @media (max-width: 768px) {
+            .inner-header-image {
+                object-fit: contain;
+            }
+
+            .inner-header-section-area {
+                padding: 100px 0 0px !important;
+            }
+
+            .service-inner-area {
+                padding: 10px 0 0 !important;
+            }
+        }
+
     </style>
     <!--===== HERO AREA STARTS =======-->
-    <div class="inner-header-section-area"
-         style="background-image: url({{ @$banner->image->path ?? '' }}); background-position: center;
-          background-repeat: no-repeat; background-size: cover; padding: 300px 0 200px">
-        <div class="container">
+{{--    <div class="inner-header-section-area"--}}
+{{--         style="background-image: url({{ @$banner->image->path ?? '' }}); background-position: center;--}}
+{{--          background-repeat: no-repeat; background-size: cover; padding: 500px 0 200px">--}}
+{{--        <div class="container">--}}
 
+{{--        </div>--}}
+{{--    </div>--}}
 
-            <div class="row align-items-center">
-                <div class="col-lg-12">
-                    <div class="hero-header hero-header–overlay">
-                        <h1 class="text-anime-style-1 bradecrumb">Sản phẩm</h1>
-                        <a href="{{ route('front.home-page') }}" class="bradecrumb">
-                            Trang chủ
-                            <i class="fa-solid fa-angle-right"></i>
-                            Sản phẩm</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="inner-header-section-area">
+        <!-- 1. Thẻ img responsively bọc ngoài -->
+        <img
+            src="{{ @$banner->image->path ?? '' }}"
+            alt="Banner"
+            class="inner-header-image" />
     </div>
+
     <!--===== HERO AREA ENDS =======-->
 
     <style>
@@ -140,7 +179,7 @@
 
     </style>
     <!--===== SERVICE AREA STARTS =======-->
-    <div class="service-inner-area sp8" style="padding: 30px 0 0;" ng-controller="ProductCategory">
+    <div class="service-inner-area sp8" style="padding: 30px 0 0" ng-controller="ProductCategory">
         <div class="container">
             <nav aria-label="breadcrumb" class="mt-4 mb-3">
                 <ol class="breadcrumb">
@@ -155,7 +194,7 @@
 
             <div class="row">
                 @foreach($products as $product)
-                    <div class="col-lg-3 col-md-6">
+                    <div class="col-6 col-md-5 col-lg-3 mb-4">
                         <div class="product-card">
                             <!-- 1. Thumbnail -->
                             <div class="product-thumb">
@@ -239,7 +278,7 @@
                     type: 'POST',
                     url: url,
                     headers: {
-                        'X-CSRF-TOKEN': "{{csrf_token()}}"
+                        'X-CSRF-TOKEN': CSRF_TOKEN
                     },
                     data: {
                         'qty': parseInt($scope.item_qty)

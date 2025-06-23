@@ -52,6 +52,7 @@ class OrderController extends Controller
                 <div class="dropdown-menu">';
                 $result = $result . ' <a href="" title="đổi trạng thái" class="dropdown-item update-status"><i class="fa fa-angle-right"></i>Đổi trạng thái</a>';
                 $result = $result . ' <a href="'.route('orders.show', $object->id).'" title="đổi trạng thái" class="dropdown-item"><i class="fa fa-angle-right"></i>Xem chi tiết</a>';
+                $result = $result . ' <a href="'.route('orders.delete', $object->id).'" title="xóa" class="dropdown-item confirm"><i class="fa fa-angle-right"></i>Xóa</a>';
                 $result = $result . '</div></div>';
                 return $result;
             })
@@ -65,6 +66,20 @@ class OrderController extends Controller
 //        $order->payment_method_name = Order::PAYMENT_METHODS[$order->payment_method];
 
         return view($this->view . '.show', compact('order'));
+    }
+
+    public function delete($id) {
+        $order = Order::query()->where('id', $id)->first();
+        $order->details()->delete();
+
+        $order->delete();
+
+        $message = array(
+            "message" => "Thao tác thành công!",
+            "alert-type" => "success"
+        );
+
+        return redirect()->route($this->route.'.index')->with($message);
     }
 
     public function updateStatus(Request $request)

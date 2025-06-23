@@ -21,7 +21,7 @@
                         <h1 class="text-anime-style-1">
                             Về chúng tôi
                         </h1>
-                        <a href="{{ route('front.home-page') }}" class="bradecrumb">Home <i class="fa-solid fa-angle-right"></i>Về chúng tôi</a>
+                        <a href="{{ route('front.home-page') }}" class="bradecrumb">Trang chủ<i class="fa-solid fa-angle-right"></i>Về chúng tôi</a>
                     </div>
                 </div>
             </div>

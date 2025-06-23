@@ -16,9 +16,32 @@
 @section('content')
 <div ng-controller="registerBlock">
     <style>
+        /*.hero3-section-area {*/
+        /*    !* đảm bảo slide cao đủ chứa ảnh *!*/
+        /*    min-height: 800px; !* hoặc height tuỳ bạn *!*/
+        /*}*/
+        /*.hero3-section-area .banner-bg {*/
+        /*    position: absolute;*/
+        /*    top: 0; left: 0;*/
+        /*    width: 100%; height: 100%;*/
+        /*    overflow: hidden;*/
+        /*}*/
+        /*.hero3-section-area .banner-bg img {*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    object-fit: cover; !* cắt/scale ảnh cho phủ đầy vùng *!*/
+        /*}*/
+        /*.hero3-section-area .container {*/
+        /*    position: relative;*/
+        /*    z-index: 2; !* để nội dung hiển thị trên ảnh *!*/
+        /*}*/
+
+        /* --- giữ nguyên cho desktop --- */
         .hero3-section-area {
-            /* đảm bảo slide cao đủ chứa ảnh */
-            min-height: 800px; /* hoặc height tuỳ bạn */
+            position: relative;
+            /* bạn có thể dùng aspect-ratio để lock tỉ lệ, thay min-height */
+            /* aspect-ratio: 16 / 9; */
+            min-height: 800px; /* nếu bạn vẫn muốn */
         }
         .hero3-section-area .banner-bg {
             position: absolute;
@@ -29,13 +52,29 @@
         .hero3-section-area .banner-bg img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* cắt/scale ảnh cho phủ đầy vùng */
-        }
-        .hero3-section-area .container {
-            position: relative;
-            z-index: 2; /* để nội dung hiển thị trên ảnh */
+            object-fit: cover;
+            object-position: center center;
         }
 
+
+        @media (max-width: 768px) {
+            .hero3-section-area {
+                padding-top: 100px !important;
+                padding-bottom: 0px !important;
+                min-height: auto !important;   /* bỏ giới hạn cứng */
+                height: auto !important;       /* co theo ảnh */
+            }
+            .hero3-section-area .banner-bg {
+                position: relative !important; /* để img tính height:auto */
+                height: auto !important;
+            }
+            .hero3-section-area .banner-bg img {
+                width: 100% !important;
+                height: auto !important;          /* tự cao dựa vào tỉ lệ ảnh */
+                object-fit: contain !important;   /* luôn hiển thị đầy đủ */
+                object-position: center center !important;
+            }
+        }
     </style>
     <div class="hero-all-main-slider" >
         <div class="hero-main-slider">
@@ -510,19 +549,6 @@
                                 <div class="shop-single-boxarea">
                                     <div class="img1 image-anime">
                                         <img src="{{ @$product->image->path ?? '' }}" alt="">
-                                        {{--                                        <ul>--}}
-                                        {{--                                            <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="14" viewBox="0 0 18 14" fill="none">--}}
-                                        {{--                                                        <path d="M9.00071 0.25C13.0448 0.25 16.4093 3.15982 17.1147 7C16.4093 10.8402 13.0448 13.75 9.00071 13.75C4.95658 13.75 1.5921 10.8402 0.886719 7C1.5921 3.15982 4.95658 0.25 9.00071 0.25ZM9.00071 12.25C12.1774 12.25 14.8957 10.039 15.5838 7C14.8957 3.96102 12.1774 1.75 9.00071 1.75C5.82394 1.75 3.10565 3.96102 2.41757 7C3.10565 10.039 5.82394 12.25 9.00071 12.25ZM9.00071 10.375C7.13672 10.375 5.62568 8.86398 5.62568 7C5.62568 5.13604 7.13672 3.625 9.00071 3.625C10.8646 3.625 12.3757 5.13604 12.3757 7C12.3757 8.86398 10.8646 10.375 9.00071 10.375ZM9.00071 8.875C10.0362 8.875 10.8757 8.03552 10.8757 7C10.8757 5.96448 10.0362 5.125 9.00071 5.125C7.96519 5.125 7.12568 5.96448 7.12568 7C7.12568 8.03552 7.96519 8.875 9.00071 8.875Z" fill="white"/>--}}
-                                        {{--                                                    </svg></a></li>--}}
-
-                                        {{--                                            <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">--}}
-                                        {{--                                                        <path d="M13.2383 2.25C15.5165 2.25 17.3633 4.125 17.3633 6.75C17.3633 12 11.7383 15 9.86328 16.125C7.98828 15 2.36328 12 2.36328 6.75C2.36328 4.125 4.23828 2.25 6.48828 2.25C7.88326 2.25 9.11328 3 9.86328 3.75C10.6133 3 11.8433 2.25 13.2383 2.25ZM10.5637 13.9528C11.2249 13.5364 11.8208 13.1216 12.3795 12.6772C14.6136 10.8998 15.8633 8.95763 15.8633 6.75C15.8633 4.98057 14.7105 3.75 13.2383 3.75C12.4314 3.75 11.5578 4.17683 10.9239 4.81066L9.86328 5.87132L8.80263 4.81066C8.16879 4.17683 7.29521 3.75 6.48828 3.75C5.03258 3.75 3.86328 4.99238 3.86328 6.75C3.86328 8.95763 5.11298 10.8998 7.34714 12.6772C7.90578 13.1216 8.50166 13.5364 9.16286 13.9528C9.38673 14.0939 9.60911 14.2297 9.86328 14.3814C10.1175 14.2297 10.3398 14.0939 10.5637 13.9528Z" fill="white"/>--}}
-                                        {{--                                                    </svg></a></li>--}}
-
-                                        {{--                                            <li><a href="#"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">--}}
-                                        {{--                                                        <path d="M12 12V9L15.75 12.75L12 16.5V13.5H3V12H12ZM6 1.5V4.49925L15 4.5V6H6V9L2.25 5.25L6 1.5Z" fill="white"/>--}}
-                                        {{--                                                    </svg></a></li>--}}
-                                        {{--                                        </ul>--}}
                                     </div>
 
                                     <div class="space14"></div>
@@ -544,9 +570,10 @@
                                             @if($product->base_price > 0)
                                                 <span class="old-price">{{ formatCurrency($product->base_price) }}đ</span>
                                             @endif
+
                                             <span class="new-price">{{ formatCurrency($product->price) }}đ</span>
                                         </p>
-                                        <a href="#" class="add-to-cart-btn">
+                                        <a href="javascript:void(0)" ng-click="addToCart({{ $product->id }})" class="add-to-cart-btn">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
                                                 <path d="M6.11719 6V4.5C6.11719 2.42893 7.79612 0.75 9.8672 0.75C11.9383 0.75 13.6172 2.42893 13.6172 4.5V6H15.8672C16.2814 6 16.6172 6.33579 16.6172 6.75V15.75C16.6172 16.1642 16.2814 16.5 15.8672 16.5H3.86719C3.45298 16.5 3.11719 16.1642 3.11719 15.75V6.75C3.11719 6.33579 3.45298 6 3.86719 6H6.11719ZM6.11719 7.5H4.61719V15H15.1172V7.5H13.6172V9.00003H12.1172V7.5H7.61719V9.00003H6.11719V7.5ZM7.61719 6H12.1172V4.5C12.1172 3.25736 11.1098 2.25 9.8672 2.25C8.62453 2.25 7.61719 3.25736 7.61719 4.5V6Z" fill="white"/>
                                             </svg>
@@ -569,7 +596,7 @@
                 <div class="col-lg-12">
                     <div class="video-play-area">
                         <img src="/site/img/elements/elements3.png" alt="" class="elements3">
-                        <a href="https://www.youtube.com/watch?v=Y8XpQpW5OVY" class="popup-youtube play-img">
+                        <a href="{{ $videoBlock->youtube }}" class="popup-youtube play-img">
                             <img src="{{ @$videoBlock->image->path ?? '' }}" alt="">
                         </a>
                         <div class="play-btn">
@@ -1132,13 +1159,10 @@
         const embed = toEmbedUrl(iframe.dataset.watch);
         if (embed) iframe.src = embed;
     });
-
-
-
 </script>
 
 <script>
-    app.controller('registerBlock', function ($rootScope, $scope, $sce, $interval) {
+    app.controller('registerBlock', function ($rootScope, $scope, $sce, $interval, cartItemSync) {
         $scope.errors = [];
         $scope.errors_ = [];
         $scope.sendSuccess = false;
@@ -1208,6 +1232,42 @@
             });
         }
 
+        $scope.item_qty = 1;
+
+        $scope.addToCart = function (productId) {
+            url = "{{route('cart.add.item', ['productId' => 'productId'])}}";
+            url = url.replace('productId', productId);
+
+            jQuery.ajax({
+                type: 'POST',
+                url: url,
+                headers: {
+                    'X-CSRF-TOKEN': CSRF_TOKEN
+                },
+                data: {
+                    'qty': parseInt($scope.item_qty)
+                },
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success('Sản phẩm đã được thêm vào giỏ hàng');
+
+                        $interval.cancel($rootScope.promise);
+
+                        $rootScope.promise = $interval(function () {
+                            cartItemSync.items = response.items;
+                            cartItemSync.total = response.total;
+                            cartItemSync.count = response.count;
+                        }, 1000);
+                    }
+                },
+                error: function () {
+                    toastr.toastr('Thao tác thất bại !');
+                },
+                complete: function () {
+                    $scope.$applyAsync();
+                }
+            });
+        }
     })
 
 </script>
