@@ -78,9 +78,7 @@
                     <div class="vl-hero-btn">
                         <div class="btn-area1">
                             <ul>
-                                <li>
-
-                                </li>
+                                <li> </li>
                                 <li>
                                     <a href="{{ route('cart.index') }}" class="cart-link">
 
@@ -91,7 +89,9 @@
                                         <span class="cart-badge"><% cart.count %></span>
                                     </a>
                                 </li>
-                                <li><a href="#" class="search-icon header__search header-search-btn"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
+
+                                <li class="header__search">
+                                    <a href="#" class="search-icon header__search header-search-btn"><svg xmlns="http://www.w3.org/2000/svg" width="19" height="18" viewBox="0 0 19 18" fill="none">
                                             <path d="M14.3865 12.4626L17.5986 15.6746L16.5379 16.7353L13.3259 13.5233C12.171 14.4473 10.7063 15 9.11328 15C5.38728 15 2.36328 11.976 2.36328 8.25C2.36328 4.524 5.38728 1.5 9.11328 1.5C12.8393 1.5 15.8633 4.524 15.8633 8.25C15.8633 9.843 15.3105 11.3077 14.3865 12.4626ZM12.8818 11.9061C13.7989 10.9609 14.3633 9.6717 14.3633 8.25C14.3633 5.34938 12.0139 3 9.11328 3C6.21266 3 3.86328 5.34938 3.86328 8.25C3.86328 11.1506 6.21266 13.5 9.11328 13.5C10.535 13.5 11.8242 12.9356 12.7694 12.0185L12.8818 11.9061Z" fill="#06030E"></path>
                                         </svg></a>
                                 </li>

@@ -247,7 +247,7 @@
                             <div class="row">
                                 @foreach ($about->results as $group)
                                     <div class="col-lg-6">
-                                        <div class="counter-boxarea" data-aos="fade-left" data-aos-duration="1000" style="margin-top: 10px !important;">
+                                        <div class="counter-boxarea" data-aos="fade-left" data-aos-duration="1000" style="margin-top: 0px !important;">
                                             <h2 style="font-size: 32px"><span class="">{{ $group['title'] }}</span></h2>
                                             <p>{{ $group['content'] }}</p>
                                         </div>

@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="/site/css/plugins/slick-slider.css">
 <link rel="stylesheet" href="/site/css/plugins/nice-select.css">
 <link rel="stylesheet" href="/site/css/plugins/swiper-bundle.css">
-<link rel="stylesheet" href="/site/css/main.css?v=1234">
+<link rel="stylesheet" href="/site/css/main.css?v=3456">
 <link rel="stylesheet" href="/site/css/callbutton.css?v=12">
 
 <!--=====  JS SCRIPT LINK =======-->
@@ -370,7 +370,12 @@
 
     }
 
-
+    @media (max-width: 768px) {
+        /* Ẩn li chứa class header__search trên màn <768px */
+        .header__search {
+            display: none !important;
+        }
+    }
 
 
 </style>

@@ -11278,7 +11278,7 @@ body {
   left: 0;
   right: 0;
   z-index: 99;
-  padding: 16px 0;
+  padding: 11px 0;
 }
 @media (max-width: 767px) {
   .homepage4-body .vl-transparent-header {
