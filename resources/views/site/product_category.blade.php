@@ -24,7 +24,7 @@
         }
 
         .inner-header-section-area {
-            padding: 200px 0 0px !important;
+            padding: 100px 0 0px !important;
             position: relative;
             overflow: hidden;    /* để image không vươn ra ngoài */
         }

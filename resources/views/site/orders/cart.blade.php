@@ -122,6 +122,9 @@
         .checkout-btn:hover {
             background: #1e337d;
         }
+        .vl-blog-details-section {
+            padding: 200px 0 0 0;
+        }
 
         /* Responsive (mobile) */
         @media (max-width: 768px) {
@@ -137,6 +140,10 @@
             .col.price::before { content: "Đơn giá: "; font-weight: bold; }
             .col.qty::before   { content: "Số lượng: "; font-weight: bold; }
             .col.subtotal::before { content: "Thành tiền: "; font-weight: bold; }
+
+            .vl-blog-details-section {
+                padding: 100px 0 0 0;
+            }
         }
 
         .loading-spin {
@@ -162,7 +169,7 @@
 @endsection
 
 @section('content')
-    <div class="vl-blog-details-section sp8" style="padding: 200px 0 0 0" ng-controller="Cart">
+    <div class="vl-blog-details-section sp8"  ng-controller="Cart">
         <div class="container">
             <nav aria-label="breadcrumb" class="mt-4 mb-3">
                 <ol class="breadcrumb">

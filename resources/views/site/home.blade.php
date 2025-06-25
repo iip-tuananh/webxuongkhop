@@ -82,7 +82,7 @@
                 <div class="hero3-section-area sp1 position-relative overflow-hidden">
                     <div class="banner-bg position-absolute top-0 start-0 w-100 h-100">
                         <img src="{{ @$banner->image->path ?? '' }}"
-                             class="w-100 h-100 object-fit-cover"
+                             class="w-100 h-100 object-fit-cover" loading="eager"
                              alt="Banner">
                     </div>
                 </div>
@@ -247,8 +247,8 @@
                             <div class="row">
                                 @foreach ($about->results as $group)
                                     <div class="col-lg-6">
-                                        <div class="counter-boxarea" data-aos="fade-left" data-aos-duration="1000">
-                                            <h2><span class="">{{ $group['title'] }}</span></h2>
+                                        <div class="counter-boxarea" data-aos="fade-left" data-aos-duration="1000" style="margin-top: 10px !important;">
+                                            <h2 style="font-size: 32px"><span class="">{{ $group['title'] }}</span></h2>
                                             <p>{{ $group['content'] }}</p>
                                         </div>
                                     </div>

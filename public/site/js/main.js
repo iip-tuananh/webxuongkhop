@@ -620,7 +620,9 @@ $('.case-slider-area').owlCarousel({
       }
   }
 });
+
 //========== PRELOADER ============= //
+
 function initPreloader() {
   $(window).on("load", function () {
     setTimeout(function () {
@@ -628,10 +630,15 @@ function initPreloader() {
     }, 200);
   });
 }
-initPreloader();
+// initPreloader();
 
 
 })(jQuery);
+
+$(document).ready(function() {
+    // DOM đã sẵn sàng, ẩn ngay preloader
+    $(".cs_preloader").fadeOut();
+});
 
 
 //========== GSAP AREA ============= //
