@@ -194,29 +194,88 @@ $('.team-single-slider').owlCarousel({
 });
 
 // SLIDER //
-$('.team-single-slider2').owlCarousel({
-  loop:true,
-  margin:30,
-  nav:true,
-  dots:false,
-  items:10,
-  navText:["<i class='fa-solid fa-angle-left'></i>" , "<i class='fa-solid fa-angle-right'></i>"],
-  autoplay:true,
-  smartSpeed:2000,
-  autoplayTimeout:3000,
-  responsiveClass:true,
-  responsive:{
-      0:{
-          items:1,
-      },
-      600:{
-          items:2,
-      },
-      1000:{
-          items:3,
-      }
-  }
-});
+// $('.team-single-slider2').owlCarousel({
+//   loop:true,
+//   margin:30,
+//   nav:true,
+//   dots:false,
+//   items:10,
+//   navText:["<i class='fa-solid fa-angle-left'></i>" , "<i class='fa-solid fa-angle-right'></i>"],
+//   autoplay:true,
+//   smartSpeed:2000,
+//   autoplayTimeout:3000,
+//   responsiveClass:true,
+//   responsive:{
+//       0:{
+//           items:1,
+//       },
+//       600:{
+//           items:2,
+//       },
+//       1000:{
+//           items:3,
+//       }
+//   }
+// });
+//     $('.team-single-slider2').owlCarousel({
+//         loop: true,
+//         margin: 30,
+//         nav: true,
+//         dots: false,
+//         items: 1,
+//         navText: [
+//             "<i class='fa-solid fa-angle-left'></i>",
+//             "<i class='fa-solid fa-angle-right'></i>"
+//         ],
+//         autoplay: true,
+//         smartSpeed: 2000,
+//         autoplayTimeout: 3000,
+//         responsiveClass: true,
+//         responsive: {
+//             0:    { items: 1 },
+//             600:  { items: 2 },
+//             1000: { items: 1 }
+//         }
+//     });
+
+
+
+
+
+    // Desktop slider
+    $('.team-single-slider2').owlCarousel({
+        loop: true,
+        margin: 30,
+        nav: true,
+        dots: false,
+        items: 1,              // mỗi slide là 1 nhóm 6 items
+        navText: [
+            "<i class='fa-solid fa-angle-left'></i>",
+            "<i class='fa-solid fa-angle-right'></i>"
+        ],
+
+        autoplay: true,
+        smartSpeed: 2000,
+        autoplayTimeout: 3000
+    });
+
+// Mobile slider
+    $('.team-single-slider2-mobile').owlCarousel({
+        loop: true,
+        margin: 30,
+        nav: true,             // sẽ có 2 nav trái phải
+        dots: false,
+        items: 1,              // mỗi slide chỉ 1 item
+        navText: [
+            "<i class='fa-solid fa-angle-left'></i>",
+            "<i class='fa-solid fa-angle-right'></i>"
+        ],
+        autoplay: true,
+        smartSpeed: 2000,
+        autoplayTimeout: 3000
+    });
+
+
 
 // SLIDER //
 $('.service-single-slider').owlCarousel({

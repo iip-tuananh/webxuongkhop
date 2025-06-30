@@ -232,9 +232,92 @@
             font-size: 1.8rem;
             color: #fff;
         }
+        @media (max-width: 767.98px) {
+            .slide-group .col-6:nth-child(n+3) {
+                display: none !important;
+            }
+        }
 
     </style>
-    <div class="about4-section-area sp1">
+
+
+    <div class="team2-section-area sp1" style="padding: 80px 0 60px">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="team-header space-margin60 heading2">
+                        <h5><img loading="lazy" src="/site/img/icons/sub-logo1.svg" alt="">Cảm nhận của khách hàng</h5>
+                        <h2 class="text-anime-style-3">Cảm nhận của khách hàng</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12" data-aos="fade-up" data-aos-duration="1000">
+                    <div class="d-none d-md-block">
+                        <div class="team-single-slider2 owl-carousel">
+                            @foreach($reviewsVideo->chunk(6) as $group)
+                                <div class="slide-group">
+                                    <div class="row">
+                                        @foreach($group as $rVideo)
+                                            <div class="col-md-4 mb-4">
+                                                <div class="team-single-boxarea">
+                                                    <div class="video-container">
+                                                        <iframe
+                                                            class="team-video"
+                                                            data-watch="{{ $rVideo->youtube }}"
+                                                            title="{{ $rVideo->youtube }}"
+                                                            frameborder="0"
+                                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                            allowfullscreen>
+                                                        </iframe>
+                                                    </div>
+                                                    <div class="content-area">
+                                                        <a href="https://www.youtube.com/watch?v={{ $rVideo->youtube }}"
+                                                           class="title" target="_blank">{{ $rVideo->name }}</a>
+                                                        <div class="space16"></div>
+                                                        <p>{{ $rVideo->position }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <div class="d-block d-md-none">
+                        <div class="team-single-slider2 team-single-slider2-mobile owl-carousel">
+                            @foreach($reviewsVideo as $rVideo)
+                                <div class="team-single-boxarea">
+                                    <div class="video-container">
+                                        <iframe
+                                            class="team-video"
+                                            data-watch="{{ $rVideo->youtube }}"
+                                            title="{{ $rVideo->youtube }}"
+                                            frameborder="0"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowfullscreen>
+                                        </iframe>
+                                    </div>
+                                    <div class="content-area">
+                                        <a href="https://www.youtube.com/watch?v={{ $rVideo->youtube }}"
+                                           class="title" target="_blank">{{ $rVideo->name }}</a>
+                                        <div class="space16"></div>
+                                        <p>{{ $rVideo->position }}</p>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="about4-section-area sp1" style="padding-top: 10px">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
@@ -650,51 +733,8 @@
         }
 
     </style>
-    <div class="team2-section-area sp1" style="padding: 50px 0 60px">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="team-header space-margin60 heading2">
-                        <h5><img loading="lazy" src="/site/img/icons/sub-logo1.svg" alt="">Cảm nhận của khách hàng</h5>
-                        <h2 class="text-anime-style-3">Cảm nhận của khách hàng</h2>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-12" data-aos="fade-up" data-aos-duration="1000">
-                    <div class="team-single-slider2 owl-carousel">
-                        @foreach($reviewsVideo as $rVideo)
-                            <div class="team-single-boxarea">
-                                <div class="img1">
-                                    <div class="video-container">
-                                        <iframe
-                                            class="team-video"
-                                            data-watch="{{ $rVideo->youtube }}"
-                                            title="{{ $rVideo->youtube }}"
-                                            frameborder="0"
-                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                            allowfullscreen>
-                                        </iframe>
-                                    </div>
-
-                                </div>
-                                <div class="content-area">
-                                    <a href="https://www.youtube.com/watch?v=EbfKXOeTjOo" class="title" target="_blank">{{ $rVideo->name }}</a>
-                                    <div class="space16"></div>
-                                    <p>{{ $rVideo->position }}</p>
-                                </div>
-                            </div>
-
-                        @endforeach
 
 
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
 
     <div class="testimonial2-section-area sp1" style="background-image: url(/site/img/all-images/bg/bg1.png); background-position: center;
@@ -837,7 +877,7 @@
                                     <div class="space10"></div>
                                     <div class="send-success-message">
                                         <i class="fa-solid fa-circle-check"></i>
-                                        <p>Chúc mừng bạn đã nhận một phiếu miễn phí</p>
+                                        <p>Chúc mừng bạn đã nhận một phiếu khám tư vấn miễn phí</p>
                                     </div>
                                 </div>
 
