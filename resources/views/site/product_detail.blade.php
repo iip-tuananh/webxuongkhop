@@ -611,7 +611,7 @@
                     </div>
                 </div>
 
-                <div class="review-form mt-5 p-4 bg-light rounded-3 shadow-sm">
+                <div class="review-form p-4 bg-light rounded-3 shadow-sm">
                     <h2 class="h4 mb-4">Gửi đánh giá của bạn về sản phẩm</h2>
                     <form>
                         <div class="row g-3">
@@ -627,17 +627,6 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <label for="user_name" class="form-label">Tiêu đề</label>
-                                <input type="text" class="form-control" id="review_title" name="review_title"  ng-model="formReview.title">
-                                <div class="invalid-feedback d-block error" role="alert" ng-if="errors && errors['formReview.title']">
-                                                            <span >
-                                                                <% errors['formReview.title'][0] %>
-                                                            </span>
-                                </div>
-                            </div>
-
-
                             {{-- Số điện thoại --}}
                             <div class="col-md-6">
                                 <label for="phone" class="form-label">Số điện thoại</label>
@@ -649,20 +638,33 @@
                                 </div>
                             </div>
 
-                            {{-- Địa chỉ --}}
-                            <div class="col-md-6">
-                                <label for="address" class="form-label">Địa chỉ</label>
-                                <input type="text" class="form-control" id="address" name="address" ng-model="formReview.address">
 
-                                <div class="invalid-feedback d-block error" role="alert" ng-if="errors && errors['formReview.address']">
+                            <div class="col-md-6">
+                                <label for="user_name" class="form-label">Tiêu đề</label>
+                                <input type="text" class="form-control" id="review_title" name="review_title"  ng-model="formReview.title">
+                                <div class="invalid-feedback d-block error" role="alert" ng-if="errors && errors['formReview.title']">
                                                             <span >
-                                                                <% errors['formReview.address'][0] %>
+                                                                <% errors['formReview.title'][0] %>
                                                             </span>
                                 </div>
                             </div>
 
+
+
+                            {{-- Địa chỉ --}}
+{{--                            <div class="col-md-6">--}}
+{{--                                <label for="address" class="form-label">Địa chỉ</label>--}}
+{{--                                <input type="text" class="form-control" id="address" name="address" ng-model="formReview.address">--}}
+
+{{--                                <div class="invalid-feedback d-block error" role="alert" ng-if="errors && errors['formReview.address']">--}}
+{{--                                                            <span >--}}
+{{--                                                                <% errors['formReview.address'][0] %>--}}
+{{--                                                            </span>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+
                             {{-- Số sao đánh giá --}}
-                            <div class="col-12">
+                            <div class="col-md-6">
                                 <label class="form-label d-block mb-1">Sao đánh giá</label>
                                 <div class="star-rating">
                                  <span class="jdgm-form__rating" style="cursor: pointer;">

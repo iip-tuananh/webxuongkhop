@@ -89,16 +89,15 @@ class RateController extends Controller
 
     public function store(Request $request)
     {
-
         $validate = Validator::make(
             $request->all(),
             [
                 'user_name' => 'required|max:255',
                 'user_phone' => 'required|regex:/^(0)[0-9]{9,11}$/',
-                'user_address' => 'required',
+//                'user_address' => 'required',
                 'send_at' => 'required',
                 'rating' => 'required',
-                'content' => 'required',
+//                'content' => 'required',
                 'status' => 'required',
             ]
         );
@@ -152,10 +151,10 @@ class RateController extends Controller
             [
                 'user_name' => 'required|max:255',
                 'user_phone' => 'required|regex:/^(0)[0-9]{9,11}$/',
-                'user_address' => 'required',
+//                'user_address' => 'required',
                 'send_at' => 'required',
                 'rating' => 'required',
-                'content' => 'required',
+//                'content' => 'required',
                 'status' => 'required',
             ]
         );

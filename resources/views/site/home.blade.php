@@ -10,7 +10,11 @@
 @endsection
 
 @section('css')
-
+    <link
+        rel="preload"
+        as="image"
+        href="{{ $banners->first()->image->path }}"
+    />
 @endsection
 
 @section('content')
@@ -78,12 +82,31 @@
     </style>
     <div class="hero-all-main-slider" >
         <div class="hero-main-slider">
-            @foreach($banners as $banner)
+            @foreach($banners as $i => $banner)
                 <div class="hero3-section-area sp1 position-relative overflow-hidden">
                     <div class="banner-bg position-absolute top-0 start-0 w-100 h-100">
-                        <img src="{{ @$banner->image->path ?? '' }}"
-                             class="w-100 h-100 object-fit-cover" loading="eager"
-                             alt="Banner">
+
+                        @if($i === 0)
+                            <!-- slide đầu tiên: load ngay -->
+                            <img
+                                src="{{ $banner->image->path ?? ''}}"
+                                alt="Banner"
+                                loading="eager"
+                                class="slider-img"
+                            />
+                        @else
+                            <!-- slide phụ: lazy-load of Slick -->
+                            <img
+                                data-lazy="{{ $banner->image->path ?? '' }}"
+                                alt="Banner"
+                                class="slider-img slick-lazy"
+                            />
+                        @endif
+
+
+{{--                        <img src="{{ @$banner->image->path ?? '' }}"--}}
+{{--                             class="w-100 h-100 object-fit-cover" loading="eager"--}}
+{{--                             alt="Banner">--}}
                     </div>
                 </div>
             @endforeach
@@ -217,7 +240,7 @@
                 <div class="col-lg-6">
                     <div class="about-images-area">
                         <div class="img1 image-anime reveal video-block">
-                            <img src="{{ @$about->image->path ?? '' }}" alt="">
+                            <img src="{{ @$about->image->path ?? '' }}" alt="" loading="lazy">
 
                             <a href="{{ $about->youtube }}" class="play-icon play-btn popup-youtube">
                                 <span class="video"><i class="fa-solid fa-play"></i></span>
@@ -226,7 +249,7 @@
                         </div>
 
                         <div class="img2">
-                            <img src="/site/img/elements/elements18.png" alt="" class="elements18 keyframe5">
+                            <img src="/site/img/elements/elements18.png" alt="" class="elements18 keyframe5" loading="lazy">
                         </div>
                     </div>
                 </div>
@@ -266,7 +289,7 @@
             <div class="row">
                 <div class="col-lg-5">
                     <div class="heading6 space-margin60" style="margin-bottom: 40px">
-                        <h5 class="vl-section-subtitle"><img src="/site/img/icons/sub-logo1.svg" alt="">Dịch vụ</h5>
+                        <h5 class="vl-section-subtitle"><img src="/site/img/icons/sub-logo1.svg" alt="" loading="lazy">Dịch vụ</h5>
                         <h2 class="vl-section-title text-anime-style-3">Dịch vụ của chúng tôi</h2>
                     </div>
                 </div>
@@ -279,7 +302,7 @@
                         @foreach($services as $service)
                             <div class="case-boxarea">
                                 <div class="img1">
-                                    <img src="{{ @$service->image->path ?? '' }}" alt="">
+                                    <img src="{{ @$service->image->path ?? '' }}" alt="" loading="lazy">
                                 </div>
                                 <div class="content-area">
                                     <a href="#" class="title">{{ $service->name }}</a>
@@ -373,7 +396,7 @@
             <div class="row">
                 <div class="col-lg-6 m-auto">
                     <div class="heading8 text-center space-margin60" style="margin-bottom: 30px">
-                        <h5 data-aos="fade-left" data-aos-duration="800"><img src="/site/img/icons/sub-logo1.svg" alt="">Quy trình khám chữa</h5>
+                        <h5 data-aos="fade-left" data-aos-duration="800"><img src="/site/img/icons/sub-logo1.svg" loading="lazy" alt="">Quy trình khám chữa</h5>
                         <h2 class="text-anime-style-3">Quy trình khám chữa</h2>
                     </div>
                 </div>
@@ -389,7 +412,7 @@
                         <div class="service8-boxarea">
                             <div class="service8-widgetbox">
                                 <div class="img1">
-                                    <img src="{{ @$treatmentStep->image->path ?? '' }}" alt="">
+                                    <img src="{{ @$treatmentStep->image->path ?? '' }}" alt="" loading="lazy">
                                 </div>
                                 <div class="content-area text-center">
                                     <div class="icons" style="height: 0; width: 0">
@@ -536,7 +559,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="heading5 space-margin60">
-                            <h5 data-aos="fade-left" data-aos-duration="800"><img src="/site/img/icons/sub-logo1.svg" alt="">{{ $categorySpecial->name }}</h5>
+                            <h5 data-aos="fade-left" data-aos-duration="800"><img src="/site/img/icons/sub-logo1.svg" loading="lazy" alt="">{{ $categorySpecial->name }}</h5>
                             <h2 class="text-anime-style-3">{{ $categorySpecial->name }}</h2>
                         </div>
                     </div>
@@ -548,7 +571,7 @@
                             @foreach($categorySpecial->products as $product)
                                 <div class="shop-single-boxarea">
                                     <div class="img1 image-anime">
-                                        <img src="{{ @$product->image->path ?? '' }}" alt="">
+                                        <img loading="lazy" src="{{ @$product->image->path ?? '' }}" alt="">
                                     </div>
 
                                     <div class="space14"></div>
@@ -595,9 +618,9 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="video-play-area">
-                        <img src="/site/img/elements/elements3.png" alt="" class="elements3">
+                        <img src="/site/img/elements/elements3.png" loading="lazy" alt="" class="elements3">
                         <a href="{{ $videoBlock->youtube }}" class="popup-youtube play-img">
-                            <img src="{{ @$videoBlock->image->path ?? '' }}" alt="">
+                            <img loading="lazy" src="{{ @$videoBlock->image->path ?? '' }}" alt="">
                         </a>
                         <div class="play-btn">
                             <a href="{{ $videoBlock->youtube }}" style="font-size: 18px" class="popup-youtube"><span><i class="fa-solid fa-play"></i></span>{{ $videoBlock->title }}</a>
@@ -632,7 +655,7 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="team-header space-margin60 heading2">
-                        <h5><img src="/site/img/icons/sub-logo1.svg" alt="">Cảm nhận của khách hàng</h5>
+                        <h5><img loading="lazy" src="/site/img/icons/sub-logo1.svg" alt="">Cảm nhận của khách hàng</h5>
                         <h2 class="text-anime-style-3">Cảm nhận của khách hàng</h2>
                     </div>
                 </div>
@@ -680,7 +703,7 @@
             <div class="row">
                 <div class="col-lg-6 m-auto">
                     <div class="heading2 text-center space-margin60">
-                        <h5><img src="/site/img/icons/sub-logo1.svg" alt="">Đánh giá khách hàng</h5>
+                        <h5><img loading="lazy" src="/site/img/icons/sub-logo1.svg" alt="">Đánh giá khách hàng</h5>
                         <h2 class="text-anime-style-3">Đánh giá khách hàng</h2>
                     </div>
                 </div>
@@ -709,7 +732,7 @@
                                 <div class="others-boxarea">
                                     <div class="author-boxarea">
                                         <div class="img">
-                                            <img src="{{ @$rText->image->path ?? '' }}" alt="">
+                                            <img loading="lazy" src="{{ @$rText->image->path ?? '' }}" alt="">
                                         </div>
                                         <div class="text">
                                             <a href="#">{{ $rText->name }}</a>
@@ -732,7 +755,7 @@
             <div class="row">
                 <div class="col-lg-6 m-auto">
                     <div class="heading2 text-center space-margin60">
-                        <h5><img src="/site/img/icons/sub-logo1.svg" alt="">Đăng ký tư vấn khám miễn phí</h5>
+                        <h5><img loading="lazy" src="/site/img/icons/sub-logo1.svg" alt="">Đăng ký tư vấn khám miễn phí</h5>
                         <h2>Đăng ký tư vấn khám miễn phí</h2>
                     </div>
                 </div>
@@ -825,7 +848,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="images image-anime reveal">
-                        <img src="{{ @$registerBlock->image->path ?? '' }}" alt="">
+                        <img loading="lazy" src="{{ @$registerBlock->image->path ?? '' }}" alt="">
                     </div>
                 </div>
                 <div class="space60"></div>
@@ -928,7 +951,7 @@
             <div class="row">
                 <div class="col-lg-6 m-auto">
                     <div class="vl-blog-1-section-box heading6 text-center space-margin60">
-                        <h5 class="vl-section-subtitle"><img src="/site/img/icons/sub-logo1.svg" alt="">Tin tức & Sự kiện</h5>
+                        <h5 class="vl-section-subtitle"><img loading="lazy" src="/site/img/icons/sub-logo1.svg" alt="">Tin tức & Sự kiện</h5>
                         <h2 class="vl-section-title text-anime-style-3">Tin tức & Sự kiện</h2>
                     </div>
                 </div>
@@ -1007,7 +1030,7 @@
                     <div class="col-lg-4 col-md-6" data-aos="fade-left" data-aos-duration="900">
                         <div class="vl-blog-6-item">
                             <div class="vl-blog-1-thumb image-anime">
-                                <img src="{{ $post->image->path ?? '' }}" alt="">
+                                <img loading="lazy" src="{{ $post->image->path ?? '' }}" alt="">
                             </div>
                             <div class="vl-blog-1-content">
                                 <div class="vl-blog-meta">
@@ -1058,7 +1081,7 @@
             <div class="modal-content-1">
                 <!-- Left: Form -->
                 <div class="modal-form">
-                    <h2>Đăng ký tư vấn miễn phí</h2>
+                    <h2>Đăng ký nhận vé miễn phí</h2>
                     <form id="popup-register">
                         <div class="form-group">
                             <label for="name">Họ & Tên</label>
@@ -1071,11 +1094,11 @@
                             <input type="tel" id="phone" name="phone" placeholder="Số điện thoại">
                             <div class="invalid-feedback d-block" ng-if="errors_['phone']"><% errors_['phone'][0] %></div>
                         </div>
-                        <div class="form-group">
-                            <label for="address">Địa chỉ</label>
-                            <input type="text" id="address" name="address" placeholder="Nhập địa chỉ">
-                            <div class="invalid-feedback d-block" ng-if="errors_['address']"><% errors_['address'][0] %></div>
-                        </div>
+{{--                        <div class="form-group">--}}
+{{--                            <label for="address">Địa chỉ</label>--}}
+{{--                            <input type="text" id="address" name="address" placeholder="Nhập địa chỉ">--}}
+{{--                            <div class="invalid-feedback d-block" ng-if="errors_['address']"><% errors_['address'][0] %></div>--}}
+{{--                        </div>--}}
                         <div class="form-group">
                             <label for="message">Lời nhắn</label>
                             <textarea id="message" name="message" rows="4" placeholder="Nhập lời nhắn"></textarea>
@@ -1094,7 +1117,7 @@
                 </div>
                 <!-- Right: Image -->
                 <div class="modal-image" >
-                    <img src="{{ @$registerBlock->image->path ?? '' }}" alt="">
+                    <img loading="lazy" src="{{ @$registerBlock->image->path ?? '' }}" alt="">
 
                 </div>
             </div>

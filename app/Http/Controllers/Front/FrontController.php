@@ -839,7 +839,7 @@ class FrontController extends Controller
     {
         $rule  =  [
             'name'  => 'required',
-            'address'  => 'required',
+//            'address'  => 'required',
             'phone' => 'required|regex:/^(0)[0-9]{9,11}$/',
         ];
 
@@ -848,7 +848,7 @@ class FrontController extends Controller
             $rule['email'] = 'required';
             $rule['message'] = 'nullable';
         } else {
-            $rule['message'] = 'required';
+            $rule['message'] = 'nullable';
         }
 
         $validate = Validator::make(
@@ -1280,9 +1280,9 @@ class FrontController extends Controller
         $rule  =  [
             'formReview.name' => 'required',
             'formReview.title'  => 'required',
-            'formReview.address'  => 'required',
+//            'formReview.address'  => 'required',
             'formReview.phone' => 'required|regex:/^(0)[0-9]{9,11}$/',
-            'formReview.content'  => 'required',
+//            'formReview.content'  => 'required',
         ];
 
         $validate = Validator::make(
@@ -1307,9 +1307,9 @@ class FrontController extends Controller
         $review->product_id = $data['product_id'];
         $review->user_name = $data['name'];
         $review->user_phone = $data['phone'];
-        $review->user_address = $data['address'];
+        $review->user_address = @$data['address'] ?? null ;
         $review->title = $data['title'];
-        $review->content = $data['content'];
+        $review->content = @$data['content'] ?? null;
         $review->rating = $data['rating'];
         $review->status = Rate::STATUS_PENDING;
 

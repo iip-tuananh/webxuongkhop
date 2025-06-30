@@ -1,1185 +1,2741 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="flexbox">
 <head>
-    <title>Checkout - {{ $config->web_title }}</title>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, height=device-height"/>
-    <meta name="referrer" content="origin"/>
-    <link rel="preconnect" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/" crossorigin/>
-    <link rel="dns-prefetch" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/" crossorigin/>
-    <link rel="preconnect" href="https://checkout.pci.shopifyinc.com" crossorigin/>
-    <link rel="dns-prefetch" href="https://checkout.pci.shopifyinc.com" crossorigin/>
-    <link rel="preconnect" href="https://shop.app" crossorigin/>
-    <link rel="dns-prefetch" href="https://shop.app" crossorigin/>
-</head>
-<body class="Loading">
-<script>
-    (function() {
-        try {
-            // No need to use the value of syntaxCheck, as we only care if it is valid syntax
-            const [syntaxCheck] = ((abc = 1) => [Promise.resolve(abc)])();
-            window.checkoutMinimalBrowserSupport = typeof window.fetch === 'function';
-        } catch (err) {}
-    })();
-</script>
-<script>
-    if (window.checkoutMinimalBrowserSupport !== true) {
-        document.documentElement.innerHTML = "<div class=\"error-container\"><style>* {\n  box-sizing: border-box;\n  margin: 0;\n  padding: 0;\n}\n\nhtml {\n  font-family: \"Helvetica Neue\", Helvetica, Arial, sans-serif;\n  background: #F1F1F1;\n  font-size: 62.5%;\n  color: #303030;\n  min-height: 100%;\n}\n\nbody {\n  padding: 0;\n  margin: 0;\n  line-height: 2.7rem;\n}\n\nh1 {\n  font-size: 1.8rem;\n  font-weight: 400;\n  margin: 0 0 1.4rem 0;\n}\n\np {\n  font-size: 1.5rem;\n  margin: 0;\n}\n\n.error-container {\n  padding: 4rem 3.5rem;\n}\n\n@media all and (min-width:500px) {\n  .error-container {\n    padding: 7.5rem 10.5rem;\n    align-items: center;\n  }\n}</style><div><h1>It looks like your browser version isn't supported.</h1><p>Please update your browser to access the checkout and complete your purchase.</p></div></div>";
-    }
-</script>
-<style>
-    .invalid-feedback {
-        font-size: 12.5px;
-        color: #dc3545;
-    }
-    :root {
-        --x-skeleton-color-global-accent: hsl(204, 77%, 39%);
-        --x-skeleton-color-global-background: hsl(0, 0%, 100%);
-        --x-skeleton-color-global-backgroundSubdued: hsl(0, 0%, 96%);
-        --x-skeleton-color-global-border: hsl(0, 0%, 87%);
-        --x-skeleton-color-global-text: hsl(0, 0%, 0%);
-        --x-skeleton-color-global-textContrast: hsl(0, 0%, 100%);
-        --x-skeleton-color-global-textSubdued: hsl(0, 0%, 44%);
-        --x-skeleton-color-global-textSubdued200: hsl(0, 0%, 90%);
-        --x-skeleton-color-schemes-scheme2-base-background: hsl(0, 0%, 96%);
-        --x-skeleton-color-schemes-scheme2-base-backgroundSubdued: hsl(0, 0%, 93%);
-        --x-skeleton-color-schemes-scheme2-base-border: hsl(0, 0%, 84%);
-        --x-skeleton-color-schemes-scheme2-base-text: hsl(0, 0%, 0%);
-        --x-skeleton-color-schemes-scheme2-base-textContrast: hsl(0, 0%, 96%);
-        --x-skeleton-color-schemes-scheme2-base-textSubdued: hsl(0, 0%, 40%);
-        --x-skeleton-color-schemes-scheme2-base-textSubdued200: hsl(0, 0%, 80%);
-        --x-skeleton-color-global-accent: #f0c417;
-        --x-skeleton-typography-line-small: 1.2;
-        --x-skeleton-typography-line-base: 1.5;
-        --x-skeleton-line-quantity-size: 2.1rem;
-        --x-skeleton-typography-size-small: 1.2rem;
-        --x-skeleton-typography-size-default: 1.4rem;
-        --x-skeleton-typography-size-medium: 1.6rem;
-        --x-skeleton-typography-size-large: 1.9rem;
-        --x-skeleton-typography-size-extra-large: 2.1rem;
-        --x-skeleton-typography-size-extra-extra-large: 2.4rem;
-        --x-skeleton-typography-primary-weight-bold: 400;
-        --x-skeleton-typography-primary-fonts: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        --x-skeleton-typography-secondary-weight-bold: 600;
-        --x-skeleton-typography-secondary-fonts: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-        --x-skeleton-spacing-none: 0;
-        --x-skeleton-spacing-small-100: 1.1rem;
-        --x-skeleton-spacing-small-200: 0.9rem;
-        --x-skeleton-spacing-small-300: 0.7rem;
-        --x-skeleton-spacing-small-400: 0.5rem;
-        --x-skeleton-spacing-small-500: 0.3rem;
-        --x-skeleton-spacing-base: 1.4rem;
-        --x-skeleton-spacing-large-100: 1.7rem;
-        --x-skeleton-spacing-large-200: 2.1rem;
-        --x-skeleton-spacing-large-300: 2.6rem;
-        --x-skeleton-spacing-large-400: 3.2rem;
-        --x-skeleton-spacing-large-500: 3.8rem;
-        --x-skeleton-border-radius-none: 0;
-        --x-skeleton-border-radius-base: 5px;
-        --x-skeleton-border-radius-small: 2px;
-        --x-skeleton-border-radius-large: 10px;
-    }
-    @keyframes SkeletonPulse {
-        50% {
-            opacity: 1;
+    <link rel="shortcut icon" href="//theme.hstatic.net/200000817091/1001225822/14/favicon.png?v=68" type="image/png" />
+    <title>
+        {{ $config->web_title }}- Thanh toán đơn hàng
+    </title>
+
+    <meta name="description" content="{{ $config->web_title }} - Thanh to&#225;n đơn h&#224;ng" />
+    <style>
+        .btn {
+            display: inline-block;
+            border-radius: 4px;
+            font-weight: 500;
+            padding: 1.4em 1.7em;
+            box-sizing: border-box;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            position: relative;
+            background: #338dbc;
+            color: white;
         }
-        75% {
-            opacity: 0.5;
-        }
-        100% {
-            opacity: 1;
-        }
-    }
-    *,
-    :after,
-    :before {
-        box-sizing: border-box;
-    }
-    body,
-    html {
-        height: 100%;
-        margin: 0;
-        width: 100%;
-    }
-    html {
-        -webkit-text-size-adjust: 100%;
-        text-size-adjust: 100%;
-        font-size: 62.5%;
-        font-family: var(--x-skeleton-typography-primary-fonts);
-        line-height: var(--x-skeleton-typography-line-base);
-    }
-    body {
-        -webkit-font-smoothing: subpixel-antialiased;
-        overflow-wrap: break-word;
-        overflow-x: hidden;
-        overflow-y: scroll;
-    }
-    body.Loading {
-        position: fixed;
-    }
-    /* TODO: need to take it out of the accessibility tree, too? */
-    body.Loading > .LoadingShell {
-        opacity: 1;
-    }
-    .BlockStack {
-        display: grid;
-    }
-    .BlockStack--spacing-small500 {
-        gap: var(--x-skeleton-spacing-small-500);
-    }
-    .BlockStack--spacing-small300 {
-        gap: var(--x-skeleton-spacing-small-300);
-    }
-    .BlockStack--spacing-small100 {
-        gap: var(--x-skeleton-spacing-small-100);
-    }
-    .BlockStack--spacing-base {
-        gap: var(--x-skeleton-spacing-base);
-    }
-    .BlockStack--spacing-large100 {
-        gap: var(--x-skeleton-spacing-large-100);
-    }
-    .BlockStack--spacing-large200 {
-        gap: var(--x-skeleton-spacing-large-200);
-    }
-    .BlockStack--min-inline-size-full {
-        flex: 1;
-    }
-    .BlockStack--inline-alignment-center {
-        justify-items: center;
-    }
-    .BlockStack--inline-alignment-end {
-        justify-items: end;
-    }
-    .LoadingHeaderHeading {
-        margin: 0;
-        font-size: var(--x-skeleton-typography-size-extra-large);
-        font-weight: var(--x-skeleton-typography-secondary-weight-bold);
-        font-family: var(--x-skeleton-typography-secondary-fonts);
-        line-height: var(--x-skeleton-typography-line-small);
-    }
-    .LoadingHeaderHeading-uplift {
-        font-size: var(--x-skeleton-typography-size-large);
-    }
-    .LoadingHeaderImage {
-        display: block;
-        max-width: 100%;
-        height: auto;
-    }
-    .InlineStack {
-        display: flex;
-        min-height: 100%;
-        min-width: 100%;
-    }
-    .InlineStack--spacing-base {
-        column-gap: var(--x-skeleton-spacing-base);
-    }
-    .InlineStack--spacing-small100 {
-        column-gap: var(--x-skeleton-spacing-small-100);
-    }
-    .InlineStack--spacing-large200 {
-        column-gap: var(--x-skeleton-spacing-large-200);
-    }
-    .InlineStack--inline-alignment-spaceBetween {
-        justify-content: space-between;
-    }
-    .InlineStack--block-alignment-start {
-        align-items: start;
-    }
-    .InlineStack--block-alignment-center {
-        align-items: center;
-    }
-    .Divider {
-        width: 100%;
-        height: 1px;
-        background-color: var(--x-skeleton-default-color-border);
-    }
-    .SkeletonButton {
-        background-color: var(--x-skeleton-default-color-textSubdued200);
-        border-radius: var(--x-skeleton-border-radius-base);
-        animation: SkeletonPulse 4000ms ease infinite;
-        width: 100%;
-    }
-    .SkeletonButtonInner {
-        width: 100%;
-        height: 4.8rem;
-    }
-    .SkeletonImage {
-        background-color: var(--x-skeleton-default-color-textSubdued200);
-        animation: SkeletonPulse 4000ms ease infinite;
-        width: 100%;
-    }
-    .SkeletonImage--corner-radius-small {
-        border-radius: var(--x-skeleton-border-radius-small);
-    }
-    .SkeletonImage--corner-radius-base {
-        border-radius: var(--x-skeleton-border-radius-base);
-    }
-    .SkeletonImage--corner-radius-large {
-        border-radius: var(--x-skeleton-border-radius-large);
-    }
-    .SkeletonImage--corner-radius-rounded {
-        border-radius: 100%;
-    }
-    .SkeletonImageInner {
-        width: 100%;
-        height: 100%;
-    }
-    @supports (aspect-ratio: 1) {
-        .SkeletonImage {
-            aspect-ratio: var(--skeleton-thumbnail-aspect-ratio, 1);
-        }
-    }
-    @supports not (aspect-ratio: 1) {
-        .SkeletonImage::before {
-            content: "";
-            height: 0;
+        .fieldset .field .field-input-wrapper .field-input {
+            margin-bottom: 10px;
+            box-shadow: 0 0 0 1px #d9d9d9;
+            transition: all 0.2s ease-out;
+            background-color: white ;
+            color: #333333;
+            border-radius: 4px;
             display: block;
-            padding-bottom: 100%;
-            padding-bottom: calc(100% / var(--skeleton-thumbnail-aspect-ratio, 1));
+            box-sizing: border-box;
+            width: 100%;
+            padding: 0.94em 2.8em 0.94em 0.8em;
+            word-break: normal;
         }
-    }
-    .SkeletonText {
-        background-color: var(--x-skeleton-default-color-textSubdued200);
-        border-radius: var(--x-skeleton-border-radius-base);
-        animation: SkeletonPulse 4000ms ease infinite;
-    }
-    .SkeletonTextInner {
-        display: inline-block;
-    }
-    .SkeletonTextInner--inline-size-small {
-        width: 10ch;
-    }
-    .SkeletonTextInner--inline-size-base {
-        width: 20ch;
-    }
-    .SkeletonTextInner--inline-size-large {
-        width: 30ch;
-    }
-    .SkeletonTextInner--inline-size-full {
-        width: 100%;
-    }
-    .Icon {
-        fill: none;
-        color: var(--x-skeleton-default-color-border);
-        stroke: currentColor;
-    }
-    .Icon path {
-        vector-effect: non-scaling-stroke;
-        stroke-width: 1.4px;
-    }
-    .LoadingShellLineItems {
-        display: grid;
-        grid-auto-flow: row;
-        align-items: stretch;
-        gap: var(--x-skeleton-spacing-base);
-    }
-    .LoadingShellLine {
-        display: grid;
-        grid-template-columns: auto 1fr auto;
-        gap: var(--x-skeleton-spacing-base);
-        align-items: center;
-        font-size: var(--x-type-size-base);
-    }
-    .LoadingShellLineImageWrapper {
-        width: calc(6.4rem * var(--skeleton-thumbnail-inline-size, 1));
-        height: calc(6.4rem / var(--skeleton-thumbnail-box-size, 1));
-        position: relative;
-    }
-    .LoadingShellImageWrapper--Small {
-        width: 3.2rem;
-        height: 3.2rem;
-        position: relative;
-    }
-    .LoadingShellLineImage {
-        width: 6.4rem;
-        height: 6.4rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        object-fit: contain;
-        background: var(--x-skeleton-default-color-backgroundSubdued);
-    }
-    .LoadingShellLineImage--border-full {
-        border: 1px solid var(--x-skeleton-default-color-border);
-    }
-    .LoadingShellLineImage--corner-radius-small {
-        border-radius: var(--x-skeleton-border-radius-small);
-    }
-    .LoadingShellLineImage--corner-radius-base {
-        border-radius: var(--x-skeleton-border-radius-base);
-    }
-    .LoadingShellLineImage--corner-radius-large {
-        border-radius: var(--x-skeleton-border-radius-large);
-    }
-    .LoadingShellLineImage--corner-radius-rounded {
-        border-radius: 100%;
-    }
-    .LoadingShellLineImageIcon {
-        width: 3.3rem;
-        height: 3.3rem;
-    }
-    .LoadingShellLineQuantity {
-        position: absolute;
-        top: 0;
-        right: 0;
-        transform: translate(25%, -50%);
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 2.2rem;
-        min-height: 2.2rem;
-        padding: 0 var(--x-skeleton-spacing-small-300);
-        border-radius: 1.1rem;
-        background: var(--x-skeleton-default-color-textSubdued);
-        color: var(--x-skeleton-default-color-textContrast);
-        font-size: var(--x-skeleton-typography-size-small);
-        font-weight: 500;
-    }
-    .LoadingShellLineQuantity--corner-radius-none {
-        border-radius: 0;
-    }
-    .LoadingShellLineContent {
-        display: flex;
-        flex-direction: column;
-        align-self: baseline;
-        min-height: calc(6.4rem / var(--skeleton-thumbnail-box-size, 1));
-        justify-content: center;
-    }
-    .LoadingShellLinePrice {
-        display: flex;
-        align-self: baseline;
-    }
-    .Text {
-        font-size: var(--x-skeleton-typography-size-default);
-    }
-    .Text--size-small {
-        font-size: var(--x-skeleton-typography-size-small);
-    }
-    .Text--size-large {
-        font-size: var(--x-skeleton-typography-size-large);
-    }
-    .Text--size-extraExtraLarge {
-        font-size: var(--x-skeleton-typography-size-extra-extra-large);
-    }
-    .Text--appearance-subdued {
-        color: var(--x-skeleton-default-color-textSubdued);
-    }
-    .SkeletonExpressCheckoutButtons {
-        display: grid;
-        gap: var(--x-skeleton-spacing-small-100);
-        grid-template-columns: repeat(2, 1fr);
-    }
-    .SkeletonExpressCheckoutButtons > *:first-child {
-        grid-column: 1 / -1;
-    }
-    .SkeletonExpressCheckout {
-        margin-bottom: var(--x-skeleton-spacing-large-500);
-    }
-    .ExpressCheckoutDivider {
-        display: flex;
-        place-items: center;
-        height: 21px;
-        padding-top: calc(var(--x-skeleton-spacing-large-500) - 1px);
-    }
-    @media screen and (min-width: 1000px) {
-        .SkeletonExpressCheckoutButtons {
-            grid-template-columns: repeat(3, 1fr);
+
+        body {
+            color: #737373;
+            background: white !important;
+
+            font-size: 14px;
+            font-family:Helvetica Neue, sans-serif;
+            line-height: 1.3em;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+            -webkit-font-smoothing: subpixel-antialiased;
+            overflow-x: hidden;
         }
-        .SkeletonExpressCheckoutButtons > *:first-child {
-            grid-column: auto;
+
+        .fieldset .field .field-input-wrapper .field-input:focus {
+            box-shadow: 0 0 0 2px #338dbc;
+            outline: none;
         }
-        .SkeletonExpressCheckoutButtons {
-            grid-template-columns: repeat(3, 1fr);
+        .radio-wrapper .radio-input .input-radio:checked,
+        .checkbox-wrapper .checkbox-input .input-checkbox:checked {
+            border: none;
+            box-shadow: 0 0 0 10px #338dbc inset;
         }
-        .SkeletonExpressCheckoutButtons > *:first-child {
-            grid-column: auto;
+
+        .fieldset .field.field-error .field-input-wrapper .field-input {
+            box-shadow: 0 0 0 2px #ff6d6d;
+            outline: none;
         }
-    }
-    .LoadingShellHeader--banner {
-        background-position: 50% 50%;
-        background-size: cover;
-        background-image: var(--x-skeleton-banner-image);
-        --x-skeleton-header-shop-name-color: #fff;
-        --x-skeleton-cart-color: #fff;
-    }
-    .VisuallyHidden {
-        border-width: 0;
-        clip: rect(0, 0, 0, 0);
-        height: 1px;
-        margin: -1px;
-        overflow: hidden;
-        padding: 0;
-        position: absolute;
-        width: 1px;
-        white-space: nowrap;
-    }
-    .FadeIn {
-        opacity: 0;
-        animation: 400ms FadeIn 150ms forwards;
-    }
-    @keyframes FadeIn {
-        from {
-            opacity: 0;
+
+        html, body {
+            margin: 0;
+            width: 100%;
+            height: 100%; /* == 2 => 1 page, == 1 => 2 page*/
         }
-        to {
-            opacity: 1;
+
+
+
+
+
+        a {
+            text-decoration: none;
+            color:  #338dbc;
+            transition: color 0.2s ease-in-out;
+            display: inline-block;
         }
-    }
-    .colorSchemeScheme1 {
-        --x-skeleton-default-color-background: var(--x-skeleton-color-schemes-scheme1-base-background, var(--x-skeleton-color-global-background));
-        --x-skeleton-default-color-accent: var(--x-skeleton-color-schemes-scheme1-base-accent, var(--x-skeleton-color-global-accent));
-        --x-skeleton-default-color-backgroundSubdued: var(--x-skeleton-color-schemes-scheme1-base-backgroundSubdued, var(--x-skeleton-color-global-backgroundSubdued));
-        --x-skeleton-default-color-border: var(--x-skeleton-color-schemes-scheme1-base-border, var(--x-skeleton-color-global-border));
-        --x-skeleton-default-color-text: var(--x-skeleton-color-schemes-scheme1-base-text, var(--x-skeleton-color-global-text));
-        --x-skeleton-default-color-textContrast: var(--x-skeleton-color-schemes-scheme2-base-textContrast, var(--x-skeleton-color-global-textContrast));
-        --x-skeleton-default-color-textSubdued: var(--x-skeleton-color-schemes-scheme1-base-textSubdued, var(--x-skeleton-color-global-textSubdued));
-        --x-skeleton-default-color-textSubdued200: var(--x-skeleton-color-schemes-scheme1-base-textSubdued200, var(--x-skeleton-color-global-textSubdued200));
-    }
-    .colorSchemeScheme2 {
-        --x-skeleton-default-color-background: var(--x-skeleton-color-schemes-scheme2-base-background, var(--x-skeleton-color-global-background));
-        --x-skeleton-default-color-accent: var(--x-skeleton-color-schemes-scheme2-base-accent, var(--x-skeleton-color-global-accent));
-        --x-skeleton-default-color-backgroundSubdued: var(--x-skeleton-color-schemes-scheme2-base-backgroundSubdued, var(--x-skeleton-color-global-backgroundSubdued));
-        --x-skeleton-default-color-border: var(--x-skeleton-color-schemes-scheme2-base-border, var(--x-skeleton-color-global-border));
-        --x-skeleton-default-color-text: var(--x-skeleton-color-schemes-scheme2-base-text, var(--x-skeleton-color-global-text));
-        --x-skeleton-default-color-textContrast: var(--x-skeleton-color-schemes-scheme2-base-textContrast, var(--x-skeleton-color-global-textContrast));
-        --x-skeleton-default-color-textSubdued: var(--x-skeleton-color-schemes-scheme2-base-textSubdued, var(--x-skeleton-color-global-textSubdued));
-        --x-skeleton-default-color-textSubdued200: var(--x-skeleton-color-schemes-scheme2-base-textSubdued200, var(--x-skeleton-color-global-textSubdued200));
-    }
-    .colorSchemeScheme3 {
-        --x-skeleton-default-color-background: var(--x-skeleton-color-schemes-scheme3-base-background, var(--x-skeleton-color-global-background));
-        --x-skeleton-default-color-accent: var(--x-skeleton-color-schemes-scheme3-base-accent, var(--x-skeleton-color-global-accent));
-        --x-skeleton-default-color-backgroundSubdued: var(--x-skeleton-color-schemes-scheme3-base-backgroundSubdued, var(--x-skeleton-color-global-backgroundSubdued));
-        --x-skeleton-default-color-border: var(--x-skeleton-color-schemes-scheme3-base-border, var(--x-skeleton-color-global-border));
-        --x-skeleton-default-color-text: var(--x-skeleton-color-schemes-scheme3-base-text, var(--x-skeleton-color-global-text));
-        --x-skeleton-default-color-textContrast: var(--x-skeleton-color-schemes-scheme2-base-textContrast, var(--x-skeleton-color-global-textContrast));
-        --x-skeleton-default-color-textSubdued: var(--x-skeleton-color-schemes-scheme3-base-textSubdued, var(--x-skeleton-color-global-textSubdued));
-        --x-skeleton-default-color-textSubdued200: var(--x-skeleton-color-schemes-scheme3-base-textSubdued200, var(--x-skeleton-color-global-textSubdued200));
-    }
-    .colorSchemeScheme4 {
-        --x-skeleton-default-color-background: var(--x-skeleton-color-schemes-scheme4-base-background, var(--x-skeleton-color-global-background));
-        --x-skeleton-default-color-accent: var(--x-skeleton-color-schemes-scheme4-base-accent, var(--x-skeleton-color-global-accent));
-        --x-skeleton-default-color-backgroundSubdued: var(--x-skeleton-color-schemes-scheme4-base-backgroundSubdued, var(--x-skeleton-color-global-backgroundSubdued));
-        --x-skeleton-default-color-border: var(--x-skeleton-color-schemes-scheme4-base-border, var(--x-skeleton-color-global-border));
-        --x-skeleton-default-color-text: var(--x-skeleton-color-schemes-scheme4-base-text, var(--x-skeleton-color-global-text));
-        --x-skeleton-default-color-textContrast: var(--x-skeleton-color-schemes-scheme2-base-textContrast, var(--x-skeleton-color-global-textContrast));
-        --x-skeleton-default-color-textSubdued: var(--x-skeleton-color-schemes-scheme4-base-textSubdued, var(--x-skeleton-color-global-textSubdued));
-        --x-skeleton-default-color-textSubdued200: var(--x-skeleton-color-schemes-scheme4-base-textSubdued200, var(--x-skeleton-color-global-textSubdued200));
-    }
-    .backgroundColorBase {
-        background-color: var(--x-skeleton-default-color-background);
-        color: var(--x-skeleton-default-color-text);
-    }
-    .backgroundColorSubdued {
-        background-color: var(--x-skeleton-default-color-backgroundSubdued);
-        color: var(--x-skeleton-default-color-text);
-    }
-    .LoadingShell {
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 100000;
-        pointer-events: none;
-        opacity: 0;
-        transition: opacity 0.2s ease;
-        will-change: opacity;
-        min-height: 100dvh;
-        display: grid;
-        grid-template-rows: auto auto 1fr;
-        grid-template-areas:
-      'header'
-      'disclosure'
-      'shell-content';
-        background-image: var(--x-skeleton-shell-background-image);
-        --x-skeleton-shell-inline-size: 57rem;
-        --x-skeleton-shell-background-image: var(--skeleton-config-shell-background-image);
-        --x-skeleton-shell-header-inline-size: var(--x-skeleton-shell-inline-size);
-        --x-skeleton-shell-header-padding: var(--skeleton-config-header-padding, var(--x-skeleton-spacing-large-200));
-        --x-skeleton-shell-header-background-image: var(--skeleton-config-header-background-image);
-        --x-skeleton-shell-disclosure-inline-size: var(--x-skeleton-shell-inline-size);
-        --x-skeleton-shell-disclosure-padding: var(--x-skeleton-spacing-large-100) var(--x-skeleton-spacing-large-200);
-        --x-skeleton-shell-disclosure-display: block;
-        --x-skeleton-shell-main-inline-size: var(--x-skeleton-shell-inline-size);
-        --x-skeleton-shell-main-justify-content: center;
-        --x-skeleton-shell-main-padding: var(--x-skeleton-spacing-large-200);
-        --x-skeleton-shell-main-border: none;
-        --x-skeleton-shell-order-summary-display: none;
-        --x-skeleton-shell-order-summary-background-image: var(--skeleton-config-order-summary-background-image);
-        --x-skeleton-box-shadow-extra-small:
-            0 1px 1.75px 0 rgba(0, 0, 0, 0.12),
-            0 -0.5px 1.5px 0 rgba(0, 0, 0, 0.09),
-            0 3px 4px 0 rgba(0, 0, 0, 0.03);
-        --x-skeleton-box-shadow-small:
-            0 1px 2px -0.5px rgba(0, 0, 0, 0.05),
-            0 2px 4px -1px rgba(0, 0, 0, 0.08),
-            0 3px 6px -1.5px rgba(0, 0, 0, 0.08),
-            0 -0.5px 1.5px 0 rgba(0, 0, 0, 0.09);
-        @media screen and (min-width: 1000px) {
-            --x-skeleton-shell-main-inline-size: 66rem;
-            --x-skeleton-shell-order-summary-inline-size: 52rem;
-            --x-skeleton-shell-section-columns-offset: 7rem;
-            --x-skeleton-shell-content-display: grid;
-            --x-skeleton-shell-content-template-areas: 'main order-summary';
-            --x-skeleton-shell-content-template-columns: minmax(
-                min-content, calc(50% + var(--x-skeleton-shell-section-columns-offset))
-            )
-            1fr;
-            --x-skeleton-shell-inline-size: 118rem;
-            --x-skeleton-shell-header-padding: var(--skeleton-config-header-padding, 0);
-            --x-skeleton-shell-disclosure-display: none;
-            --x-skeleton-shell-main-justify-content: flex-end;
-            --x-skeleton-shell-main-padding: var(--x-skeleton-spacing-large-500);
-            --x-skeleton-shell-main-border: 1px solid var(--x-skeleton-default-color-border);
-            --x-skeleton-shell-order-summary-display: block;
-            --x-skeleton-shell-order-summary-padding: var(--x-skeleton-spacing-large-500);
+
+        .banner {
+            padding: 1.5em 0;
+
+            display: none;;
         }
-    }
-    @supports (width: min(0px, 100px)) {
-        /* mobile header padding is clamped at large-200 like Sections */
-        @media screen and (max-width: 999px) {
-            .LoadingShell {
-                --x-skeleton-shell-header-padding: min(
-                    var(--skeleton-config-header-padding, var(--x-skeleton-spacing-large-200)),
-                    var(--x-skeleton-spacing-large-200)
-                );
+
+        .alert {
+            padding: 16px;
+            border-radius: 5px;
+            display: -webkit-flex;
+            display: flex;
+            align-items: center;
+        }
+
+
+        .alert-danger svg {
+            width: 20px;
+            margin-right: 10px;
+        }
+
+        .alert-danger span {
+            max-width: calc(100% - 30px);
+        }
+
+        .alert-danger * {
+            flex: 0 0 auto;
+        }
+
+        .alert-danger {
+            color: #721c24;
+            background-color: #ffebeb;
+            border-color: #ffebeb;
+            line-height: 20px;
+        }
+
+        @-webkit-keyframes rotate {
+            0% {
+                -webkit-transform: rotate(0);
+                transform: rotate(0);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
             }
         }
-    }
-    @media screen and (min-width: 1000px) {
-        .LoadingShell.LoadingShellConfig-Header-positionStart {
-            --x-skeleton-shell-header-padding: var(--skeleton-config-header-padding,
-            calc(var(--x-skeleton-spacing-large-500) * 2) var(--x-skeleton-spacing-large-500)
-            var(--x-skeleton-spacing-large-500)
-            );
+
+        @keyframes rotate {
+            0% {
+                -webkit-transform: rotate(0);
+                transform: rotate(0);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
         }
-        .LoadingShell.LoadingShellConfig-Header-positionStart.LoadingShell-variantOneStepCheckout {
-            --x-skeleton-shell-header-padding: var(--skeleton-config-header-padding, var(--x-skeleton-spacing-large-200) var(--x-skeleton-spacing-large-500));
+
+
+        a:focus {
+            outline: none;
         }
-    }
-    .LoadingShellHeader {
-        grid-area: header;
-    }
-    .LoadingShellHeaderContent {
-        padding: var(--x-skeleton-shell-header-padding);
-        width: 100%;
-        max-width: var(--x-skeleton-shell-header-inline-size);
-    }
-    @media screen and (min-width: 1000px) {
-        .LoadingShell:not(.LoadingShellConfig-Header-positionStart) .LoadingShellHeader-positionStart {
+
+        a:hover {
+            /* color: #2b78a0; */
+            filter: brightness(1.2);
+        }
+
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: normal;
+            margin: 0;
+            line-height: 1em;
+        }
+
+        h2 {
+            font-size: 1.28571em;
+        }
+
+        h3 {
+            font-size: 1em;
+            font-weight: 500;
+            margin-bottom: 0.75em;
+        }
+
+        h3:not(:first-child) {
+            margin-top: 1.5em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            border-spacing: 0;
+            font-size: 1em;
+        }
+
+        td, th {
+            padding: 0;
+            padding-left: 1em;
+        }
+
+        td:first-child, th:first-child {
+            padding-left: 0;
+            text-align: left;
+        }
+
+        td:last-child, th:last-child {
+            text-align: right;
+        }
+
+        img {
+            border: 0;
+            max-width: 100%;
+        }
+
+        p {
+            margin: 0;
+            line-height: 1.5em;
+        }
+
+        button, input, optgroup, select, textarea {
+            color: inherit;
+            font: inherit;
+            margin: 0;
+            padding: 0;
+            -webkit-appearance: none;
+            -webkit-font-smoothing: inherit;
+            border: none;
+            background: transparent;
+            line-height: normal;
+        }
+
+        button:focus, input:focus {
+            outline: none;
+        }
+
+        button, input[type="button"], input[type="reset"], input[type="submit"] {
+            -webkit-appearance: button;
+            cursor: pointer;
+        }
+
+        select {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            text-indent: 1px;
+            text-overflow: '';
+        }
+
+        .radio-wrapper,
+        .checkbox-wrapper {
+            display: table;
+            box-sizing: border-box;
+            width: 100%;
+            zoom: 1;
+        }
+
+        .radio-wrapper:after, .radio-wrapper:before,
+        .checkbox-wrapper:after, .checkbox-wrapper:before {
+            content: "";
+            display: table;
+        }
+
+        .radio-wrapper .radio-input,
+        .checkbox-wrapper .checkbox-input {
+            display: table-cell;
+            padding-right: 0.75em;
+            white-space: nowrap;
+        }
+        .radio-wrapper .payment-method-checkbox {
+            display: flex;
+            align-self: center;
+        }
+        .radio-wrapper .radio-input .input-radio,
+        .checkbox-wrapper .checkbox-input .input-checkbox {
+            width: 18px;
+            height: 18px;
+            box-shadow: 0 0 0 0 #338dbc inset;
+            transition: all 0.2s ease-in-out;
+            position: relative;
+            cursor: pointer;
+            vertical-align: -4px;
+            outline: 0;
+            border: solid 1px #d9d9d9;
+        }
+
+        .radio-wrapper .radio-input .input-radio:hover,
+        .checkbox-wrapper .checkbox-input .input-checkbox:hover {
+            border-color: #cccccc;
+        }
+
+        .radio-wrapper .radio-input .input-radio {
+            border-radius: 50%;
+        }
+        .radio-wrapper .radio-content-input {
+            display: flex;
+            align-items: center;
+        }
+        .radio-content-input .content-wrapper {
+            display: grid
+        }
+        .radio-wrapper .radio-content-input .main-img {
+            margin-right: 10px;
+            display: flex;
+            align-self: center;
+            width: 40px;
+            height: 40px;
+        }
+        .radio-wrapper .radio-content-input-no-icon {
+            margin: 0.8em 0.8em 0.8em 0;
+        }
+        .radio-wrapper .radio-content-input .child-img {
+            max-height: 30px
+        }
+        .radio-wrapper .radio-content-input .quick-tagline {
+            color: #338dbc;
+            display:flex;
+            align-items: center;
+            margin-top: 2px;
+        }
+        .radio-wrapper .radio-content-input .quick-tagline svg{
+            fill: #338dbc;
+            margin-left: 10px;
+        }
+        .radio-wrapper .radio-input .input-radio:checked:focus,
+        .checkbox-wrapper .checkbox-input .input-checkbox:checked:focus {
+            border-color: #286f94;
+        }
+
+        .radio-wrapper .radio-input .input-radio:checked:after,
+        .checkbox-wrapper .checkbox-input .input-checkbox:checked:after {
+            -webkit-transform: scale(1);
+            transform: scale(1);
+            opacity: 1;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=" 100 ")";
+            filter: alpha(opacity=100);
+        }
+
+        .radio-wrapper .radio-input .input-radio:after,
+        .checkbox-wrapper .checkbox-input .input-checkbox:after {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: scale(0.2);
+            transform: scale(0.2);
+            transition: all 0.2s ease-in-out 0.1s;
+            opacity: 0;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=" 0 ")";
+            filter: alpha(opacity=0);
+        }
+
+        .radio-wrapper .radio-input .input-radio:after {
+            width: 4px;
+            height: 4px;
+            margin-left: -2px;
+            margin-top: -2px;
+            background-color: #fff;
+            border-radius: 50%;
+        }
+
+        .radio-wrapper .radio-label,
+        .checkbox-wrapper .checkbox-label {
+            display: flex !important;
+            cursor: pointer !important;
+            align-items: center ;
+            padding: 1.3em ;
+            width: auto ;
+        }
+        .radio-wrapper .radio-label-payment-card,
+        .checkbox-wrapper .checkbox-label {
+            display: flex !important;
+            cursor: pointer !important;
+            align-items: center ;
+            padding: 0 0.5em ;
+            width: auto ;
+        }
+        .radio-wrapper .two-page,
+        .checkbox-wrapper .checkbox-label {
+            display: flex ;
+            cursor: pointer ;
+            align-items: center ;
+            padding: 1.3em ;
+            width: auto ;
+        }
+        .radio-wrapper .radio-label .radio-label-primary,
+        .checkbox-wrapper .checkbox-label .checkbox-label-primary {
+            display: table-cell;
+            width: 100%;
+        }
+
+        .radio-wrapper .radio-accessory,
+        .checkbox-wrapper .checkbox-accessory {
+            display: table-cell;
+            padding-left: 0.75em;
+            white-space: nowrap;
+        }
+
+        .radio-wrapper.no-box,
+        .checkbox-wrapper.no-box {
+            display: block;
+        }
+
+        .radio-wrapper.no-box .radio-input,
+        .checkbox-wrapper.no-box .checkbox-input {
+            display: inline-block;
+        }
+
+        .radio-wrapper.no-box .radio-label,
+        .checkbox-wrapper.no-box .checkbox-label {
+            display: inline-block;
+            width: inherit;
+        }
+
+        ::selection {
+            background: #338dbc;
+            color: white;
+        }
+
+
+        .btn:not(.btn-disabled):hover {
+            /* background: #286f94; */
+            color: white;
+            filter: brightness(1.2);
+        }
+
+
+
+        .btn-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-top: -10px;
+            margin-left: -10px;
+            /*transition: opacity 0.3s ease-in-out;*/
+            opacity: 0;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=" 0 ")";
+            filter: alpha(opacity=0);
+        }
+
+        .btn-loading {
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .btn-loading .btn-content {
+            opacity: 0;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=" 0 ")";
+            filter: alpha(opacity=0);
+        }
+
+        .btn-loading .btn-spinner {
+            -webkit-animation: rotate 0.5s linear infinite;
+            animation: rotate 0.5s linear infinite;
+            opacity: 1;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=" 100 ")";
+            filter: alpha(opacity=100);
+        }
+        #div_location_country_not_vietnam{ display: none; }
+        div#section-shipping-rate,#section-payment-method {
+            position: relative;
+        }
+
+        .icon {
+            background-position: center center;
+            background-repeat: no-repeat;
+            display: inline-block;
+        }
+
+        .icon.icon-button-spinner {
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHBhdGggZD0iTTIwIDEwYzAgNS41MjMtNC40NzcgMTAtMTAgMTBTMCAxNS41MjMgMCAxMCA0LjQ3NyAwIDEwIDB2MmMtNC40MTggMC04IDMuNTgyLTggOHMzLjU4MiA4IDggOCA4LTMuNTgyIDgtOGgyeiIgZmlsbD0iI2ZmZiIvPjwvc3ZnPg=='),none;
+        }
+
+        .icon.icon-clear {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMiAtNCAxNiAxNiIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAyIC00IDE2IDE2Ij48cGF0aCBvcGFjaXR5PSIuMiIgZD0iTTEwLTRjLTQuNCAwLTggMy42LTggOHMzLjYgOCA4IDggOC0zLjYgOC04LTMuNi04LTgtOHptMy43IDEwLjdsLTEgMS0yLjctMi42LTIuNyAyLjYtMS0xIDIuNi0yLjctMi42LTIuNyAxLTEgMi43IDIuNiAyLjctMi42IDEgMS0yLjYgMi43IDIuNiAyLjd6Ii8+PC9zdmc+'),none;
+        }
+
+        .icon.icon-os-question {
+            width: 18px;
+            height: 18px;
+            margin-right: 0.5em;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgdmlld0JveD0iMCAwIDE4IDE4Ij48cGF0aCBkPSJNOSAxOGM0Ljk3IDAgOS00LjAzIDktOXMtNC4wMy05LTktOS05IDQuMDMtOSA5IDQuMDMgOSA5IDl6TTUuODUgNy4xNjJoMS41NDZjLjA1My0uODAzLjYtMS4zMTcgMS40NS0xLjMxNy44MjggMCAxLjM4LjQ5NCAxLjM4IDEuMTggMCAuNjUtLjI3NSAxLTEuMDkyIDEuNDkzLS45MDguNTM0LTEuMjkgMS4xMjYtMS4yMyAyLjExNGwuMDA2LjQ0OGgxLjUyN3YtLjM3NmMwLS42NS4yNDQtLjk4NyAxLjEwNi0xLjQ5NC44OTYtLjUzNCAxLjM5Ni0xLjIzOCAxLjM5Ni0yLjI0NiAwLTEuNDU1LTEuMjA3LTIuNDk1LTMuMDEtMi40OTUtMS45NTUgMC0zLjAzIDEuMTMtMy4wOCAyLjY5em0yLjg5NiA3LjA1OGMuNjcyIDAgMS4wOTMtLjQxNCAxLjA5My0xLjA0NiAwLS42NC0uNDIzLTEuMDU0LTEuMDk1LTEuMDU0LS42NiAwLTEuMDkzLjQxNS0xLjA5MyAxLjA1NCAwIC42MzIuNDM0IDEuMDQ2IDEuMDkzIDEuMDQ2eiIgZmlsbD0iI0I1QjVCNSIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9zdmc+'),none;
+        }
+
+        .icon.icon-closed-box {
+            width: 68px;
+            height: 54px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2OCIgaGVpZ2h0PSI1NCIgdmlld0JveD0iMjQuMSAtMTcgNjggNTQiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMjQuMSAtMTcgNjggNTQiPjxwYXRoIHN0cm9rZT0iI0IyQjJCMiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGZpbGw9Im5vbmUiIGQ9Ik0yNS4xLTVoNjZNMzIuMSAyOGgxNk0zMi4xIDIzaDEyIi8+PHBhdGggc3Ryb2tlPSIjQjJCMkIyIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgZD0iTTI1LjEtNS40bDYuNy0xMC42aDUyLjlsNi40IDEwLjZ2MzguNmMwIDEuNi0xLjIgMi44LTIuOCAyLjhoLTYwLjRjLTEuNiAwLTIuOC0xLjItMi44LTIuOHYtMzguNnpNNTguMS0xNnYxMSIgZmlsbD0ibm9uZSIvPjwvc3ZnPg=='),none;
+        }
+
+        .icon.icon-closed-box.has-error {
+            width: 68px;
+            height: 54px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2OCIgaGVpZ2h0PSI1NCIgdmlld0JveD0iMjQuMSAtMTcgNjggNTQiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMjQuMSAtMTcgNjggNTQiPjxwYXRoIHN0cm9rZT0iI2ZmNmQ2ZCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGZpbGw9Im5vbmUiIGQ9Ik0yNS4xLTVoNjZNMzIuMSAyOGgxNk0zMi4xIDIzaDEyIi8+PHBhdGggc3Ryb2tlPSIjZmY2ZDZkIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1taXRlcmxpbWl0PSIxMCIgZD0iTTI1LjEtNS40bDYuNy0xMC42aDUyLjlsNi40IDEwLjZ2MzguNmMwIDEuNi0xLjIgMi44LTIuOCAyLjhoLTYwLjRjLTEuNiAwLTIuOC0xLjItMi44LTIuOHYtMzguNnpNNTguMS0xNnYxMSIgZmlsbD0ibm9uZSIvPjwvc3ZnPg=='),none;
+        }
+
+        .flexbox {
+        }
+
+        .flexbox body, .flexbox .content, .flexbox .content .wrap, .flexbox .main {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-direction: column;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            -webkit-flex: 1 0 auto;
+            -ms-flex: 1 0 auto;
+            flex: 1 0 auto;
+        }
+
+        .flexbox .main-content {
+            -webkit-flex: 1 0 auto;
+            -ms-flex: 1 0 auto;
+            flex: 1 0 auto;
+        }
+
+        .step-footer {
+            z-index: 2;
+            position: relative;
+            margin-top: 1em;
+            zoom: 1;
+        }
+
+        .step-footer:after, .step-footer:before {
+            content: "";
+            display: table;
+        }
+
+        .step-footer:after {
+            clear: both;
+        }
+
+        .step-footer .step-footer-previous-link {
+            cursor: pointer;
+            display: block;
+        }
+
+        .step-footer .step-footer-previous-link .previous-link-icon {
+            fill: #338dbc;
+            transition: all 0.2s cubic-bezier(0.3, 0, 0, 1);
+            margin-right: 0.25em;
+        }
+
+        .step-footer .step-footer-previous-link:hover .previous-link-icon {
+            fill: #2b78a0;
+            -webkit-transform: translateX(-5px);
+            transform: translateX(-5px);
+        }
+
+        .step-footer .step-footer-info {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+        }
+
+        .content {
+            overflow-x: hidden;
+        }
+
+        .content.content-second {
             display: none;
         }
-    }
-    @media screen and (max-width: 999px) {
-        .LoadingShellConfig-Header-positionInline .LoadingShellHeader-positionInline,
-        .LoadingShellConfig-Header-positionInlineSecondary .LoadingShellHeader-positionInlineSecondary {
+
+        .section {
+            position: relative;
+            padding-top: 2em;
+        }
+
+        .section.thank-you-checkout-info {
+            padding-top: 0.5em;
+        }
+
+        .section:first-child {
+            padding-top: 0;
+        }
+
+        .section .section-header {
+            position: relative;
+        }
+
+        .section .section-content {
+            zoom: 1;
+            margin-bottom: 2em;
+        }
+
+        .section .section-content .section-content-text {
+            margin-bottom: 0.75em;
+        }
+
+        .section .section-content.no-mb, .section .section-content:last-child {
+            margin-bottom: inherit;
+        }
+
+        .section .section-content:after, .section .section-content:before {
+            content: "";
+            display: table;
+        }
+
+
+        .section .section-content .content-box {
+            box-shadow: 0 0 0 1px #d9d9d9;
+            border-radius: 4px;
+            background: #fff;
+            color: #737373;
+            margin-top: 1em;
+        }
+
+        .section .section-content .content-box.has-error {
+            box-shadow: 0 0 0 2px #ff6d6d;
+            color: #ff6d6d;
+        }
+
+        .section .section-content .content-box.no-border {
+            box-shadow: none;
+        }
+
+        .section .section-content .content-box:first-child {
+            margin-top: 0;
+        }
+
+        .section .section-content .content-box .content-box-row {
+            display: table;
+            box-sizing: border-box;
+            width: 100%;
+            border-top: 1px solid #d9d9d9;
+            zoom: 1;
+        }
+
+        .section .section-content .content-box .content-box-row.content-box-row-padding {
+            padding: 0.8em 0.6em;
+        }
+
+        .section .section-content .content-box .content-box-row:first-child {
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-top: none;
+        }
+
+        .section .section-content .content-box .content-box-row:last-child {
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .section .section-content .content-box .content-box-row:after,
+        .section .section-content .content-box .content-box-row:before {
+            content: "";
+            display: table;
+        }
+
+        .section .section-content .content-box .content-box-row.content-box-row-secondary {
+            background-color: #fafafa;
+        }
+
+        .section .section-content .content-box .content-box-row.content-box-row-no-border {
+            padding-bottom: 0;
+        }
+
+        .section .section-content .content-box .content-box-row.content-box-row-no-border + .content-box-row {
+            border-top: none !important;
+        }
+        .section .section-content .content-box .content-box-row-payment-card {
+            display: table;
+            box-sizing: border-box;
+            width: 100%;
+            zoom: 1;
+        }
+
+        .section .section-content .content-box .content-box-row-payment-card.content-box-row-padding {
+            padding: 0.8em 0.6em;
+        }
+
+        .section .section-content .content-box .content-box-row-payment-card:first-child {
+            border-top-left-radius: 4px;
+            border-top-right-radius: 4px;
+            border-top: 1px solid #d9d9d9;
+        }
+
+        .section .section-content .content-box .content-box-row-payment-card:last-child {
+            border-bottom-left-radius: 4px;
+            border-bottom-right-radius: 4px;
+        }
+
+        .section .section-content .content-box .content-box-row-payment-card:after,
+        .section .section-content .content-box .content-box-row-payment-card:before {
+            content: "";
+            display: table;
+        }
+
+        .section .section-content .content-box .content-box-row-payment-card.content-box-row-secondary {
+            background-color: #fafafa;
+        }
+
+        .section .section-content .content-box .content-box-row-payment-card.content-box-row-no-border {
+            padding-bottom: 0;
+        }
+
+        .section .section-content .content-box .content-box-row-payment-card.content-box-row-no-border + .content-box-row {
+            border-top: none !important;
+        }
+        .section .section-content .content-box .content-box-emphasis {
+            font-weight: 500;
+            color: #4d4d4d;
+        }
+
+        .section .section-content .content-box h3 {
+            color: #4d4d4d;
+        }
+
+        .section .section-content .content-box h2 {
+            color: #333333;
+        }
+
+        .section .section-content .content-box h2:only-child {
+            margin: 0;
+        }
+
+        .section .section-title {
+            color: #333333;
+
+
+        }
+        .payment-later-table, .payment-later-table > table {
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            box-shadow: 0px 0px 5px rgb(10 31 68 / 21%);
+            border-radius: 9px;
+            background-color: #FFFFFF;
+        }
+        .paylater--text{
+            color:#ACA9A9;
+        }
+        .paylater--h4{
+            padding-top: 1em;
+        }
+        .border-bot-1px {
+            border-bottom: 1px solid #d9d9d9;
+        }
+        .font-weight-bold {
+            font-weight:  bold;
+        }
+        .payment-card {
+            padding: 0 .8em 0 1.8em;
+            white-space: normal;
+        }
+
+        .payment-card--text{
+            color:#ACA9A9;
+        }
+        .payment-card--h4{
+            text-align: left;
+            padding-top: 1em;
+        }
+        .payment-card--title{
+            text-align: left;
+            margin: 1em;
+        }
+
+        .payment-later-table--loading{
+            border-collapse: collapse;
+            border-spacing: 0;
+            width: 100%;
+            box-shadow: 0px 0px 5px rgb(10 31 68 / 21%);
+            border-radius: 9px;
+            background-color: #FFFFFF;
             display: none;
         }
-        .LoadingShellConfig-Header-positionInlineSecondary .LoadingShellHeader-positionStart {
-            background-image: var(
-                --x-skeleton-shell-header-background-image,
-                var(--x-skeleton-shell-order-summary-background-image)
-            );
+        .payment-later-table--loading.show {
+            display: block;
         }
-    }
-    .LoadingShellHeader-positionStart {
-        display: flex;
-        justify-content: center;
-        border-bottom: 1px solid var(--x-skeleton-default-color-border);
-        background-image: var(--x-skeleton-shell-header-background-image);
-        background-position: 50% 50%;
-        background-size: cover;
-    }
-    .LoadingShellHeader-uplift {
-        z-index: 1;
-        border-bottom: none;
-        box-shadow: var(--x-skeleton-box-shadow-small);
-    }
-    .LoadingShellHeader-positionStart.LoadingShellHeader-hasBackgroundImage {
-        --header-shop-name-color: #ffffff;
-        --x-skeleton-default-color-accent: #ffffff;
-    }
-    .LoadingShellBuyerJourneyContent {
-        width: 100%;
-        width: var(--x-skeleton-shell-buyer-journey-inline-size);
-        padding: var(--x-skeleton-shell-buyer-journey-padding);
-    }
-    .LoadingShellDisclosure {
-        grid-area: disclosure;
-        display: var(--x-skeleton-shell-disclosure-display);
-        border-bottom: 1px solid var(--x-skeleton-default-color-border);
-    }
-    .LoadingShellDisclosure-uplift {
-        border-bottom: none;
-        box-shadow: var(--x-skeleton-box-shadow-extra-small);
-    }
-    .LoadingShellDisclosureButton {
-        display: flex;
-        justify-content: center;
-        width: 100%;
-    }
-    .LoadingShellDisclosureButton {
-        text-align: start;
-        background: var(--x-skeleton-default-color-backgroundSubdued);
-        color: var(--x-skeleton-default-color-accent);
-        position: relative;
-        z-index: 2;
-    }
-    .LoadingShellConfig-Shell-hasBackgroundImage .LoadingShellDisclosureButton {
-        background: transparent;
-        color: inherit;
-    }
-    .LoadingShellDisclosureButtonContent {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: var(--x-skeleton-spacing-small-200);
-        align-content: center;
-        align-items: center;
-    }
-    .LoadingShellDisclosureButtonContent {
-        padding: var(--x-skeleton-shell-disclosure-padding);
-        width: 100%;
-        max-width: var(--x-skeleton-shell-disclosure-inline-size);
-    }
-    .LoadingShellContent {
-        grid-area: shell-content;
-        display: var(--x-skeleton-shell-content-display);
-        grid-template-areas: var(--x-skeleton-shell-content-template-areas);
-        grid-template-columns: var(--x-skeleton-shell-content-template-columns);
-    }
-    .LoadingShellMain {
-        grid-area: main;
-        display: flex;
-        justify-content: var(--x-skeleton-shell-main-justify-content);
-        height: 100%;
-    }
-    .LoadingShellMain .LoadingShellMainContent {
-        height: 100%;
-        width: 100%;
-        max-width: var(--x-skeleton-shell-main-inline-size);
-        padding: var(--x-skeleton-shell-main-padding);
-        border-inline-end: var(--x-skeleton-shell-main-border);
-        display: grid;
-        grid-template-rows: auto auto 1fr;
-        grid-template-columns: 1fr;
-        grid-template-areas:
-      'header'
-      'buyer-journey'
-      'main-content-primary';
-    }
-    .LoadingShellMainContentPrimary {
-        grid-area: main-content-primary;
-    }
-    .LoadingShellMainContent .LoadingShellHeader {
-        margin-bottom: var(--x-skeleton-spacing-large-100);
-    }
-    .LoadingShellMainContent .LoadingShellBuyerJourney {
-        margin-bottom: var(--x-skeleton-spacing-large-300);
-    }
-    .LoadingShell-variantOneStepCheckout .LoadingShellMainContent .LoadingShellHeader {
-        margin-bottom: calc(var(--x-skeleton-spacing-large-300) * 2);
-    }
-    .LoadingShellOrderSummary {
-        display: var(--x-skeleton-shell-order-summary-display);
-        grid-area: order-summary;
-    }
-    .LoadingShellOrderSummary .LoadingShellOrderSummaryContent {
-        position: sticky;
-        padding: var(--x-skeleton-shell-order-summary-padding);
-        width: 100%;
-        max-width: var(--x-skeleton-shell-order-summary-inline-size);
-        top: 0;
-        right: auto;
-        bottom: 0;
-        left: auto;
-    }
-    .LoadingShellOrderSummaryContent .LoadingShellHeader {
-        margin-bottom: var(--x-skeleton-spacing-large-200);
-    }
-    /* Header */
-    .LoadingHeader {
-        display: flex;
-        width: 100%;
-    }
-    .LoadingHeader-alignmentStart {
-        justify-content: flex-start;
-    }
-    .LoadingHeader-alignmentCenter {
-        justify-content: center;
-    }
-    .LoadingHeader-alignmentEnd {
-        justify-content: flex-end;
-    }
-    .LoadingShell-variantOneStepCheckout .LoadingHeader-alignmentCenter .LoadingHeaderHeading {
-        display: flex;
-        justify-content: center;
-    }
-    .LoadingShell-variantOneStepCheckout .LoadingHeader-alignmentEnd .LoadingHeaderHeading {
-        display: flex;
-        justify-content: flex-end;
-    }
+        .payment-later-table > table th{
+            text-align: center;
+            padding: 16px;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 14px;
+            color: #338DBC;
+        }
+        .payment-later-table > table th:first-child{
+            text-align: left;
+            border-top-left-radius: 9px;
+            border: 1px;
+        }
+        .payment-later-table > table th:last-child{
+            text-align: right;
+            border-top-right-radius: 9px;
+            border: 1px;
+        }
+        .payment-later-table > table td{
+            text-align: center;
+            padding: 16px;
+            font-weight: 500;
+        }
+        .payment-later-table > table td:first-child{
+            text-align: left;
+        }
+        .payment-later-table > table td:last-child{
+            text-align: right;
+            padding: 16px;
+        }
+        .payment-later-table > table tr:nth-child(odd){
+            background-color: #D9D9D9
+        ;
+        }
 
-    ._7ozb2u6{
-        margin-bottom: 10px;
-    }
-</style>
-<div class="LoadingShell LoadingShellConfig-Header-positionStart LoadingShell-variantOneStepCheckout colorSchemeScheme1 backgroundColorBase">
-    <header class="LoadingShellHeader LoadingShellHeader-containerFill LoadingShellHeader-positionStart">
-        <div class="LoadingShellHeaderContent">
-            <div class="LoadingHeader LoadingHeader-alignmentStart">
-                <h1 class="LoadingHeaderHeading">{{ $config->web_title  }}</h1>
-            </div>
-        </div>
-    </header>
-    <div class="LoadingShellDisclosure ShopPay">
-        <div class="LoadingShellDisclosureButton LoadingShellDisclosureButton-containerFill"><span class="LoadingShellDisclosureButtonContent FadeIn"><span class="Text Text--size-small"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-base"><span></span></span></span></span><span><span class="Text Text--size-large"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-small"><span></span></span></span></span></span></span></div>
-    </div>
-    <div class="LoadingShellContent LoadingShellContent-containerFill">
-        <div class="LoadingShellMain">
-            <div class="LoadingShellMainContent">
-                <main class="LoadingShellMainContentPrimary FadeIn">
-                    <div class="SkeletonExpressCheckout">
-                        <div class="BlockStack BlockStack--spacing-base">
-                            <div class="BlockStack BlockStack--inline-alignment-center BlockStack--spacing-base"><span class="Text"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-base"><span></span></span></span></span></div>
-                            <div class="SkeletonExpressCheckoutButtons">
-                                <div class="SkeletonButton">
-                                    <div class="SkeletonButtonInner"></div>
-                                </div>
-                                <div class="SkeletonButton">
-                                    <div class="SkeletonButtonInner"></div>
-                                </div>
-                                <div class="SkeletonButton">
-                                    <div class="SkeletonButtonInner"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="ExpressCheckoutDivider">
-                            <div class="Divider"></div>
-                        </div>
-                    </div>
-                    <div class="BlockStack BlockStack--spacing-large200">
-                        <div class="BlockStack BlockStack--spacing-base">
-                            <span class="Text Text--size-large"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-small"><span></span></span></span></span>
-                            <div class="BlockStack BlockStack--spacing-small300"><span class="Text Text--size-small"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-full"><span></span></span></span></span><span class="Text Text--size-small"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-full"><span></span></span></span></span></div>
-                        </div>
-                        <div class="Divider"></div>
-                        <div class="BlockStack BlockStack--spacing-base">
-                            <span class="Text Text--size-large"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-small"><span></span></span></span></span>
-                            <div class="BlockStack BlockStack--spacing-small300"><span class="Text Text--size-small"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-full"><span></span></span></span></span><span class="Text Text--size-small"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-full"><span></span></span></span></span></div>
-                        </div>
-                    </div>
-                </main>
-            </div>
-        </div>
-        <div class="LoadingShellOrderSummary colorSchemeScheme2 backgroundColorBase">
-            <div class="LoadingShellOrderSummaryContent">
-                <aside class="LoadingShellOrderSummaryContentPrimary FadeIn">
-                    <div class="BlockStack BlockStack--spacing-large200">
-                        <h2 class="VisuallyHidden"></h2>
-                        <div class="LoadingShellLineItems">
-                            <div class="LoadingShellLine">
-                                <div class="LoadingShellLineImageWrapper">
-                                    <div class="SkeletonImage SkeletonImage--corner-radius-base"><span class="SkeletonImageInner"></span></div>
-                                </div>
-                                <div class="LoadingShellLineContent">
-                                    <div class="BlockStack BlockStack--spacing-small500"><span class="Text Text--size-small"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-base"><span></span></span></span></span><span class="Text Text--size-small"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-small"><span></span></span></span></span></div>
-                                </div>
-                                <div class="LoadingShellLinePrice"><span class="Text Text--size-small"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-small"><span></span></span></span></span></div>
-                            </div>
-                        </div>
-                        <div class="BlockStack BlockStack--spacing-small100">
-                            <div class="InlineStack InlineStack--spacing-base InlineStack--block-alignment-start InlineStack--inline-alignment-spaceBetween"><span class="Text Text--size-small"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-small"><span></span></span></span></span><span class="Text Text--size-small"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-small"><span></span></span></span></span></div>
-                            <div class="InlineStack InlineStack--spacing-base InlineStack--block-alignment-start InlineStack--inline-alignment-spaceBetween"><span class="Text Text--size-small"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-small"><span></span></span></span></span><span class="Text Text--size-small"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-small"><span></span></span></span></span></div>
-                            <div class="InlineStack InlineStack--spacing-base InlineStack--block-alignment-start InlineStack--inline-alignment-spaceBetween"><span class="Text Text--size-small"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-small"><span></span></span></span></span><span class="Text Text--size-small"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-small"><span></span></span></span></span></div>
-                            <div class="InlineStack InlineStack--spacing-base InlineStack--block-alignment-start InlineStack--inline-alignment-spaceBetween"><span class="Text Text--size-large"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-small"><span></span></span></span></span><span class="Text Text--size-large"><span class="SkeletonText"><span class="SkeletonTextInner SkeletonTextInner--inline-size-small"><span></span></span></span></span></div>
-                        </div>
-                    </div>
-                </aside>
-            </div>
-        </div>
-    </div>
-</div>
 
-<link rel="stylesheet" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/app.Bq0sGAT6.css" crossorigin fetchPriority="high" integrity="sha384-l7UMdwhvQxGjFsMbzAlCR33GNOnP1P2pa7nmlA3zaSR8lCkE6F5uRTyTZMbG7hEz"/>
-<link rel="stylesheet" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/OnePage.PMX4OSBO.css" crossorigin fetchPriority="high" integrity="sha384-fXxzBn5U+tPzlLziVftrFozIo44RXz+ILhGMI0pxK2OFG0IIb9IDI/JhLVtlPgpw"/>
-<link rel="stylesheet" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/DeliveryMethodSelectorSection.DmqjTkNB.css" crossorigin fetchPriority="high" integrity="sha384-WE9mMSSTIPqRgp48SqCveBxJDL8czc063ouaF9zf3wgZIC1hvpA9jdG/oVJ113tK"/>
-<link rel="stylesheet" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/useEditorShopPayNavigation.DCOTvxC3.css" crossorigin fetchPriority="high" integrity="sha384-X/YzdS3hddk0DqXAgzzrK66heaZRe+ilSSW6Q666YtqAE+MVJ3+SsO8Ur1dfy4u5"/>
-<link rel="stylesheet" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/VaultedPayment.OxMVm7u-.css" crossorigin fetchPriority="high" integrity="sha384-ZZgULcXIx8Z9zr9ZA1MLZctJEtkQTSwwBc2N7WYoWNZkPiMYDx3mGNDEFflydb2k"/>
-<link rel="stylesheet" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/StackedMerchandisePreview.CKAakmU8.css" crossorigin fetchPriority="high" integrity="sha384-rjvDhaOig7WftE7Gr282PJ+SONOv0I+viBo35zE2EAEjdFRCPRK8lj9DSJqyylu6"/>
-<link rel="stylesheet" href="https://cdn.shopify.com/shopifycloud/checkout-web/assets/c1.en/assets/ShopPayVerificationSwitch.DW7NMDXG.css" crossorigin fetchPriority="high" integrity="sha384-mbvKfRNVpj990WjCXT9x4DHmAC43TpVZviT1nSBTbrTiynqSn+rILBYz0ul6tFym"/>
+        .fieldset {
+            margin: -0.45em;
+            zoom: 1;
+        }
+
+        .fieldset:after, .fieldset:before {
+            content: "";
+            display: table;
+        }
+
+        .fieldset:after {
+            clear: both;
+        }
+
+        .fieldset .field {
+            width: 100%;
+            float: left;
+            padding: 0.45em;
+            box-sizing: border-box;
+        }
+
+        .fieldset .field .field-input-btn-wrapper {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+        }
+
+        .fieldset .field .field-input-btn-wrapper .field-input-btn {
+            width: auto;
+            margin-left: 0.9em;
+            white-space: nowrap;
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .fieldset .field .field-input-btn-wrapper .field-input-wrapper {
+            -webkit-flex-grow: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+        }
+
+        .fieldset .field .field-input-wrapper {
+            position: relative;
+        }
+
+        .fieldset .field .field-input-wrapper .field-label {
+            font-size: 0.85714em;
+            font-weight: normal;
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 0 0.93333em;
+            z-index: 1;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-transform: translateY(3px);
+            transform: translateY(3px);
+            pointer-events: none;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            box-sizing: border-box;
+            opacity: 0;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=" 0 ")";
+            filter: alpha(opacity=0);
+            color: #999999;
+            transition: all 0.2s ease-out;
+            margin: 0.5em 0;
+            margin-top: 0.3em;
+            display: block;
+        }
 
 
 
 
+        .fieldset .field .field-input-wrapper .field-description {
+            display: block;
+            margin-left: 25px;
+            margin-top: 2px;
+        }
 
-<meta name="serialized-session-token" content="&quot;andYdjZtUHJmaUZsRWdRRU02SDIzcHRzUlVtWUtDOXlBM3BxYjU2TmIyMzNWSklML2JQQTJna3RKU21aUnJ1TnovQml2RVlBbTBOMlBXWFM5OGxwcktSdml0b1p0V2Fwa3grMkVzZHpvM20rRWVWVEhJM0dWeGlxRDJKamVWRXRwRm1OMUZVUGNtdTY4Nmc1bWNJNFgwR1hvWG11YmF0SmtKY0R1cUhMSEM4M2t1a1dOTGt5aE5lL1pac0dUTmYyMTU0VGVyLzNMZ00rMDEzWno0bHpFdnh0NVlrQkx0TUp2MWhBL2UrLzhwcWlFaS9ET05kZ0FUWlBRVGJwL3lIdHFKQVQrR01wYWtvVjJqSmFMSUpKT1NCMlFMRVdOc1UxUjNDeU1OM0RGUVdjNU1ndjZ0YTktLU5EVC9IZU1hTEVrR2JhZ1AtLTNvaFJIMkZwdVJUejRrYkNOeWpZN2c9PQ&quot;"/>
-<meta name="serialized-source-token" content="&quot;Z2NwLWFzaWEtc291dGhlYXN0MTowMUpRS0owNkQ4QzZOWkFWUjNKSDRXSkM2UA&quot;"/>
-<meta name="serialized-checkout-session-identifier" content="&quot;e02ac6b0afa5aaf089ebfe6f1b4bd743&quot;"/>
-<meta name="serialized-graphql-endpoint" content="&quot;https://mymonsteraudio.com/checkouts/unstable/graphql&quot;"/>
-<meta name="serialized-deploy-stage" content="&quot;production&quot;"/>
-<meta name="serialized-client-bundle-info" content="{&quot;browsers&quot;:&quot;latest&quot;,&quot;format&quot;:&quot;es&quot;,&quot;locale&quot;:&quot;en&quot;,&quot;sha&quot;:&quot;ef6c318e526e0d6670467eefc16f5b2d7cc4defc&quot;}"/>
-<meta name="serialized-public-path" content="&quot;https://cdn.shopify.com/shopifycloud/checkout-web/assets/&quot;"/>
-<meta name="serialized-receipt" content="{&quot;id&quot;:null,&quot;exists&quot;:false,&quot;inProgress&quot;:false,&quot;orderStatusPageUrl&quot;:null,&quot;shopPay&quot;:false,&quot;processingErrorFailure&quot;:null,&quot;purchaseOrder&quot;:null,&quot;latestReceipt&quot;:{&quot;__typename&quot;:&quot;ReceiptNotFound&quot;}}"/>
-<meta name="serialized-request-id" content="&quot;92aa4a18eca7dd62&quot;"/>
-<meta name="serialized-server-handling" content="&quot;fast&quot;"/>
-<meta name="serialized-server-render" content="&quot;yes&quot;"/>
-<meta name="serialized-worker-version" content="&quot;fast&quot;"/>
-<meta name="serialized-session-finished" content="false"/>
-<meta name="serialized-api-client-id" content="580111"/>
-<meta name="serialized-redesign-enabled" content="true"/>
-<meta name="serialized-shop" content="{&quot;id&quot;:&quot;gid://shopify/Shop/31987892355&quot;,&quot;name&quot;:&quot;{{ $config->web_title }}&quot;,&quot;domain&quot;:&quot;mymonsteraudio.com&quot;,&quot;myshopifyDomain&quot;:&quot;mymonsteraudio.myshopify.com&quot;,&quot;origins&quot;:[&quot;https://mymonsteraudio.myshopify.com&quot;,&quot;https://mymonsteraudio.com&quot;,&quot;https://www.mymonsteraudio.com&quot;,&quot;https://mymonsteraudio.account.myshopify.com&quot;]}"/>
-<meta name="serialized-login-url" content="&quot;https://mymonsteraudio.com/account/login?checkout_url=%2Fcheckouts%2Fcn%2FZ2NwLWFzaWEtc291dGhlYXN0MTowMUpRS0owNkQ4QzZOWkFWUjNKSDRXSkM2UA%3Fcompany_location_id%26locale%3Den-VN&quot;"/>
-<meta name="serialized-logout-url" content="&quot;https://mymonsteraudio.com/account/logout?return_url=%2Fcheckouts%2Fcn%2FZ2NwLWFzaWEtc291dGhlYXN0MTowMUpRS0owNkQ4QzZOWkFWUjNKSDRXSkM2UA%3Fcompany_location_id%3D%26locale%3Den-VN&quot;"/>
-<meta name="serialized-invoice-login-type" content="null"/>
-<meta name="serialized-experiments" content="[{&quot;clientHandle&quot;:&quot;e_bf227cfbfe18b1093d773233402027b1&quot;,&quot;variant&quot;:null}]"/>
-<meta name="serialized-extensions-assets-path" content="&quot;https://extensions.shopifycdn.com/shopifycloud/checkout-web/assets/&quot;"/>
-<meta name="serialized-renderer" content="&quot;cloudflare&quot;"/>
+        .fieldset .field .field-input-wrapper.field-input-wrapper-select {
+        }
+
+        .fieldset .field .field-input-wrapper.field-input-wrapper-select::before {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMSIgaGVpZ2h0PSIxOSIgdmlld0JveD0iMCAwIDIxIDE5Ij48dGl0bGU+QXJ0Ym9hcmQgMTwvdGl0bGU+PGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+PGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj48ZyBmaWxsPSIjMDAwIj48Zz48cGF0aCBkPSJNMCAwaDF2MTlIMFYweiIgaWQ9IlNoYXBlIiBmaWxsLW9wYWNpdHk9Ii4xNSIvPjxwYXRoIGQ9Ik0xMSA4aDEwbC01IDUtNS01eiIgZmlsbC1vcGFjaXR5PSIuNSIvPjwvZz48L2c+PC9nPjwvc3ZnPg=='),none;
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 50px;
+            background-position: center center;
+            background-repeat: no-repeat;
+            pointer-events: none;
+        }
+
+        .fieldset .field .field-message {
+            font-size: 0.85714em;
+        }
+
+        .fieldset .field .field-message.field-message-error {
+            margin: 0;
+            display: none;
+            margin: 0.75em 0 0.25em;
+            transition: all 0.3s ease-out;
+            line-height: 1.3em;
+            color: #ff6d6d
+        }
+
+        .fieldset .field.field-active {
+        }
+
+        .fieldset .field.field-active .field-input-wrapper .field-label {
+            color: #737373;
+        }
+
+        .fieldset .field.field-show-floating-label {
+        }
+
+        .fieldset .field.field-show-floating-label .field-input-wrapper .field-label {
+            -webkit-transform: none;
+            transform: none;
+            opacity: 1;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=" 100 ")";
+            filter: alpha(opacity=100);
+        }
+
+        .fieldset .field.field-show-floating-label .field-input-wrapper .field-input {
+            padding-top: 1.5em;
+            padding-bottom: 0.38em;
+        }
+
+        .fieldset .field.field-show-floating-label .field-input-wrapper .field-input::-webkit-input-placeholder {
+            color: transparent;
+        }
+
+        .fieldset .field.field-show-floating-label .field-input-wrapper .field-input::-moz-placeholder {
+            color: transparent;
+        }
+
+        .fieldset .field.field-show-floating-label .field-input-wrapper .field-input::-moz-placeholder {
+            color: transparent;
+        }
+
+        .fieldset .field.field-show-floating-label .field-input-wrapper .field-input::-ms-input-placeholder {
+            color: transparent;
+        }
+
+        .fieldset .field.field-error {
+        }
+
+        .fieldset .field.field-error .field-input-wrapper {
+        }
+
+        .fieldset .field.field-error .field-message.field-message-error {
+            display: block;
+        }
+
+        .wrap {
+            margin: 0 auto;
+            max-width: 40em;
+            zoom: 1;
+        }
+
+        .wrap:after {
+            clear: both;
+        }
+
+        .wrap:after, .wrap:before {
+            content: "";
+            display: table;
+        }
+
+        .sidebar {
+            position: relative;
+            color: #717171;
+        }
+
+        .sidebar h2 {
+            color: #323232;
+        }
+
+        .sidebar:after {
+            content: "";
+            display: block;
+            width: 300%;
+            position: absolute;
+            top: 0;
+            left: -100%;
+            bottom: 0;
+            background: #fafafa;
+
+            z-index: -1;
+            box-shadow: 0 -1px 0 #e1e1e1 inset;
+        }
+
+        .sidebar .sidebar-content {
+        }
+
+        .sidebar .sidebar-content .order-summary {
+        }
+
+        .sidebar .sidebar-content .order-summary .order-summary-sections {
+        }
+
+        .sidebar .sidebar-content .order-summary .order-summary-sections .order-summary-section {
+            border-top: 1px solid;
+            padding-top: 1.5em;
+            padding-bottom: 1em;
+            border-color: #e1e1e1;
+        }
+
+        .sidebar .sidebar-content .order-summary .order-summary-sections .order-summary-section:first-child {
+            border-top: none;
+        }
+
+        .sidebar .sidebar-content .order-summary .order-summary-emphasis {
+            font-weight: 500;
+            color: #4b4b4b;
+        }
+
+        .sidebar .sidebar-content .order-summary .order-summary-small-text {
+            font-size: 0.85714em;
+            color: #969696;
+        }
+
+        .sidebar .sidebar-content .order-summary .product {
+        }
+
+        .sidebar .sidebar-content .order-summary .product:first-child td {
+            padding-top: 0;
+        }
+
+        .sidebar .sidebar-content .order-summary .product td {
+            padding-top: 1em;
+        }
+
+        .sidebar .sidebar-content .order-summary .product .product-image {
+        }
+
+        .sidebar .sidebar-content .order-summary .product .product-image .product-thumbnail {
+            width: 4.6em;
+            height: 4.6em;
+            border-radius: 8px;
+            background: #fff;
+            position: relative;
+        }
+
+        .sidebar .sidebar-content .order-summary .product .product-image .product-thumbnail .product-thumbnail-wrapper {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .sidebar .sidebar-content .order-summary .product .product-image .product-thumbnail .product-thumbnail-wrapper .product-thumbnail-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            max-width: 100%;
+            max-height: 100%;
+            margin: auto;
+        }
+
+        .sidebar .sidebar-content .order-summary .product .product-image .product-thumbnail .product-thumbnail-quantity {
+            font-size: 0.85714em;
+            font-weight: 500;
+            white-space: nowrap;
+            padding: 0.15em 0.65em;
+            border-radius: 2em;
+            background-color: rgba(153,153,153,0.9);
+            color: #fff;
+            position: absolute;
+            right: -0.75em;
+            top: -0.75em;
+            z-index: 2;
+        }
+
+        .sidebar .sidebar-content .order-summary .product .product-image .product-thumbnail::after {
+            content: '';
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            border-radius: 8px;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.1) inset;
+        }
+
+        .sidebar .sidebar-content .order-summary .product .product-description {
+            width: 100%;
+        }
+
+        .sidebar .sidebar-content .order-summary .product .product-description .product-description-name,
+        .sidebar .sidebar-content .order-summary .product .product-description .product-description-variant,
+        .sidebar .sidebar-content .order-summary .product .product-description .product-description-property {
+            display: block;
+        }
+
+        .sidebar .sidebar-content .order-summary .product .product-quantity {
+        }
+
+        .sidebar .sidebar-content .order-summary .product .product-price {
+            white-space: nowrap;
+        }
+
+        .sidebar .btn-disabled {
+            cursor: default;
+            background:  #c8c8c8;
+            box-shadow: none;
+        }
+
+
+        .logo-text {
+            color: #333333;
+        }
+
+        .main {
+        }
+
+        .main .main-header {
+        }
+
+        .main .main-header .logo {
+            display: none;
+        }
+
+        .main .main-header .breadcrumb {
+        }
+
+        .main .main-header .breadcrumb .breadcrumb-item {
+            display: inline-block;
+            font-size: 0.85714em;
+            color: #999999;
+        }
+
+        .main .main-header .breadcrumb .breadcrumb-item.breadcrumb-item-current {
+            font-weight: 500;
+            color: #4d4d4d;
+        }
+
+        .main .main-header .breadcrumb .breadcrumb-item:after {
+            content: "";
+            display: inline-block;
+            width: 6px;
+            height: 11px;
+            vertical-align: middle;
+            margin: 0 0.5em;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2IiBoZWlnaHQ9IjExIiBvcGFjaXR5PSIuNCIgZmlsbD0iIzAwMCI+PHBhdGggZD0iTS41MjYgMS40MDhsNCA0LjY0NS4wMTQtLjgzLTQgNC4zNTQuOTIuODQ2IDQtNC4zNTYuMzc2LS40MS0uMzYyLS40Mi00LTQuNjQ1LS45NDguODE2eiIvPjwvc3ZnPg=='),none;
+        }
+
+        .main .main-header .breadcrumb .breadcrumb-item:last-child:after {
+            display: none;
+        }
+
+        .main .main-header .breadcrumb .breadcrumb-item .breadcrumb-link {
+            cursor: pointer;
+        }
+
+        .main .main-footer {
+            padding: 1em 0;
+            border-top: 1px solid #e6e6e6;
+        }
+
+        .main h2 {
+            color: #333333;
+        }
+
+        .field-label-strong {
+            font-weight: 600;
+        }
+
+        .ctrl_payment_method {
+            padding: 10px 60px;
+        }
+
+        .ctrl_payment_method > label {
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .ctrl_payment_method .payment_method_list {
+            padding-left: 10px;
+        }
+
+        .total-line {
+        }
+
+        .total-line td {
+            padding-top: 0.75em;
+        }
+
+        .total-line-table-footer .total-line td {
+            padding-top: 3em;
+            position: relative;
+        }
+
+        .total-line-table-footer .total-line td::before {
+            background-color: #e1e1e1;
+            content: '';
+            position: absolute;
+            top: 1.5em;
+            left: 0;
+            width: 100%;
+            height: 1px;
+        }
+
+        .payment-due-label {
+        }
+
+        .payment-due-label .payment-due-label-total {
+            font-size: 1.14286em;
+            color: #4b4b4b;
+        }
+
+        .payment-due {
+        }
+
+        .payment-due .payment-due-currency {
+            font-size: 0.85714em;
+            vertical-align: 0.2em;
+            margin-right: 0.5em;
+            color: #969696;
+        }
+
+        .payment-due .payment-due-price {
+            font-size: 1.71429em;
+            font-weight: 500;
+            letter-spacing: -0.04em;
+            color: #4b4b4b;
+            line-height: 1em;
+        }
+
+        .applied-reduction-code {
+            margin-left: 0.5em;
+        }
+
+        .applied-reduction-code .applied-reduction-code-icon {
+            fill: #338dbc;
+            vertical-align: middle;
+            margin-right: 0.14286em;
+        }
+
+        .applied-reduction-code .applied-reduction-code-information {
+            font-size: 0.85714em;
+            color: #338dbc;
+            font-weight: 500;
+        }
+
+        .applied-reduction-code-clear-button {
+            vertical-align: middle;
+            margin-left: 0.28571em;
+        }
+
+        .hanging-icon {
+            margin-right: 0.75em;
+            stroke: #338dbc;
+        }
+
+        .hanging-icon.hanging-icon-error {
+            stroke: #ff6d6d;
+        }
+
+        .os-header {
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            -webkit-align-items: center;
+            -ms-flex-align: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        .os-header .os-header-heading {
+            -webkit-flex-grow: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+        }
+
+        .os-header .os-header-heading .os-order-number {
+            display: block;
+        }
+
+        .os-header .os-header-heading .os-header-title {
+            font-size: 1.5em;
+            margin-bottom: 0.1em;
+        }
+
+        .os-header .os-header-heading .os-description {
+            color: #4d4d4d;
+        }
+
+        .wrap {
+            margin: 0 auto;
+            max-width: 40em;
+            zoom: 1;
+        }
+
+        .wrap:after, .wrap:before {
+            content: "";
+            display: table;
+        }
+
+        .order-summary-toggle {
+            background: #fafafa;
+            border-top: 1px solid #e6e6e6;
+            border-bottom: 1px solid #e6e6e6;
+            padding: 1.25em 0;
+            -webkit-flex-shrink: 0;
+            -ms-flex-negative: 0;
+            flex-shrink: 0;
+            text-align: left;
+            width: 100%;
+        }
+
+        .order-summary-toggle .order-summary-toggle-inner {
+            display: table;
+            box-sizing: border-box;
+            width: 100%;
+            zoom: 1;
+        }
+
+        .order-summary-toggle .order-summary-toggle-inner:after,
+        .order-summary-toggle .order-summary-toggle-inner:before {
+            content: "";
+            display: table;
+        }
+
+        .order-summary-toggle .order-summary-toggle-inner .order-summary-toggle-icon-wrapper {
+            display: table-cell;
+            vertical-align: middle;
+            padding-right: 0.75em;
+            white-space: nowrap;
+        }
+
+        .order-summary-toggle .order-summary-toggle-inner .order-summary-toggle-icon-wrapper .order-summary-toggle-icon {
+            fill: #338dbc ;
+            transition: fill 0.2s ease-in-out;
+        }
+
+
+
+        .order-summary-toggle .order-summary-toggle-inner .order-summary-toggle-text {
+            color:#338dbc;
+            vertical-align: middle;
+            transition: color 0.2s ease-in-out;
+            display: none;
+        }
+
+        .order-summary-toggle .order-summary-toggle-inner .order-summary-toggle-text .order-summary-toggle-dropdown {
+            vertical-align: middle;
+            transition: fill 0.2s ease-in-out;
+            fill: #338dbc;
+        }
+
+        .order-summary-toggle .order-summary-toggle-inner .order-summary-toggle-total-recap {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: right;
+            padding-left: 0.75em;
+            white-space: nowrap;
+        }
+
+        .order-summary-toggle .order-summary-toggle-inner .order-summary-toggle-total-recap .total-recap-final-price {
+            font-size: 1.28571em;
+            line-height: 1em;
+            color: #4d4d4d;
+        }
+
+        .order-summary-toggle.order-summary-toggle-show {
+        }
+
+        .order-summary-toggle.order-summary-toggle-hide .order-summary-toggle-inner .order-summary-toggle-text.order-summary-toggle-text-show,
+        .order-summary-toggle.order-summary-toggle-show .order-summary-toggle-inner .order-summary-toggle-text.order-summary-toggle-text-hide {
+            display: table-cell;
+            width: 100%;
+        }
+
+        .logged-in-customer-information {
+            display: table;
+            box-sizing: border-box;
+            width: 100%;
+            margin-bottom: 1.5em;
+        }
+
+        .logged-in-customer-information:after,
+        .logged-in-customer-information:before {
+            content: "";
+            display: table;
+        }
+
+        .logged-in-customer-information .logged-in-customer-information-avatar-wrapper {
+            display: table-cell;
+            padding-right: 1em;
+            white-space: nowrap;
+            vertical-align: middle;
+        }
+
+        .logged-in-customer-information .logged-in-customer-information-avatar-wrapper .logged-in-customer-information-avatar {
+            border-radius: 8px;
+            background-size: cover;
+            position: relative;
+            max-width: none;
+            width: 50px;
+            height: 50px;
+            overflow: hidden;
+        }
+
+        .logged-in-customer-information .logged-in-customer-information-avatar-wrapper .logged-in-customer-information-avatar:before {
+            content: '';
+            display: block;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: -1;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIj48dGl0bGU+QXJ0Ym9hcmQ8L3RpdGxlPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+PHBhdGggZD0iTTAgMGg1MHY1MEgwVjB6IiBmaWxsPSIjRDhEOEQ4Ii8+PHBhdGggZD0iTTI1LjEwMyAyNi4yNDJjMy4yMTIgMCA1LjY0Mi0yLjkyIDUuNjQyLTYuNzg3IDAtMy4wODYtMi41OC01LjcwNS01LjY0Mi01LjcwNS0zLjA2IDAtNS42NCAyLjYyLTUuNjQgNS43MDUgMCAzLjg2NiAyLjQzIDYuNzg3IDUuNjQgNi43ODd6bTAtMTAuNTRjMS45NTIgMCAzLjY3OCAxLjc2MyAzLjY3OCAzLjc1MyAwIDIuNzU3LTEuNTc0IDQuODM1LTMuNjc3IDQuODM1LTIuMTAzIDAtMy42NzctMi4wNzgtMy42NzctNC44MzUgMC0xLjk5IDEuNzI2LTMuNzUzIDMuNjc3LTMuNzUzem0tOC40NSAyMC42MTVsLjE3Ny0xLjg3N2MuMzktMy43NzggNC42OTctNC42MSA4LjI3My00LjYxIDMuNTc3IDAgNy44ODQuODMyIDguMjc0IDQuNTk4bC4xNzYgMS44OWgyLjAxNWwtLjE3Ni0yLjA4Yy0uNDQtNC4xMTctNC4wNjgtNi4zODQtMTAuMjktNi4zODQtNi4yMiAwLTkuODQ2IDIuMjY3LTEwLjI4NyA2LjM5N2wtLjE3NiAyLjA2N2gyLjAxNHoiIGZpbGw9IiNGRkYiLz48L2c+PC9zdmc+'),none;
+        }
+
+        .logged-in-customer-information .logged-in-customer-information-paragraph {
+            display: table-cell;
+            width: 100%;
+            padding-top: 0.25em;
+            vertical-align: middle;
+        }
+
+        @media (min-width: 1300px) {
+            .hanging-icon {
+                position: absolute;
+                right: 100%;
+                top: 50%;
+                -webkit-transform: translateY(-50%);
+                transform: translateY(-50%);
+                margin-right: 1.5em;
+            }
+        }
+
+        @media (min-width: 1000px) {
+            .wrap {
+                padding: 0 5%;
+                width: 90%;
+                max-width: 78.57143em;
+            }
+
+            .order-summary-toggle {
+                display: none;
+            }
+
+            .flexbox .content .wrap {
+                -webkit-flex-direction: row-reverse;
+                -ms-flex-direction: row-reverse;
+                flex-direction: row-reverse;
+            }
+
+            .main {
+                width: 52%;
+                width: 52%;
+                padding-right: 6%;
+                /* float: left;*/
+            }
+
+            .main .main-header {
+                padding-bottom: 1em;
+            }
+
+            .main .main-header .logo {
+                display: block;
+            }
+
+            .main .main-header .breadcrumb {
+                margin-top: 1em;
+            }
+
+            .sidebar {
+                width: 38%;
+                padding-left: 4%;
+                background-position: left top;
+                /* float: right; */
+            }
+
+            .sidebar:after {
+                left: 0;
+                background-position: left top;
+                box-shadow: 1px 0 0 #e1e1e1 inset;
+            }
+
+            .sidebar .sidebar-content .order-summary .order-summary-sections .order-summary-section:first-child {
+                padding-top: 0;
+            }
+        }
+
+        @media (max-width: 999px) {
+            .content {
+            }
+
+            .content.content-second {
+                display: block;
+            }
+
+            .wrap {
+                width: 100%;
+                box-sizing: border-box;
+                padding: 0 1em;
+            }
+
+            .banner {
+                display: block;
+            }
+
+            .banner.error{
+                padding-bottom: 100px;
+            }
+
+            #checkout_order_information_changed_error_message {
+                position: absolute;
+                top: 60px;
+                left: 15px;
+                width: calc(100% - 30px);
+                margin-bottom: 0 !important;
+            }
+
+            .main .main-header .breadcrumb {
+                display: none;
+            }
+
+            .sidebar .sidebar-content .order-summary.order-summary-is-collapsed {
+                height: 0;
+                overflow: hidden;
+            }
+        }
+
+        @media (max-width: 999px) and (min-width: 750px) {
+            .hanging-icon {
+                position: absolute;
+                right: 100%;
+                top: 50%;
+                -webkit-transform: translateY(-50%);
+                transform: translateY(-50%);
+                margin-right: 1.5em;
+            }
+        }
+
+        @media (min-width: 750px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .main {
+                padding-top: 1.5em;
+            }
+
+            .main .main-content {
+                padding-bottom: 4em;
+            }
+
+            .step-footer {
+                display: -webkit-flex;
+                display: -ms-flexbox;
+                display: flex;
+                -webkit-flex-direction: row-reverse;
+                -ms-flex-direction: row-reverse;
+                flex-direction: row-reverse;
+                -webkit-align-items: center;
+                -ms-flex-align: center;
+                align-items: center;
+                margin-top: 1.5em;
+            }
+
+            .step-footer .step-footer-continue-btn {
+                -webkit-flex: 0 0 auto;
+                -ms-flex: 0 0 auto;
+                flex: 0 0 auto;
+                float: right;
+            }
+
+            .step-footer .step-footer-previous-link {
+                -webkit-flex: 1 1 auto;
+                -ms-flex: 1 1 auto;
+                flex: 1 1 auto;
+                margin-right: 1em;
+                float: left;
+                display: block;
+            }
+
+            .step-footer .step-footer-info {
+                -webkit-flex: 1 1 auto;
+                -ms-flex: 1 1 auto;
+                flex: 1 1 auto;
+                margin-right: 1em;
+                float: left;
+            }
+
+            .section {
+                padding-top: 3em;
+            }
+
+            .section.thank-you-checkout-info {
+                padding-top: 1.5em;
+            }
+
+            .section .section-header {
+                margin-bottom: 1.5em;
+            }
+
+            .field-half {
+                width: 50% !important;
+            }
+
+            .field-two-thirds {
+                width: 66.66667% !important;
+            }
+
+            .field-third {
+                width: 33.33333% !important;
+            }
+
+            .os-header {
+                margin: 0 0 -0.5em !important;
+            }
+
+            .icon {
+            }
+
+            .icon.icon-closed-box {
+                width: 108px;
+                height: 85px;
+                background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDgiIGhlaWdodD0iODUiIHZpZXdCb3g9IjAgMCAxMDggODUiPjxnIHN0cm9rZT0iI0IyQjJCMiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGZpbGw9Im5vbmUiPjxwYXRoIGQ9Ik0xIDE4aDEwNk0xMSA3MC4zaDI2bS0yNi02aDI2bS0yNi02aDE3Ii8+PC9nPjxwYXRoIHN0cm9rZT0iI0IyQjJCMiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGQ9Ik0xIDE4bDEwLjctMTdoODQuN2wxMC42IDE3djYxLjVjMCAyLjUtMiA0LjUtNC41IDQuNWgtOTdjLTIuNSAwLTQuNS0yLTQuNS00LjV2LTYxLjV6TTU0IDF2MTYuNiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg=='),none;
+            }
+
+            .icon.icon-closed-box.has-error {
+                width: 108px;
+                height: 85px;
+                background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDgiIGhlaWdodD0iODUiIHZpZXdCb3g9IjAgMCAxMDggODUiPjxnIHN0cm9rZT0iI2ZmNmQ2ZCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGZpbGw9Im5vbmUiPjxwYXRoIGQ9Ik0xIDE4aDEwNk0xMSA3MC4zaDI2bS0yNi02aDI2bS0yNi02aDE3Ii8+PC9nPjxwYXRoIHN0cm9rZT0iI2ZmNmQ2ZCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbWl0ZXJsaW1pdD0iMTAiIGQ9Ik0xIDE4bDEwLjctMTdoODQuN2wxMC42IDE3djYxLjVjMCAyLjUtMiA0LjUtNC41IDQuNWgtOTdjLTIuNSAwLTQuNS0yLTQuNS00LjV2LTYxLjV6TTU0IDF2MTYuNiIgZmlsbD0ibm9uZSIvPjwvc3ZnPg=='),none;
+            }
+        }
+
+        @media (min-width: 1000px) {
+            .main, .sidebar {
+                padding-top: 4em;
+            }
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        @media (max-width: 749px) {
+            .modal-container {
+                display: block;
+            }
+            .tool-tip__info, .tool-tip {
+                display: none !important;
+            }
+            .main {
+                padding-top: 1.5em;
+            }
+
+            .main .main-content {
+                padding-bottom: 1.5em;
+            }
+
+            .section-header {
+                margin-bottom: 1em;
+            }
+
+            .text-center {
+                text-align: left;
+            }
+
+            .btn {
+                width: 100%;
+                padding-top: 1.75em;
+                padding-bottom: 1.75em;
+            }
+
+            .step-footer {
+            }
+
+            .step-footer .step-footer-previous-link {
+                padding-top: 1.5em;
+                text-align: center;
+            }
+
+            .step-footer .step-footer-info {
+                -webkit-justify-content: center;
+                -ms-flex-pack: center;
+                justify-content: center;
+                padding-top: 1.5em;
+                text-align: center;
+            }
+        }
+
+        .thank-you-additional-content {
+            margin-top: 15px;
+            line-height: 1.25em;
+        }
+
+        .blank-slate {
+            white-space: pre-line;
+            padding: 1.5em;
+            text-align: center;
+        }
+        .paylater {
+            padding: .8em;
+            white-space: normal;
+        }
+        .paylater--ul {
+            list-style-type: disc;
+            padding:0 2em ;
+            padding-right: 1em;
+            word-break: break-word;
+        }
+        .paylater--ul li {
+            margin: 5px;
+            text-align: justify;
+        }
+        .blank-slate .blank-slate-icon {
+            margin-bottom: 1em;
+        }
+
+        .dp-none {
+            display: none;
+        }
+
+        .dp-inline-block {
+            display: inline-block;
+        }
+
+        .visually-hidden {
+            border: 0;
+            clip: rect(0, 0, 0, 0);
+            clip: rect(0 0 0 0);
+            width: 2px;
+            height: 2px;
+            margin: -2px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+        }
+
+        .clearfix:after {
+            visibility: hidden;
+            display: block;
+            font-size: 0;
+            content: " ";
+            clear: both;
+            height: 0;
+        }
+
+        .group:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .pt0 {
+            padding-top: 0px !important;
+        }
+
+        .mt0 {
+            margin-top: 0px !important;
+        }
+
+        .mb5 {
+            margin-bottom: 5px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        form#form_update_shipping_method {
+            position: relative;
+        }
+
+        .footer-powered-by {
+            text-align: center;
+            color: #4B5563;
+            font-size: 0.9em;
+        }
+
+        .order-checkout__loading {
+            position: static;
+        }
+
+        .order-checkout__loading--box {
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            display: -webkit-flex;
+            display: flex;
+            opacity: 0;
+            visibility: hidden;
+            justify-content: center;
+            align-items: center;
+            padding: 0;
+        }
+        .checkout-payment__loading--box {
+            position: relative;
+            left: 0;
+            top: 0;
+            z-index: -1;
+            width: 100%;
+            height: 100%;
+            display: -webkit-flex;
+            display: flex;
+            opacity: 0;
+            visibility: hidden;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 0;
+        }
+        .checkout-payment__loading--box p {
+            margin-top:1em;
+        }
+        .checkout-payment__loading--box.show {
+            z-index: 2;
+            visibility: visible;
+            opacity: 1;
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+
+        .order-checkout__loading--box.show {
+            z-index: 2;
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .order-checkout__loading--circle {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #5cabe0;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            margin: 0;
+            -webkit-transform-origin: 50%;
+            -o-transform-origin: 50%;
+            -ms-transform-origin: 50%;
+            transform-origin: 50%;
+            -moz-animation: spin 700ms infinite linear;
+            -ms-animation: spin 1.5s infinite linear;
+            -webkit-animation: spin 700ms infinite linear;
+            -o-animation: spin 700ms infinite linear;
+            animation: spin 700ms infinite linear;
+            z-index: 1;
+        }
+
+        .order-checkout__loading--box.show:after {
+            content: "";
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            z-index: 3;
+        }
+
+
+        .step-sections {
+            position: relative;
+            z-index: 3;
+        }
+
+        @media (max-width: 767px) {
+            .order-checkout__loading--box {
+                position: fixed;
+            }
+
+            .order-checkout__loading--box.show:after {
+                display: none;
+            }
+        }
+
+
+        .order-checkout__loading--show .order-checkout__loading--box {
+            display: block;
+        }
+
+
+        @-moz-keyframes spin {
+            100% {
+                -moz-transform: rotate(360deg);
+            }
+        }
+
+        @-webkit-keyframes spin {
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            100% {
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+            }
+        }
+
+        .redeem-login {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .redeem-login-title {
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .redeem-login-title h2 {
+            color: #333;
+            margin-right: 5px;
+        }
+
+
+        .redeem-login-btn a {
+            display: inline-block;
+            border-radius: 4px;
+            font-weight: 500;
+            padding: 13px 10px;
+            background: #338dbc;
+            color: #fff;
+            width: 82px;
+            text-align: center;
+        }
+        .redeem-login-btn a:hover,.redeem-login-btn a:focus{
+            filter: brightness(1.2);
+        }
+        .redeem-form-used {
+            padding-top: 10px;
+        }
+
+        .btn-redeem-loading .btn-redeem-spinner {
+            -webkit-animation: rotate 0.5s linear infinite;
+            animation: rotate 0.5s linear infinite;
+            opacity: 1;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=" 100 ")";
+            filter: alpha(opacity=100);
+        }
+
+        .icon-redeem-button-spinner {
+            position: absolute;
+            top: 0;
+            opacity: 0;
+            right: -25px;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #999999;
+            border-bottom-color: transparent;
+            border-radius: 100%;
+        }
+
+        .total-line-table-footer {
+            white-space: nowrap;
+        }
+
+        .row-align-top {
+            vertical-align: top;
+        }
+        .section .section-content #form_update_shipping_method.default .content-box .content-box-row.content-box-row-secondary {
+            padding: 0;
+            background: transparent;
+            border: none !important;
+            margin: 0;
+            width: 100%;
+            display: block;
+            box-shadow: unset !important;
+        }
+
+        form#form_update_shipping_method.default {
+            padding: 0;
+        }
+
+        #form_update_shipping_method.default .content-box {
+            box-shadow: unset;
+        }
+
+
+
+
+        .hrv-discount-choose-coupons {
+            cursor: pointer;
+            display: -webkit-flex;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            color: #338dbc;
+        }
+        .hrv-discount-choose-coupons #list_short_coupon {display: -webkit-flex; display: flex; flex-wrap: wrap; justify-content: flex-start; width: 100%;}
+        .hrv-discount-choose-coupons > div:first-child { flex: 0 0 100%; margin-bottom: 10px; }
+        .hrv-discount-choose-coupons #list_short_coupon > span:not(:last-child) {margin-right: 5px;}
+        .hrv-discount-choose-coupons #list_short_coupon > span {overflow: hidden;padding: 6px 0;position: relative; margin-bottom: 5px;}
+        .hrv-discount-choose-coupons #list_short_coupon > span span {
+            border: 1px solid #338dbc;
+            padding: 5px 10px;
+            border-radius: 3px;
+            background: #fff;
+            font-weight: 700;
+            color: #338dbc
+        }
+        .hrv-discount-choose-coupons #list_short_coupon > span:before {
+            content: "";
+            display: block;
+            width: 10px; height: 10px;
+            border: 1px solid #338dbc;
+            background: #fff;
+            z-index: 1; left: -7px; top: 50%;
+            position: absolute;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+
+        .hrv-discount-choose-coupons #list_short_coupon > span:after {
+            content: "";
+            display: block;
+            width: 10px; height: 10px;
+            border:1px solid #338dbc;
+            background: #fff;
+            z-index: 1; right: -7px; top: 50%;
+            position: absolute;
+            border-radius: 50%;
+            transform: translateY(-50%);
+        }
+        .hrv-coupons-popup{
+            width: 375px;
+            transition: opacity 0.5s ease-out;
+            padding: 0;
+            opacity: 1;
+            position: fixed;
+            background: #FFFFFF;
+            box-shadow: 0px 0px 20px rgb(33 33 33 / 20%);
+            border-radius: 8px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-height: 70vh;
+            min-height: 500px;
+            z-index: 1234;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease-out;
+            display: -webkit-flex;
+            display: flex;
+            flex-direction: column;
+        }
+        .hrv-title-coupons-popup {
+            display: flex;
+            padding: 19px 16px;
+            width: calc(100% - 32px);
+            position: relative;
+            box-shadow: inset 0px -1px 0px #eeeeee;
+        }
+        .hrv-title-coupons-popup p {
+            width: 100%;
+            font-weight: 500;
+            font-size: 20px;
+            line-height: 22px;
+            padding-right: 60px;
+            color: #424242;
+        }
+        .hrv-title-coupons-popup div {
+            width: 60px;
+            height: 100%;
+            position: absolute;
+            right: 0;
+            top: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 5;
+        }
+        .hrv-title-coupons-popup div svg {
+            float: right;
+            cursor: pointer;
+        }
+        .hrv-coupons-popup-site-overlay{
+            background: #CFCFCF;
+            position: fixed;
+            opacity: 0.6 !important;
+            top: 0px;
+            right: 0px;
+            left: 0px;
+            bottom: 0px;
+            z-index: 123;
+            visibility: hidden;
+        }
+
+        .hrv-content-coupons-code {
+            overflow-x: hidden !important;
+            overflow-y: auto;
+            max-height: calc(100% - 82px);
+            padding: 11px 12.5px;
+        }
+        div[class*="hrv-discount-code-"].open-more .text-center span:last-child {
+            transform: rotate(180deg);
+            display: inline-block;
+        }
+        h3.coupon_heading {
+            font-size: 16px;
+            line-height: 22px;
+            font-weight: 500;
+            padding: 0 3.5px;
+            width: 100%;
+            color: #424242;
+        }
+
+        @-webkit-keyframes pulse {
+            0% {
+                -webkit-transform: translate(0, 0);
+                transform: translate(0, 0); }
+            50% {
+                -webkit-transform: translate(0, 10px);
+                transform: translate(0, 10px); }
+            100% {
+                -webkit-transform: translate(0, 0);
+                transform: translate(0, 0); }
+        }
+
+        @keyframes pulse {
+            0% {
+                -webkit-transform: translate(0, 0);
+                transform: translate(0, 0); }
+            50% {
+                -webkit-transform: translate(0, 10px);
+                transform: translate(0, 10px); }
+            100% {
+                -webkit-transform: translate(0, 0);
+                transform: translate(0, 0); }
+        }
+        #show_all_coupon{
+            /*-webkit-animation: pulse 1s infinite;
+	animation: pulse 2s infinite;*/
+            height: 40px;
+            width: 100%;
+            color: #338dbc;
+        }
+        #show_all_coupon svg {
+            fill: #338dbc;
+            width: 15px;
+            position: relative;
+        }
+        .active-popup{
+            opacity: 1;
+            visibility: visible;
+        }
+        .hrv-content-coupons-code .coupon_icon {
+            display: flex;
+            width: 100%;
+            align-items: center;
+        }
+        .hrv-content-coupons-code .coupon_item {
+            position: relative;
+            background: #fff;
+            filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, .15));
+            padding: 10px 16px;
+            display: flex;
+            min-height: 80px;
+            border-radius: 5px;
+            margin: 5px 0px 15px 2px;
+        }
+        .hrv-content-coupons-code::-webkit-scrollbar {
+            width: 8px;
+            background-color: transparent;
+        }
+        .hrv-content-coupons-code::-webkit-scrollbar-thumb {
+            background-color: #e0e0e0;
+            border-radius: 4px;
+        }
+        .hrv-content-coupons-code .coupon_item:before {
+            content: "";
+            display: none;
+            position: absolute;
+            top: 0;
+            left: -3px;
+            height: 100%;
+            width: 10px;
+            color: #fff;
+            background-clip: padding-box;
+            background: repeating-linear-gradient(#e5e5e5,#e5e5e5 5px,transparent 0,transparent 9px,#e5e5e5 0,#e5e5e5 10px) 0/1px 100% no-repeat,radial-gradient(circle at 0 7px,transparent,transparent 2px,#e5e5e5ee 0,#e5e5e5 3px,currentColor 0) 1px 0/100% 10px repeat-y;
+        }
+        .hrv-content-coupons-code .coupon_icon > div {flex: 0 0 auto;}
+        .hrv-content-coupons-code .coupon_icon .icon-svg {
+            width: 37px;
+            flex: 0 0 auto;
+            margin-right: 10px;
+            text-align: center;
+        }
+        .hrv-content-coupons-code .coupon_icon .icon-svg svg{
+            width: 100%;
+        }
+        .hrv-content-coupons-code .coupon_body {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            width: 100%;
+            position: relative;
+        }
+        .hrv-content-coupons-code .coupon_body .coupon_head {
+            width: 100%;
+            display: -webkit-flex;
+            display: flex;
+            align-items: center;
+            /* margin-bottom: 10px;
+	position: relative;*/
+        }
+        .coupon_layer {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+        .hrv-content-coupons-code .coupon_item h3.coupon_title {
+            font-size: 16px;
+            width: calc(100% - 47px);
+            margin: 0.25em 0 5px;
+        }
+
+        .hrv-content-coupons-code .coupon_item h3.coupon_title span {
+            font-weight: bold;
+            font-size: 16px;
+            line-height: 20px;
+            color: #212121;
+        }
+        .hrv-content-coupons-code .coupon_item .coupon_desc{ display: none; position: relative; z-index: 2; }
+        .hrv-content-coupons-code .coupon_item .coupon_desc ul,
+        .hrv-content-coupons-code .coupon_item .coupon_desc_short ul{
+            list-style: initial;
+            list-style-position: outside;
+            padding-left: 18px;
+        }
+        .hrv-content-coupons-code .coupon_item .coupon_desc_short.close{ display: none; }
+        .hrv-content-coupons-code .coupon_item .coupon_desc_short.close + .coupon_desc{ display: block; }
+        .hrv-content-coupons-code .coupon_item div[class*="coupon_desc"] {
+            width: 100%; font-size: 14px; color: #212121;
+        }
+        .hrv-content-coupons-code .coupon_item div[class*="coupon_desc"] ul li a {display: block;margin-bottom: 5px;}
+        .hrv-content-coupons-code .coupon_item div[class*="coupon_desc"] ul li a:before{ content: "-"; margin-right: 5px }
+        .hrv-content-coupons-code .coupon_item div[class*="coupon_desc"] ul li br {display: none;}
+
+        .hrv-content-coupons-code .coupon_item div[class*="coupon_desc"] ul li a:first-child {margin-top: 5px;}
+        .hrv-content-coupons-code .coupon_item .coupon_actions {
+            display: -webkit-flex;
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px;
+        }
+        .hrv-content-coupons-code .coupon_item .coupon_more{
+            cursor: pointer;
+            color: #338dbc;
+            margin-top: 0px;
+            position: relative;
+            z-index: 2;
+            font-size: 14px;
+        }
+        .hrv-content-coupons-code .coupon_item .coupon_more.open {font-size: 0px;}
+        .hrv-content-coupons-code .coupon_item .coupon_more.open:before {content: "Thu gọn";font-size:  14px;}
+        .hrv-content-coupons-code .coupon_item .coupon_exp {
+            max-width: calc(100% - 75px);
+            line-height: 20px;
+            margin-top: 0px;
+            font-size: 14px;
+        }
+        .hrv-content-coupons-code .coupon_item .coupon_more svg {
+            fill: #338bdc;
+            width: 10px;
+            margin-left: 8px;
+        }
+        .hrv-content-coupons-code .coupon_item .coupon_more.open svg {
+            transform: rotate(180deg);
+        }
+        .hrv-content-coupons-code .coupon_item .coupon_more.open #show_all_icon {
+            transform: rotate(180deg);
+        }
+        .btn_apply_line_coupon {
+            height: 32px;
+            padding: 5px 10px !important;
+            width: auto !important;
+            background: #338dbc;
+        }
+
+
+
+        @media screen and (max-width: 767px){
+            .hrv-content-coupons-code .coupon_item {
+                padding: 5px 12.5px;
+                width: calc(100% - 25px);
+                margin: 5px 0 15px;
+            }
+            .hrv-coupons-popup {
+                width: 100%;
+                top: unset;
+                bottom: 0;
+                left: 0;
+                height: 80vh;
+                min-height: unset;
+                max-height: unset;
+                border-radius: 8px 8px 0 0;
+                transform: translate(0,0);
+                -webkit-transform: translateY(100%);
+                transform: translateY(100%);
+                -webkit-transition: transform 0.35s ease,bottom 0.25s ease, visibility 0s;
+                transition: transform 0.3;
+            }
+            .hrv-coupons-popup.active-popup {
+                max-height: calc(100% - 60px);
+                -webkit-transform: translateY(0);
+                transform: translateY(0);
+                -webkit-transition-delay: 0.1s;
+                transition-delay: 0.1s;
+                -webkit-transition-duration: 0.3s;
+                transition-duration: 0.3s;
+            }
+
+            .hrv-content-coupons-code .coupon_icon{ padding: 10px 0; }
+        }
+        .sidebar .sidebar-content .order-summary .order-summary-sections .order-summary-section[data-order-summary-section="discount-display"] {
+            padding: 0px;
+            border-top: 0px;
+            padding-bottom: 1.5em;
+        }
+        .order-summary-section.order-summary-section-total-lines.payment-lines[data-order-summary-section="payment-lines"] {
+            padding-top: 1em !important;
+        }
+    </style>
+
+
+
+    <link href='//theme.hstatic.net/200000817091/1001225822/14/check_out.css?v=68' rel='stylesheet' type='text/css'  media='all'  />
+    <script src='//hstatic.net/0/0/global/jquery.min.js' type='text/javascript'></script>
+    <script src='//hstatic.net/0/0/global/api.jquery.js' type='text/javascript'></script>
+    <script src='//hstatic.net/0/0/global/jquery.validate.js' type='text/javascript'></script>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2, user-scalable=no">
+    <script type="text/javascript">
+        var parseQueryString = function(url) {
+
+            var str = url;
+            var objURL = {};
+
+            str.replace(
+                new RegExp("([^?=&]+)(=([^&]*))?", "g"),
+                function($0, $1, $2, $3) {
+
+                    if($3 != undefined && $3 != null)
+                        objURL[$1] = decodeURIComponent($3);
+                    else
+                        objURL[$1] = $3;
+                });
+
+            return objURL;
+        };
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+            setTimeout(function(){
+                var stepCheckout = parseInt($('.step-sections').attr('step'));
+                if (stepCheckout === 1) {
+                    var flagVal = 0;
+                    $('body').on('change', '#stored_addresses', function() {
+                        flagVal = $(this).val();
+                    });
+                    $('body').on('click', '.step-footer-continue-btn', function() {
+                        $(document).ajaxComplete(function(event, xhr, settings) {
+
+                            if (settings.url.indexOf("form_next_step") > -1 ) {
+                                $('#stored_addresses').val(flagVal);
+                            }
+                        });
+                    })
+                    function check_required(){
+                        $('.field-required').each(function(){
+                            var self = $(this).find('input');
+                            var selfSelect = $(this).find('select');
+
+                            if(self.val() !== ''){
+                                self.parent().next().remove();
+                                self.parents('.field-error').removeClass('field-error')
+                            }
+
+                            if(selfSelect !== null || selfSelect !== 0){
+                                selfSelect.parent().next().remove();
+                                selfSelect.parents('.field-error').removeClass('field-error')
+                            }
+                        });
+                    }
+                    $('body').on('change', '#stored_addresses', function(){
+                        check_required();
+                    });
+
+                }
+            },0)
+        })
+    </script>
+
+
+
+
+    <script defer src='https://stats.hstatic.net/beacon.min.js' hrv-beacon-t='200000817091'></script><style>.grecaptcha-badge{visibility:hidden;}</style>
+    <script type='text/javascript'>
+        window.HaravanAnalytics = window.HaravanAnalytics || {};
+        window.HaravanAnalytics.meta = window.HaravanAnalytics.meta || {};
+        window.HaravanAnalytics.meta.currency = 'VND';
+        var meta = {"page":{"pageType":"checkout","resourceType":"checkout","resourceId":"e7177af911e4445b88df44308f2a9d11"},"cart":{"products":[{"variantId":1117424534,"productId":1052209201,"price":2200000000.0,"name":"Ghế công thái học Herman Miller Sayl - Trắng","vendor":"Herman Miller","variant":"Trắng","type":"Ghế công thái học","quantity":1}],"item_count":1,"total_price":2200000000.0}};
+        for (var attr in meta) {
+            window.HaravanAnalytics.meta[attr] = meta[attr];
+        }
+        window.HaravanAnalytics.AutoTrack = true;
+    </script>
+
+</head>
+<body>
+
+<input id="reloadValue" type="hidden" name="reloadValue" value="" />
+<input id="is_vietnam" type="hidden" value="true" />
+<input id="is_vietnam_location" type="hidden" value="true" />
+
 <div id="app" ng-app="App" ng-controller="checkout" ng-cloak>
-    <div style="--swn0j0:rgb(240,196,23);--swn0j1:rgb(0,0,0);--swn0j2:rgb(208,169,18);--swn0j3:rgb(255,252,246);--swn0j4:rgb(255,245,228);--swn0j5:rgb(255,236,198);--swn0j8:rgb(111,104,90);--swn0j9:rgb(26,26,26);--swn0jb:rgb(0,0,0);--swn0ja:rgb(0,0,0);--swn0jc:rgb(255,255,255);--swn0jd:rgb(255,255,255);--swn0j1z:rgba(240,196,23,0.05);--swn0j2o:rgba(240,196,23,0.05);--swn0j39:rgba(240,196,23,0.05);--swn0j5c:rgba(240,196,23,0.05);--swn0j61:rgba(240,196,23,0.05);--swn0j6m:rgba(240,196,23,0.05);--swn0j8p:rgba(240,196,23,0.05);--swn0j9e:rgba(240,196,23,0.05);--swn0j9z:rgba(240,196,23,0.05);--swn0jc2:rgba(240,196,23,0.05);--swn0jcr:rgba(240,196,23,0.05);--swn0jdc:rgba(240,196,23,0.05);">
-        <div class="g9gqqf1 g9gqqf0 _1fragemo8 g9gqqfc g9gqqfa _1fragemth g9gqqf6 g9gqqf2 _1fragemni _1fragemnm">
-            <h1 class="n8k95wf _1fragemsk">{{ $config->web_title }}</h1>
-            <div class="cm5pp U3Rye FeQiM oYrwu _1fragemnm _1fragemni _1fragemth">
-                <header class="EAjaz _8wrz5 d5pfT _1fragemth _1fragemnm _1fragemni">
-                    <div class="i8Dpn">
-                        <div>
-                            <div>
-                                <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem41 _1fragem5u _1fragem2s">
-                                    <div style="--_16s97g7a:1fr;--_16s97g7k:minmax(0, 1fr);--_16s97g71e:minmax(0, 1fr) minmax(auto, max-content);--_16s97g71o:minmax(0, 1fr);" class="_1mrl40q0 _1fragemlt _1fragem4l _1fragem6e _1fragemmi _1fragemmn _1fragem2s _1fragemmd _16s97g7f _16s97g7p _16s97g71j _16s97g71t    _16s97g79l">
-                                        <span><a href="{{ route('front.home-page') }}" class="s2kwpi1 s2kwpi0 _1fragemlt _1fragemsy _1fragemt4 _1fragemss s2kwpi3 s2kwpi7 s2kwpi5 _1fragemso"><span class="pJt3c"><span class="n8k95w1 n8k95w0 _1fragemlt n8k95w2">
-                                                        {{ $config->web_title }}</span></span></a></span>
-                                        <span>
-                      <a aria-label="Cart" id="cart-link" href="{{ route('cart.index') }}" class="s2kwpi1 s2kwpi0 _1fragemlt _1fragemsy _1fragemt4 _1fragemss s2kwpi2 s2kwpi6 s2kwpi4 _1fragemsp">
-                        <span class="a8x1wu2 a8x1wu1 _1fragemor _1fragem1t _1fragemkp _1fragemkf a8x1wug a8x1wuj a8x1wuh _1fragem1y a8x1wup a8x1wul a8x1wut">
-                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" class="a8x1wuv a8x1wuu _1fragem1y _1fragemor _1fragemkp _1fragemkf _1fragemny">
-                            <path d="m2.007 10.156.387-4.983a1 1 0 0 1 .997-.923h7.218a1 1 0 0 1 .997.923l.387 4.983c.11 1.403-1.16 2.594-2.764 2.594H4.771c-1.605 0-2.873-1.19-2.764-2.594"></path>
-                            <path d="M5 3.5c0-1.243.895-2.25 2-2.25S9 2.257 9 3.5V5c0 1.243-.895 2.25-2 2.25S5 6.243 5 5z"></path>
-                          </svg>
-                        </span>
-                      </a>
-                    </span>
-                                    </div>
-                                </div>
+    <div class="banner">
+        <div class="wrap">
+            <a href="/" class="logo">
+
+
+                <h1 class="logo-text">{{ $config->web_title }}</h1>
+
+            </a>
+        </div>
+    </div>
+
+    <button class="order-summary-toggle order-summary-toggle-hide">
+        <div class="wrap">
+            <div class="order-summary-toggle-inner">
+                <div class="order-summary-toggle-icon-wrapper">
+                    <svg width="20" height="19" xmlns="http://www.w3.org/2000/svg" class="order-summary-toggle-icon"><path d="M17.178 13.088H5.453c-.454 0-.91-.364-.91-.818L3.727 1.818H0V0h4.544c.455 0 .91.364.91.818l.09 1.272h13.45c.274 0 .547.09.73.364.18.182.27.454.18.727l-1.817 9.18c-.09.455-.455.728-.91.728zM6.27 11.27h10.09l1.454-7.362H5.634l.637 7.362zm.092 7.715c1.004 0 1.818-.813 1.818-1.817s-.814-1.818-1.818-1.818-1.818.814-1.818 1.818.814 1.817 1.818 1.817zm9.18 0c1.004 0 1.817-.813 1.817-1.817s-.814-1.818-1.818-1.818-1.818.814-1.818 1.818.814 1.817 1.818 1.817z"></path></svg>
+                </div>
+                <div class="order-summary-toggle-text order-summary-toggle-text-show">
+                    <span>Thông tin đơn hàng</span>
+                </div>
+                <div class="order-summary-toggle-text order-summary-toggle-text-hide">
+                    <span>Ẩn thông tin đơn hàng</span>
+                    <svg width="11" height="7" xmlns="http://www.w3.org/2000/svg" class="order-summary-toggle-dropdown" fill="#000"><path d="M6.138.876L5.642.438l-.496.438L.504 4.972l.992 1.124L6.138 2l-.496.436 3.862 3.408.992-1.122L6.138.876z"></path></svg>
+                </div>
+                <div class="order-summary-toggle-total-recap" data-checkout-payment-due-target="{{ $total }}">
+                    <span class="total-recap-final-price">{{number_format($total)}}₫</span>
+                </div>
+            </div>
+        </div>
+    </button>
+    <div class="content content-second">
+        <div class="wrap">
+            <div class="sidebar sidebar-second">
+                <div class="sidebar-content">
+                    <div class="order-summary">
+                        <div class="order-summary-sections">
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content">
+
+        <div class="wrap">
+            <div class="sidebar">
+                <div class="sidebar-content">
+                    <div class="order-summary order-summary-is-expanded">
+                        <h2 class="visually-hidden">Thông tin đơn hàng</h2>
+                        <div class="order-summary-sections">
+                            <div class="order-summary-section order-summary-section-product-list" data-order-summary-section="line-items">
+                                <table class="product-table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col"><span class="visually-hidden">Hình ảnh</span></th>
+                                        <th scope="col"><span class="visually-hidden">Mô tả</span></th>
+                                        <th scope="col"><span class="visually-hidden">Số lượng</span></th>
+                                        <th scope="col"><span class="visually-hidden">Giá</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+
+                                    @foreach($cartCollection as $id => $item)
+                                        <tr class="product" data-product-id="{{ $id }}">
+                                            <td class="product-image">
+                                                <div class="product-thumbnail">
+                                                    <div class="product-thumbnail-wrapper">
+                                                        <img class="product-thumbnail-image" alt="{{ $item->name }}"
+                                                             src="{{ $item->attributes->image }}" />
+                                                    </div>
+                                                    <span class="product-thumbnail-quantity" aria-hidden="true">{{ $item->quantity }}</span>
+                                                </div>
+                                            </td>
+                                            <td class="product-description">
+                                                <span class="product-description-name order-summary-emphasis">{{ $item->name }}</span>
+                                            </td>
+                                            <td class="product-quantity visually-hidden">{{ $item->quantity }}</td>
+                                            <td class="product-price">
+                                                <span class="order-summary-emphasis">{{number_format($item->price * $item->quantity)}}₫</span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            <div class="order-summary-section order-summary-section-total-lines payment-lines" data-order-summary-section="payment-lines">
+                                <table class="total-line-table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col"><span class="visually-hidden">Mô tả</span></th>
+                                        <th scope="col"><span class="visually-hidden">Giá</span></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="total-line total-line-subtotal">
+                                        <td class="total-line-name">Tạm tính</td>
+                                        <td class="total-line-price">
+															<span class="order-summary-emphasis" data-checkout-subtotal-price-target="{{number_format($total)}}">
+																{{number_format($total)}}₫
+															</span>
+                                        </td>
+                                    </tr>
+
+
+                                    <tr class="total-line total-line-shipping">
+                                        <td class="total-line-name">Phí vận chuyển</td>
+                                        <td class="total-line-price">
+															<span class="order-summary-emphasis" data-checkout-total-shipping-target="0">
+
+																	—
+
+															</span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot class="total-line-table-footer">
+                                    <tr class="total-line">
+                                        <td class="total-line-name payment-due-label">
+                                            <span class="payment-due-label-total">Tổng cộng</span>
+                                        </td>
+                                        <td class="total-line-name payment-due">
+                                            <span class="payment-due-currency">VND</span>
+                                            <span class="payment-due-price" data-checkout-payment-due-target="{{number_format($total)}}">
+																{{number_format($total)}}₫
+															</span>
+                                            <span class="checkout_version" display:none data_checkout_version="9">
+															</span>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
                             </div>
                         </div>
                     </div>
-                </header>
-                <aside class="nMPKH iYA3J">
-                    <button aria-controls="disclosure_details" aria-expanded="false" class="WtpiW">
-            <span class="smIFm">
-              <span class="_4ptW6">
-                <span class="fCEli">Order summary</span>
-                <span class="a8x1wu2 a8x1wu1 _1fragemor _1fragem1t _1fragemkp _1fragemkf a8x1wug a8x1wuk a8x1wui _1fragem2i _1fragemta a8x1wum a8x1wul a8x1wut">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" class="a8x1wuv a8x1wuu _1fragem1y _1fragemor _1fragemkp _1fragemkf _1fragemny">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.75 7.354 9.396a.5.5 0 0 1-.708 0L2 4.75"></path>
-                  </svg>
-                </span>
-              </span>
-              <span>
-                <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem4v _1fragem6o _1fragem2s _1fragemou">
-                  <span class="_19gi7yt1z _19gi7yt1y _1fragemsk">Original price</span>
-                  <p class="_1tx8jg70 _1fragemlt _1tx8jg7g _1tx8jg7f _1fragemoa _1tx8jg71a _1tx8jg71q notranslate"><strong class="_19gi7yt0 _19gi7yt19 _19gi7yt1x">$645.00</strong></p>
                 </div>
-              </span>
-            </span>
-                    </button>
-                </aside>
-                <div class="Sxi8I">
-                    <div class="_9F1Rf GI5Fn _1fragemnm _1fragemnh _1fragemtp">
-                        <div class="gdtca">
-                            <main id="checkout-main" class="djSdi">
-                                <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem4v _1fragem47 _1fragem6o _1fragem60 _1fragem2s">
-                                    <form action method="POST" novalidate id="Form286" class="km09ry0 _1fragem23">
-                                        <div class="km09ry1 _1fragemlt">
-                                            <div>
-                                                <section class="_197l2ofi _197l2ofg _1fragemnm _197l2ofp _197l2ofk _1fragemni _1fragemth _1fragem1y _1fragemf5 _1fragemg5 _1fragemh8 _1fragemhy _1fragemdc _1fragemec _1fragemj1 _1fragemjr _1fragemlt">
-                                                </section>
-                                                <div class="_1fragem1y _1fragemlt gfFXW">
-                                                    <div class="_16s97g74v _16s97g760"></div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div>
-                                                    <section class="_197l2ofi _197l2ofg _1fragemnm _197l2ofp _197l2ofk _1fragemni _1fragemth _1fragem1y _1fragemf5 _1fragemg5 _1fragemh8 _1fragemhy _1fragemdc _1fragemec _1fragemj1 _1fragemjr _1fragemlt">
-                                                        <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem3w _1fragem5p _1fragem2s">
-                                                            <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem3c _1fragem55 _1fragem2s">
-                                                                <h2 id="deliveryAddress" class="n8k95w1 n8k95w0 _1fragemlt n8k95w2">Thông tin thanh toán</h2>
-                                                            </div>
-                                                            <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem4b _1fragem64 _1fragem2s">
-                                                                <section aria-label="Shipping address" class="_1fragem1y _1fragemlt">
-                                                                    <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem3w _1fragem5p _1fragem2s">
-                                                                        <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem4b _1fragem64 _1fragem2s">
-                                                                            <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem3w _1fragem5p _1fragem2s">
-                                                                                <div>
-                                                                                    <div id="shippingAddressForm">
-                                                                                        <div aria-hidden="false" aria-busy="false" class="r62YW">
-                                                                                            <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem3w _1fragem5p _1fragem2s">
-                                                                                                <div style="--_16s97g7a:minmax(0, 1fr);--_16s97g7k:minmax(auto, max-content);--_16s97g71e:minmax(0, 1fr);--_16s97g71o:minmax(auto, max-content);" class="_1mrl40q0 _1fragemlt _1fragem3w _1fragem5p _1fragem2s _1fragemmd _1fragemm9 _16s97g7f _16s97g7p _16s97g71j _16s97g71t">
-                                                                                                    <div class="RD23h _1k3449n1 _1k3449n0 _1fragemnn _10vrn9p1 _10vrn9p0 _10vrn9p4">
-                                                                                                        <div style="--_16s97g7a:minmax(0, 1fr);--_16s97g7k:minmax(auto, max-content);--_16s97g71e:minmax(0, 1fr);--_16s97g71o:minmax(auto, max-content);" class="_1mrl40q0 _1fragemlt _1fragem3w _1fragem5p _1fragem2s _1fragemmd _1fragemm9 _16s97g7f _16s97g7p _16s97g71j _16s97g71t">
-                                                                                                            <div class="wfKnD">
-                                                                                                                <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem3m _1fragem5f _1fragem2s">
-                                                                                                                    <div class="_7ozb2u2 _7ozb2u1 _1fragem3c _1fragem55 _1fragemlt _1fragem2s _10vrn9p1 _10vrn9p0 _10vrn9p4 _7ozb2u4 _7ozb2u3 _1fragemnn">
-                                                                                                                        <div class="cektnc0 _1fragemlt cektnc5">
-                                                                                                                            <label id="TextField841-label" for="TextField841" class="cektnc3 cektnc1 _1fragemlj _1fragemsj _1fragemtc _1fragemsy _1fragemst _1fragemt8 _1fragemt9"><span class="cektnca"><span class="rermvf1 rermvf0 _1fragemk0 _1fragemka _1fragem1y">Họ tên</span></span></label>
-                                                                                                                            <div class="_7ozb2u6 _7ozb2u5 _1fragemlt _1fragem2s _1fragemnx _1fragemsy _1fragemst _1fragemt8 _1fragemtb _7ozb2uc _7ozb2ua _1fragemnn _1fragemth _7ozb2ul _7ozb2uh"><input id="TextField841" name="customer_name"  ng-model="form.customer_name" placeholder="Họ tên" required type="text" aria-required="true" aria-labelledby="TextField841-label" value autocomplete="shipping address-line1" class="_7ozb2uq _7ozb2up _1fragemlt _1fragemtc _1fragemor _1fragemsi _7ozb2ut _7ozb2us _1fragemsy _1fragemst _1fragemt8 _7ozb2u11 _7ozb2u1h _7ozb2ur"/></div>
-                                                                                                                            <span class="invalid-feedback d-block" role="alert">
+            </div>
+            <div class="main">
+                <div class="main-header">
+
+                    <a href="/" class="logo">
+
+                        <h1 class="logo-text">{{ $config->web_title }}</h1>
+
+                    </a>
+
+                    <style>
+                        a.logo{display: block;}
+                        .logo-cus{
+                            width: 100%; padding: 15px 0;
+                        }
+                        .logo-cus img{ max-height: 4.2857142857em  }
+
+                        .logo-text{
+                        }
+
+                        @media (max-width: 767px){
+                            .banner a{ display: block; }
+                        }
+                    </style>
+
+
+                    <ul class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('cart.index') }}">Giỏ hàng</a>
+                        </li>
+
+                        <li class="breadcrumb-item breadcrumb-item-current">
+
+                            Thông tin giao hàng
+
+                        </li>
+                        <li class="breadcrumb-item ">
+
+                            Phương thức thanh toán
+
+                        </li>
+
+                    </ul>
+
+                </div>
+                <style>
+                    .invalid-feedback {
+                        font-size: 12.5px;
+                        color: #dc3545;
+                    }
+                </style>
+                <div class="main-content">
+
+                    <div class="step">
+                        <form>
+                            <div>
+                                <div class="section">
+                                    <div class="section-header">
+                                        <h2 class="section-title">Thông tin giao hàng</h2>
+                                    </div>
+                                    <div class="section-content section-customer-information no-mb">
+
+                                        <div class="fieldset">
+
+                                            <div class="field   ">
+                                                <div class="field-input-wrapper">
+                                                    <label class="field-label" for="billing_address_full_name">Họ và tên</label>
+                                                    <input placeholder="Họ và tên" autocapitalize="off" spellcheck="false"
+                                                           class="field-input" size="30" type="text" id="billing_address_full_name"
+                                                           name="billingName" value=""  ng-model="form.customer_name"  autocomplete="false"/>
+                                                    <span class="invalid-feedback d-block" role="alert">
                                                                         <strong><% errors.customer_name[0] %></strong>
                                                                   </span>
-                                                                                                                        </div>
-                                                                                                                    </div>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <div style="--_16s97g7a:minmax(0, 1fr);--_16s97g7k:minmax(auto, max-content);--_16s97g71e:minmax(0, 1fr);--_16s97g71o:minmax(auto, max-content);" class="_1mrl40q0 _1fragemlt _1fragem3w _1fragem5p _1fragem2s _1fragemmd _1fragemm9 _16s97g7f _16s97g7p _16s97g71j _16s97g71t">
-                                                                                                            <div class="_7ozb2u2 _7ozb2u1 _1fragem3c _1fragem55 _1fragemlt _1fragem2s _10vrn9p1 _10vrn9p0 _10vrn9p4 _7ozb2u4 _7ozb2u3 _1fragemnn">
-                                                                                                                <div class="cektnc0 _1fragemlt cektnc5">
-                                                                                                                    <label id="TextField842-label" for="TextField842" class="cektnc3 cektnc1 _1fragemlj _1fragemsj _1fragemtc _1fragemsy _1fragemst _1fragemt8 _1fragemt9"><span class="cektnca"><span class="rermvf1 rermvf0 _1fragemk0 _1fragemka _1fragem1y">Địa chỉ</span></span></label>
-                                                                                                                    <div class="_7ozb2u6 _7ozb2u5 _1fragemlt _1fragem2s _1fragemnx _1fragemsy _1fragemst _1fragemt8 _1fragemtb _7ozb2uc _7ozb2ua _1fragemnn _1fragemth _7ozb2ul _7ozb2uh"><input id="TextField842" name="address2" ng-model="form.customer_address" placeholder="Địa chỉ giao hàng" type="text" aria-required="false" aria-labelledby="TextField842-label" value autocomplete="shipping address-line2" class="_7ozb2uq _7ozb2up _1fragemlt _1fragemtc _1fragemor _1fragemsi _7ozb2ut _7ozb2us _1fragemsy _1fragemst _1fragemt8 _7ozb2u11 _7ozb2u1h _7ozb2ur"/></div>
-                                                                                                                    <span class="invalid-feedback d-block" role="alert">
-                                                                        <strong><% errors.customer_address[0] %></strong>
-                                                                  </span>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <div style="--_16s97g7a:minmax(0, 1fr);--_16s97g7k:minmax(auto, max-content);--_16s97g71e:minmax(0, 1fr);--_16s97g71o:minmax(auto, max-content);" class="_1mrl40q0 _1fragemlt _1fragem3w _1fragem5p _1fragem2s _1fragemmd _1fragemm9 _16s97g7f _16s97g7p _16s97g71j _16s97g71t">
-                                                                                                            <div class="_7ozb2u2 _7ozb2u1 _1fragem3c _1fragem55 _1fragemlt _1fragem2s _10vrn9p1 _10vrn9p0 _10vrn9p4 _7ozb2u4 _7ozb2u3 _1fragemnn">
-                                                                                                                <div class="cektnc0 _1fragemlt cektnc5">
-                                                                                                                    <label id="TextField842-label" for="TextField842" class="cektnc3 cektnc1 _1fragemlj _1fragemsj _1fragemtc _1fragemsy _1fragemst _1fragemt8 _1fragemt9"><span class="cektnca"><span class="rermvf1 rermvf0 _1fragemk0 _1fragemka _1fragem1y">Số điện thoại</span></span></label>
-                                                                                                                    <div class="_7ozb2u6 _7ozb2u5 _1fragemlt _1fragem2s _1fragemnx _1fragemsy _1fragemst _1fragemt8 _1fragemtb _7ozb2uc _7ozb2ua _1fragemnn _1fragemth _7ozb2ul _7ozb2uh"><input id="TextField842" name="phone_number" ng-model="form.customer_phone" placeholder="Số điện thoại" type="text" aria-required="false" aria-labelledby="TextField842-label" value autocomplete="shipping address-line2" class="_7ozb2uq _7ozb2up _1fragemlt _1fragemtc _1fragemor _1fragemsi _7ozb2ut _7ozb2us _1fragemsy _1fragemst _1fragemt8 _7ozb2u11 _7ozb2u1h _7ozb2ur"/></div>
-                                                                                                                    <span class="invalid-feedback d-block" role="alert">
-                                                                        <strong><% errors.customer_phone[0] %></strong>
-                                                                  </span>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-                                                                                                        <div style="--_16s97g7a:minmax(0, 1fr);--_16s97g7k:minmax(auto, max-content);--_16s97g71e:minmax(0, 1fr);--_16s97g71o:minmax(auto, max-content);" class="_1mrl40q0 _1fragemlt _1fragem3w _1fragem5p _1fragem2s _1fragemmd _1fragemm9 _16s97g7f _16s97g7p _16s97g71j _16s97g71t">
-                                                                                                            <div class="_7ozb2u2 _7ozb2u1 _1fragem3c _1fragem55 _1fragemlt _1fragem2s _10vrn9p1 _10vrn9p0 _10vrn9p4 _7ozb2u4 _7ozb2u3 _1fragemnn">
-                                                                                                                <div class="cektnc0 _1fragemlt cektnc5">
-                                                                                                                    <label id="TextField842-label" for="TextField842" class="cektnc3 cektnc1 _1fragemlj _1fragemsj _1fragemtc _1fragemsy _1fragemst _1fragemt8 _1fragemt9"><span class="cektnca"><span class="rermvf1 rermvf0 _1fragemk0 _1fragemka _1fragem1y">Email</span></span></label>
-                                                                                                                    <div class="_7ozb2u6 _7ozb2u5 _1fragemlt _1fragem2s _1fragemnx _1fragemsy _1fragemst _1fragemt8 _1fragemtb _7ozb2uc _7ozb2ua _1fragemnn _1fragemth _7ozb2ul _7ozb2uh">
-                                                                                                                        <input id="TextField842" name="email"
-                                                                                                                               ng-model="form.customer_email"
-                                                                                                                               placeholder="Email" type="text"
-                                                                                                                               aria-required="false" aria-labelledby="TextField842-label" value autocomplete="shipping address-line2" class="_7ozb2uq _7ozb2up _1fragemlt _1fragemtc _1fragemor _1fragemsi _7ozb2ut _7ozb2us _1fragemsy _1fragemst _1fragemt8 _7ozb2u11 _7ozb2u1h _7ozb2ur"/></div>
-                                                                                                                    <span class="invalid-feedback d-block" role="alert">
-                                                                        <strong><% errors.customer_email[0] %></strong>
-                                                                  </span>
-                                                                                                                </div>
-                                                                                                            </div>
-                                                                                                        </div>
-
-                                                                                                        <div style="--_16s97g7a:minmax(0, 1fr);--_16s97g7k:minmax(auto, max-content);--_16s97g71e:minmax(0, 1fr);--_16s97g71o:minmax(auto, max-content);" class="_1mrl40q0 _1fragemlt _1fragem3w _1fragem5p _1fragem2s _1fragemmd _1fragemm9 _16s97g7f _16s97g7p _16s97g71j _16s97g71t">
-                                                                                                        </div>
-                                                                                                    </div>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div><div><div><div class="_1fragem1y _1fragemlt"><div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem4g _1fragem69 _1fragem2s"><div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem3w _1fragem5p _1fragem2s"></div><div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem46 _1fragem5z _1fragem2s"><div><div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem3w _1fragem5p _1fragem2s"><div>
-                                                                                                                <button  id="checkout-pay-button" type="button" ng-click="submit()" class="_1m2hr9ge _1m2hr9gd _1fragemt9 _1fragemlt _1fragemnw _1fragem2i _1fragemsn _1fragemt2 _1fragemt4 _1fragemst _1m2hr9g18 _1m2hr9g15 _1fragemss _1fragemsh _1m2hr9g1t _1m2hr9g1r _1m2hr9g11  _1m2hr9g1q _1m2hr9g14 _1m2hr9g13 _1fragems1 _1m2hr9g2c _1m2hr9g2b  _1fragemso"><span class="_1m2hr9gr _1m2hr9gq _1fragemsj _1fragemsy _1fragemss _1fragemt5 _1m2hr9gn _1m2hr9gl _1fragem28 _1fragem6t _1fragemsl"><span class="_19gi7yt0 _19gi7yti _19gi7yth _1fragemo9 _19gi7yt19 _19gi7yt1t">Thanh toán</span></span></button></div></div></div></div></div><div class="_16s97g75k"></div><div class="_197l2oft _1fragemnz _1fragemmn _1fragem28 _1fragemlt"></div><div class="_1fragem32 _1fragem20 _1fragemlt"><div class="_16s97g75f"></div></div></div></div></div></div>
-                                                                </section>
-                                                            </div>
-                                                        </div>
-                                                    </section>
-                                                    <div class="_1fragem1y _1fragemlt gfFXW">
-                                                        <div class="_16s97g74v _16s97g760"></div>
-                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="_197l2of1e _1fragemsk _1fragem1y _1fragemlt"><button type="submit" tabindex="-1" aria-hidden="true">Submit</button></div>
-                                    </form>
-                                </div>
-                            </main>
-                            <footer class="NGRNe GTe1e _1fragemnm">
-                                <div class="QiTI2">
-                                    <div>
-                                        <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem41 _1fragem5u _1fragem2s">
-                                            <div class="_5uqybw0 _1fragemlt _1fragem28 _1fragem78">
-                                                <div class="_5uqybw1 _1fragem28 _1fragemku _1fragemo5 _1fragemmk _1fragemmq _1fragem3c _1fragem5p _1fragem78"><button type="button" class="_1m2hr9ge _1m2hr9gd _1fragemt9 _1fragemlt _1fragemnw _1fragem2i _1fragemsn _1fragemt2 _1fragemt4 _1fragemst _1m2hr9g1a _1m2hr9g17 _1fragemt4 _1fragemt2 _1fragemss _1fragemsh _1m2hr9g1q _1m2hr9g1e _1m2hr9g1c _1fragemsp"><span class="_1m2hr9gr _1m2hr9gq _1fragemsj _1fragemsy _1fragemss _1fragemt5 _1m2hr9gn _1m2hr9gl _1fragem28 _1fragem6t _1fragemsl">Privacy policy</span></button></div>
+                                            <div class="field">
+                                                <div class="field-input-wrapper">
+                                                    <label class="field-label" for="billing_address_shipping">Địa chỉ nhận hàng</label>
+                                                    <input placeholder="Địa chỉ nhận hàng" autocapitalize="off" spellcheck="false" ng-model="form.customer_address"
+                                                           class="field-input"  type="text" id="billing_address_shipping"
+                                                           name="billingAddress" value=""  autocomplete="false"/>
+
+                                                    <span class="invalid-feedback d-block" role="alert">
+                                                                        <strong><% errors.customer_address[0] %></strong>
+                                                                  </span>
+                                                </div>
                                             </div>
+
+                                            <div class="field">
+                                                <div class="field-input-wrapper">
+                                                    <label class="field-label" for="billing_address_phone">Số điện thoại</label>
+                                                    <input autocomplete="false" placeholder="Số điện thoại" autocapitalize="off"  ng-model="form.customer_phone"
+                                                           spellcheck="false" class="field-input" size="30" maxlength="15" type="tel"
+                                                           name="billingPhone"
+                                                           id="billing_address_phone" name="billing_address[phone]" value="" />
+                                                    <span class="invalid-feedback d-block" role="alert">
+                                                                        <strong><% errors.customer_phone[0] %></strong>
+                                                                  </span>
+                                                </div>
+
+                                            </div>
+
+                                            {{--                                        <div class="field  field-two-thirds">--}}
+                                            {{--                                            <div class="field-input-wrapper">--}}
+                                            {{--                                                <label class="field-label" for="checkout_user_email">Email</label>--}}
+                                            {{--                                                <input autocomplete="false" placeholder="Email" autocapitalize="off"--}}
+                                            {{--                                                       spellcheck="false" class="field-input" size="30" type="email"--}}
+                                            {{--                                                       name="billingEmail"--}}
+                                            {{--                                                       id="checkout_user_email" name="checkout_user[email]" value="" />--}}
+                                            {{--                                            </div>--}}
+                                            {{--                                        </div>--}}
+
+
+
+
+
                                         </div>
                                     </div>
                                 </div>
-                            </footer>
-                        </div>
+                            </div>
+
+                            <div class="step-footer" >
+                                <button type="button" class="btn"  ng-click="submit()">
+                                    <span class="btn-content">Đặt hàng</span>
+                                    <i class="btn-spinner icon icon-button-spinner"></i>
+                                </button>
+                                <a class="step-footer-previous-link" href="{{ route('cart.index') }}">
+                                    Giỏ hàng
+                                </a>
+                            </div>
+                        </form>
+
+
+
                     </div>
-                    <div class="i4DWM _1fragemnm _1fragemnj _1fragemth">
-                        <div class="_4QenE">
-                            <aside>
-                                <div>
-                                    <section class="_1fragem1y _1fragemlt">
-                                        <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem46 _1fragem5z _1fragem2s">
-                                            <h2 class="n8k95wf _1fragemsk">Order summary</h2>
-                                            <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem46 _1fragem5z _1fragem2s">
-                                                <section class="_1fragem1y _1fragemlt">
-                                                    <div style="--_16s97g73f:40vh;" class="_1mjy8kn6 _1fragemlt _16s97g73k">
-                                                        <div style="--_16s97g73f:40vh;" tabindex="0" role="group" scrollBehaviour="chain" class="_1mjy8kn1 _1mjy8kn0 _1fragemlt _1fragemor _1fragem1t _1fragemeq _1fragemhx _1fragemcn _1fragemjq _16s97g73k _1mjy8kn4 _1mjy8kn2 _1fragemjv _1fragemka">
-                                                            <div class="_6zbcq520 _1fragemsk">
-                                                                <h3 id="ResourceList162" class="n8k95w1 n8k95w0 _1fragemlt n8k95w4">Shopping cart</h3>
-                                                            </div>
-                                                            <div role="table" aria-labelledby="ResourceList162" class="_6zbcq56 _6zbcq55 _1fragem28 _1fragemnz _6zbcq5o _6zbcq5c _1fragem3w _6zbcq516">
-                                                                <div role="rowgroup" class="_6zbcq54 _6zbcq53 _1fragem28 _1fragemnz _6zbcq51d _6zbcq51c _1fragemsk">
-                                                                    <div role="row" class="_6zbcq51f _6zbcq51e _1fragem28 _1fragemmn _1fragemor _1fragem5p">
-                                                                        <div role="columnheader" class="_6zbcq520 _1fragemsk">Product image</div>
-                                                                        <div role="columnheader" class="_6zbcq520 _1fragemsk">Description</div>
-                                                                        <div role="columnheader" class="_6zbcq520 _1fragemsk">Quantity</div>
-                                                                        <div role="columnheader" class="_6zbcq520 _1fragemsk">Price</div>
-                                                                    </div>
-                                                                </div>
-                                                                <div role="rowgroup" class="_6zbcq54 _6zbcq53 _1fragem28 _1fragemnz">
 
-                                                                    @foreach($cartCollection as $item)
-                                                                        <div role="row" class="_6zbcq51i _6zbcq51h _1fragem28 _1fragem1t _6zbcq51l _6zbcq510 _6zbcq51k">
-                                                                            <div role="cell" class="_6zbcq51z _6zbcq51y _1fragem28 _1fragemnz _6zbcq51t _6zbcq51q _1fragem78 _6zbcq51o">
-                                                                                <div style="--_1m6j2n30:1;" class="_1m6j2n34 _1m6j2n33 _1fragemlt _1fragemtl _1m6j2n3a _1m6j2n39 _1m6j2n35">
-                                                                                    <picture>
-                                                                                        <source media="(min-width: 0px)"/>
-                                                                                        <img src="{{ $item->attributes->image }}" loading="eager" alt="{{ $item->name }}" class="_1h3po424 _1h3po427 _1h3po425 _1fragem1y _1fragemkp _1fragemp3 _1fragemp1 _1fragemp5 _1fragemoz _1fragemp9 _1fragempf _1fragempr _1fragempl _1fragemq4 _1fragemq0 _1fragemq8 _1fragempw _1fragemb9 _1fragemak _1fragemby _1fragem9v _1frageml4 _1m6j2n3c _1fragemor _1fragem1t _1m6j2n35"/>
-                                                                                    </picture>
-                                                                                    <div class="_1m6j2n3m _1m6j2n3l _1fragemlj">
-                                                                                        <div class="_99ss3s1 _99ss3s0 _1fragem2n _1fragemmn _1fragem6t _99ss3s7 _99ss3s4 _99ss3s2 _1fragemic _1fragemgj _99ss3sk _99ss3sf _1fragempb _1fragemph _1fragempt _1fragempn"><span class="_99ss3sm _1fragemsk">Số lượng</span><span>{{ $item->quantity }}</span></div>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div role="cell" style="--_16s97g73w:6.4rem;" class="_6zbcq51z _6zbcq51y _1fragem28 _1fragemnz _6zbcq51u _6zbcq51r _1fragem6t _6zbcq51p _6zbcq51n _1fragemmt _6zbcq51w _1fragemo2 _16s97g741">
-                                                                                <div class="_1fragem1y _1fragemlt dDm6x">
-                                                                                    <p class="_1tx8jg70 _1fragemlt _1tx8jg7c _1tx8jg7b _1fragemo8 _1tx8jg71a _1tx8jg71q">{{ $item->name }}</p>
-                                                                                    <div class="_1ip0g651 _1ip0g650 _1fragemlt _1fragem4v _1fragem6o _1fragem2s"></div>
-                                                                                </div>
-                                                                            </div>
-                                                                            <div role="cell" class="_6zbcq51z _6zbcq51y _1fragem28 _1fragemnz _6zbcq51u _6zbcq51r _1fragem6t _6zbcq51o _6zbcq51x">
-                                                                                <div class="_6zbcq520 _1fragemsk"><span class="_19gi7yt0 _19gi7yt19 _19gi7yt1t">{{ $item->quantity }}</span></div>
-                                                                            </div>
-                                                                            <div role="cell" class="_6zbcq51z _6zbcq51y _1fragem28 _1fragemnz _6zbcq51u _6zbcq51r _1fragem6t _6zbcq51p _6zbcq51n _1fragemmt">
-                                                                                <div class="_197l2oft _1fragemnz _1fragemmp _1fragem28 _1fragemlt Byb5s"><span class="_19gi7yt0 _19gi7yt19 _19gi7yt1t notranslate">{{number_format($item->price * $item->quantity)}}</span></div>
-                                                                            </div>
-                                                                        </div>
-                                                                    @endforeach
-
-
-
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div aria-hidden="true" class="_1r4exbt1 _1r4exbt0 _1fragemev _1fragemd2 _1fragemir _1fragemgy _1fragemlj _1fragem28 _1fragemmn _1fragemql _1fragemsj _1r4exbtc _1r4exbta _1fragems2 _1r4exbt8 _1r4exbt6 _1fragemrl">
-                                                            Scroll for more items
-                                                            <span class="a8x1wu2 a8x1wu1 _1fragemor _1fragem1t _1fragemkp _1fragemkf a8x1wug a8x1wuj a8x1wuh _1fragem1y a8x1wun a8x1wul a8x1wut">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 14" focusable="false" aria-hidden="true" class="a8x1wuv a8x1wuu _1fragem1y _1fragemor _1fragemkp _1fragemkf _1fragemny">
-                                      <path stroke-linecap="round" stroke-linejoin="round" d="M7 1.5v11m0 0 4.75-3.826M7 12.5 2.25 8.674"></path>
-                                    </svg>
-                                  </span>
-                                                        </div>
-                                                    </div>
-                                                </section>
-                                            </div>
-                                            <div id="gift-card-field" style="height:auto;overflow:visible;" class="_94sxtb1 _94sxtb0 _1fragemk0 _1fragemka _1fragemlt _1fragemt5 _94sxtbb _94sxtb4 _1fragemss">
-                                                <div>
-                                                </div>
-                                            </div>
-                                            <section class="_1fragem1y _1fragemlt">
-                                                <div class="nfgb6p2 _1fragemsk">
-                                                    <h3 id="MoneyLine-Heading160" class="n8k95w1 n8k95w0 _1fragemlt n8k95w4">Cost summary</h3>
-                                                </div>
-                                                <div role="table" aria-labelledby="MoneyLine-Heading160">
-                                                    <div role="rowgroup" class="nfgb6p1 nfgb6p0 _1fragem2s nfgb6p3">
-                                                        <div role="row" class="_1qy6ue60 _1qy6ue69 _1qy6ue61 _1qy6ue67 _1qy6ue65 _1fragem3h _1fragem5a _1fragem2s">
-                                                            <div role="rowheader" class="_1qy6ue6b"><span class="_19gi7yt0 _19gi7yt19 _19gi7yt1t">Tạm tính</span></div>
-                                                            <div role="cell" class="_1qy6ue6c"><span class="_19gi7yt0 _19gi7yt19 _19gi7yt1t notranslate">{{number_format($total)}} đ</span></div>
-                                                        </div>
-
-                                                        <div role="row" class="_1x41w3p1 _1x41w3p0 _1fragem2s _1fragemmn _1x41w3p2">
-                                                            <div role="rowheader" class="_1x41w3p6"><strong class="_19gi7yt0 _19gi7ytk _19gi7ytj _1fragemoa _19gi7yt19 _19gi7yt1x">Tổng tiền</strong></div>
-                                                            <div role="cell" class="_1x41w3p7">
-                                                                <div class="_5uqybw0 _1fragemlt _1fragem28 _1fragem78">
-                                                                    <div class="_5uqybw1 _1fragem28 _1fragemku _1fragemo5 _1fragem3h _1fragem5a _1fragemmm _1fragem78"><abbr class="_1qifbzv1 _1qifbzv0 _1fragemso"><span class="_19gi7yt0 _19gi7yte _19gi7ytd _1fragemo7 _19gi7yt1a _19gi7yt1t notranslate"></span></abbr><strong class="_19gi7yt0 _19gi7ytk _19gi7ytj _1fragemoa _19gi7yt19 _19gi7yt1x notranslate">{{number_format($total)}} đ</strong></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </section>
-                                        </div>
-                                    </section>
-                                </div>
-                            </aside>
-                        </div>
-                    </div>
                 </div>
+
             </div>
-            <div id="PortalHost"></div>
         </div>
+
     </div>
-    <div id="forwarding-external-new-window-message" aria-hidden="true" class="rij0560 _1fragemsk">Opens external website in a new window.</div>
-    <div id="forwarding-new-window-message" aria-hidden="true" class="rij0560 _1fragemsk">Opens in a new window.</div>
-    <div id="forwarding-external-message" aria-hidden="true" class="rij0560 _1fragemsk">Opens external website.</div>
-    <div role="status" class="_14u2r6s0 _1fragemsk"></div>
-    <div role="alert" class="_14u2r6s0 _1fragemsk"></div>
-    <meta name="serialized-initial-url" content="&quot;https://mymonsteraudio.com/checkouts/cn/Z2NwLWFzaWEtc291dGhlYXN0MTowMUpRS0owNkQ4QzZOWkFWUjNKSDRXSkM2UA?company_location_id=&amp;locale=en-VN&quot;"/>
-    <!--SSR APP RENDER SUCCESS-->
+
 </div>
-<script>
-    (function () {
-        var hasPersistedData = localStorage.getItem('__ui') != null;
-        if (hasPersistedData) return;
 
-        var skeleton = document.querySelector('.LoadingShell');
 
-        if (skeleton) {
-            skeleton.addEventListener(
-                'transitionend',
-                function afterSkeletonFade() {
-                    skeleton.remove();
-                },
-                {once: true}
-            );
-        }
-
-        document.body.classList.remove('Loading');
-        if (performance.mark) {
-            try {
-                performance.mark('checkout:visible', {
-                    detail: {
-                        devtools: {
-                            dataType: 'marker',
-                            color: 'primary-dark',
-                            tooltipText:
-                                'The critical elements of checkout are visible to the buyer'
-                        }
-                    }
-                });
-            } catch (err) {
-            }
-        }
-    })();
-</script><script>
-    (function () {
-        var location = new URL(window.location);
-
-        ["amazonCheckoutSessionId","promiseId","amazon_cancelled"].forEach(
-            function (paramName) {
-                location.searchParams.delete(paramName);
-            }
-        );
-
-        window.history.replaceState(null, document.title, location);
-    })();
-</script>
 @include('site.partials.angular_mix')
 
 <script>
-    Object.defineProperty(window, Symbol.for('Shopify.checkout.htmlAvailable'), {
-        value: true,
-        writable: true,
-        configurable: true,
-        enumerable: false,
-    });
-    document.dispatchEvent(new Event('checkout:htmlavailable'));
     app.factory('cartItemSync', function ($interval) {
         var cart = {items: null, total: null};
 
@@ -1258,3 +2814,5 @@
 </script>
 </body>
 </html>
+
+
