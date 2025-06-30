@@ -121,7 +121,7 @@
 <script src="/site/js/plugins/slick-slider.js"></script>
 <script src="/site/js/plugins/circle-progress.js"></script>
 <script src="/site/js/plugins/swiper.js"></script>
-<script src="/site/js/main.js"></script>
+<script src="/site/js/main.js?v=2.0.0"></script>
 <script src="/site/js/callbutton.js"></script>
 
 <script>
