@@ -28,24 +28,16 @@ class TitleController extends Controller
     public function edit(Request $request, $page)
     {
         $object = ThisModel::getDataForEdit($page);
-        if($object->page == 'service') {
-            $titlePage = "Dịch vụ";
-        }
-        if($object->page == 'review-video') {
-            $titlePage = "Cảm nhận khách hàng";
-        }
-        if($object->page == 'treatment-steps') {
-            $titlePage = "Quy trình khám chữa";
-        }
-        if($object->page == 'review-text') {
-            $titlePage = "Đánh giá khách hàng";
-        }
-        if($object->page == 'register-form') {
-            $titlePage = "Đăng ký tư vấn khám miễn phí";
-        }
-        if($object->page == 'news') {
-            $titlePage = "Tin tức & Sự kiện";
-        }
+        $titleArrs = [
+            'service'         => 'Dịch vụ',
+            'review-video'    => 'Cảm nhận khách hàng',
+            'treatment-steps' => 'Quy trình khám chữa',
+            'review-text'     => 'Đánh giá khách hàng',
+            'register-form'   => 'Đăng ký tư vấn khám miễn phí',
+            'news'            => 'Tin tức & Sự kiện',
+        ];
+        $titlePage = $titleArrs[$object->page] ?? '';
+
         return view($this->view.'.edit', compact('object', 'titlePage'));
     }
 

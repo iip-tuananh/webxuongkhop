@@ -391,7 +391,7 @@
                                                         </iframe>
                                                     </div>
                                                     <div class="content-area">
-                                                        <a href="https://www.youtube.com/watch?v={{ $rVideo->youtube }}"
+                                                        <a href="{{ $rVideo->youtube }}"
                                                            class="title" target="_blank">{{ $rVideo->name }}</a>
                                                         <div class="space16"></div>
                                                         <p>{{ $rVideo->position }}</p>
@@ -527,7 +527,7 @@
                                 <div class="content-area text-center">
 
                                     <div class="space24"></div>
-                                    <a href="service-single.html" class="title">{{ $treatmentStep->title }}</a>
+                                    <a href="#" class="title">{{ $treatmentStep->title }}</a>
                                     <div class="space16"></div>
                                     <p>{{ $treatmentStep->content }}</p>
                                     <div class="space24"></div>
@@ -535,7 +535,6 @@
                             </div>
                         </div>
                     </div>
-
                 @endforeach
             </div>
         </div>
@@ -834,10 +833,10 @@
             <div class="row">
                 <div class="col-lg-6" data-aos="zoom-in-up" data-aos-duration="1000">
                     <div class="contact-boxarea">
-                        <h4>HỘI ĐỒNG BÁC SĨ CHUYÊN KHOA NHIỀU <br class="d-lg-block d-none">
-                            NĂM KINH NGHIỆM</h4>
+                        <h4>ĐỘI NGŨ KỸ THUẬT VIÊN <br class="d-lg-block d-none">
+                            NHIỀU NĂM KINH NGHIỆM</h4>
                         <div class="space20"></div>
-                        <p>Đăng ký tư vấn, Khám 1:1 với chuyên gia
+                        <p>Đăng ký nhận vé xoa bóp
                             <br class="d-lg-block d-none">
                             Hoàn toàn miễn phí </p>
                         <div class="space6"></div>
@@ -857,12 +856,12 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12">
-                                    <div class="input-area">
-                                        <input type="text" name="address" placeholder="Địa chỉ*">
-                                        <div class="invalid-feedback d-block" ng-if="errors['address']"><% errors['address'][0] %></div>
-                                    </div>
-                                </div>
+{{--                                <div class="col-lg-12">--}}
+{{--                                    <div class="input-area">--}}
+{{--                                        <input type="text" name="address" placeholder="Địa chỉ*">--}}
+{{--                                        <div class="invalid-feedback d-block" ng-if="errors['address']"><% errors['address'][0] %></div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
 
                                 <div class="col-lg-12">
                                     <div class="input-area">
@@ -908,7 +907,7 @@
                                     <div class="space10"></div>
                                     <div class="send-success-message">
                                         <i class="fa-solid fa-circle-check"></i>
-                                        <p>Chúc mừng bạn đã nhận một phiếu khám tư vấn miễn phí</p>
+                                        <p>Chúc mừng bạn đã nhận một phiếu miễn phí</p>
                                     </div>
                                 </div>
 
@@ -1260,7 +1259,28 @@
     });
 </script>
 
-<script>
+    <script>
+        function setEqualHeights() {
+            var maxH = 0;
+            // Reset chiều cao trước
+            $('.service8-boxarea').css('height', 'auto');
+            // Tính max height
+            $('.service8-boxarea').each(function() {
+                maxH = Math.max(maxH, $(this).outerHeight());
+            });
+
+            console.log(maxH)
+            // Gán chiều cao
+            $('.service8-boxarea').height(maxH);
+            $('.service8-widgetbox').height(maxH);
+        }
+
+        // Chạy khi load và khi resize
+        $(window).on('load resize', setEqualHeights);
+    </script>
+
+
+    <script>
     app.controller('registerBlock', function ($rootScope, $scope, $sce, $interval, cartItemSync) {
         $scope.errors = [];
         $scope.errors_ = [];

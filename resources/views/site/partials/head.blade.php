@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="/site/css/plugins/slick-slider.css">
 <link rel="stylesheet" href="/site/css/plugins/nice-select.css">
 <link rel="stylesheet" href="/site/css/plugins/swiper-bundle.css">
-<link rel="stylesheet" href="/site/css/main.css?v=3456">
+<link rel="stylesheet" href="/site/css/main.css?v=2.1.1">
 <link rel="stylesheet" href="/site/css/callbutton.css?v=12">
 
 <!--=====  JS SCRIPT LINK =======-->
