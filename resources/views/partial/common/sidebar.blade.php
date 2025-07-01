@@ -24,40 +24,180 @@
                 </a>
             </li>
 
-            <li class="nav-item has-treeview  {{ request()->is('admin/abouts') || request()->is('admin/abouts/*')
-|| request()->is('admin/abouts') || request()->is('admin/abouts/*') || request()->is('admin/video-block/*') || request()->is('admin/register-block/*')
- ? 'menu-open' : '' }} ">
-                <a href="#" class="nav-link">
+{{--            <li class="nav-item has-treeview  {{ request()->is('admin/abouts') || request()->is('admin/abouts/*')--}}
+{{--|| request()->is('admin/abouts') || request()->is('admin/abouts/*') || request()->is('admin/video-block/*') || request()->is('admin/title-pages/*')--}}
+{{-- || request()->is('admin/register-block/*')--}}
+{{-- ? 'menu-open' : '' }} ">--}}
+{{--                <a href="#" class="nav-link">--}}
+{{--                    <i class="nav-icon fas fa-info"></i>--}}
+{{--                    <p>--}}
+{{--                        Cấu hình trang chủ--}}
+{{--                        <i class="fas fa-angle-left right"></i>--}}
+{{--                    </p>--}}
+{{--                </a>--}}
+{{--                <ul class="nav nav-treeview">--}}
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="{{ route('abouts.edit') }}" class="nav-link {{ Request::routeIs('abouts.edit') ? 'active' : '' }}">--}}
+{{--                            <i class="far fas  fa-angle-right nav-icon"></i>--}}
+{{--                            <p>Khối giới thiệu</p>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+
+
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="{{ route('videoBlock.edit') }}" class="nav-link {{ Request::routeIs('videoBlock.edit') ? 'active' : '' }}">--}}
+{{--                            <i class="far fas  fa-angle-right nav-icon"></i>--}}
+{{--                            <p>Khối video</p>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="{{ route('registerBlock.edit') }}" class="nav-link {{ Request::routeIs('registerBlock.edit') ? 'active' : '' }}">--}}
+{{--                            <i class="far fas  fa-angle-right nav-icon"></i>--}}
+{{--                            <p>Khối form đăng ký tư vấn</p>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+
+
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="{{ route('titlePages.index', ['page' => 'service']) }}" class="nav-link {{ Request::routeIs('titlePages.index') ? 'active' : '' }}">--}}
+{{--                            <i class="far fas  fa-angle-right nav-icon"></i>--}}
+{{--                            <p>Tiêu đề khối dịch vụ</p>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+
+{{--                    <li class="nav-item">--}}
+{{--                        <a href="{{ route('titlePages.index', ['page' => 'service']) }}" class="nav-link {{ Request::routeIs('titlePages.index') ? 'active' : '' }}">--}}
+{{--                            <i class="far fas  fa-angle-right nav-icon"></i>--}}
+{{--                            <p>Tiêu đề khối cảm nhận khách hàng</p>--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+
+
+{{--                </ul>--}}
+{{--            </li>--}}
+
+
+            <li class="nav-item has-treeview {{ (
+        request()->is('admin/abouts*') ||
+        request()->is('admin/video-block*') ||
+        request()->is('admin/register-block*') ||
+        request()->is('admin/title-pages*')
+    ) ? 'menu-open' : '' }}">
+                <a href="#" class="nav-link {{ (
+        request()->is('admin/abouts*') ||
+        request()->is('admin/video-block*') ||
+        request()->is('admin/register-block*') ||
+        request()->is('admin/title-pages*')
+    ) ? 'active' : '' }}">
                     <i class="nav-icon fas fa-info"></i>
                     <p>
                         Cấu hình trang chủ
-                        <i class="fas fa-angle-left right"></i>
+                        <i class="right fas fa-angle-left"></i>
                     </p>
                 </a>
+
                 <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                        <a href="{{ route('abouts.edit') }}" class="nav-link {{ Request::routeIs('abouts.edit') ? 'active' : '' }}">
-                            <i class="far fas  fa-angle-right nav-icon"></i>
-                            <p>Khối giới thiệu</p>
+
+                    {{-- Nhóm 1: Nội dung khối --}}
+                    <li class="nav-item has-treeview {{ (
+            request()->is('admin/abouts*') ||
+            request()->is('admin/video-block*') ||
+            request()->is('admin/register-block*')
+        ) ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link">
+                            <i class="far fa-folder nav-icon"></i>
+                            <p>
+                                Nội dung khối
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('abouts.edit') }}"
+                                   class="nav-link {{ request()->routeIs('abouts.edit') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Khối giới thiệu</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('videoBlock.edit') }}"
+                                   class="nav-link {{ request()->routeIs('videoBlock.edit') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Khối video</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('registerBlock.edit') }}"
+                                   class="nav-link {{ request()->routeIs('registerBlock.edit') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Khối form đăng ký tư vấn</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
-
-                    <li class="nav-item">
-                        <a href="{{ route('videoBlock.edit') }}" class="nav-link {{ Request::routeIs('videoBlock.edit') ? 'active' : '' }}">
-                            <i class="far fas  fa-angle-right nav-icon"></i>
-                            <p>Khối video</p>
+                    {{-- Nhóm 2: Tiêu đề khối --}}
+                    <li class="nav-item has-treeview {{ request()->is('admin/title-pages*') ? 'menu-open' : '' }}">
+                        <a href="#" class="nav-link">
+                            <i class="far fa-folder nav-icon"></i>
+                            <p>
+                                Tiêu đề khối
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
                         </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('titlePages.index', ['page' => 'service']) }}"
+                                   class="nav-link {{ request()->fullUrlIs(route('titlePages.index', ['page' => 'service'])) ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tiêu đề khối dịch vụ</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('titlePages.index', ['page' => 'review-video']) }}"
+                                   class="nav-link {{ request()->fullUrlIs(route('titlePages.index', ['page' => 'review-video'])) ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tiêu đề khối cảm nhận khách hàng</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('titlePages.index', ['page' => 'treatment-steps']) }}"
+                                   class="nav-link {{ request()->fullUrlIs(route('titlePages.index', ['page' => 'treatment-steps'])) ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tiêu đề khối quy trình khám chữa</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('titlePages.index', ['page' => 'review-text']) }}"
+                                   class="nav-link {{ request()->fullUrlIs(route('titlePages.index', ['page' => 'review-text'])) ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tiêu đề khối đánh giá khách hàng</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('titlePages.index', ['page' => 'register-form']) }}"
+                                   class="nav-link {{ request()->fullUrlIs(route('titlePages.index', ['page' => 'register-form'])) ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tiêu đề khối đăng ký tư vấn</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('titlePages.index', ['page' => 'news']) }}"
+                                   class="nav-link {{ request()->fullUrlIs(route('titlePages.index', ['page' => 'news'])) ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tiêu đề khối tin tức</p>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
-                    <li class="nav-item">
-                        <a href="{{ route('registerBlock.edit') }}" class="nav-link {{ Request::routeIs('registerBlock.edit') ? 'active' : '' }}">
-                            <i class="far fas  fa-angle-right nav-icon"></i>
-                            <p>Khối form đăng ký tư vấn</p>
-                        </a>
-                    </li>
                 </ul>
             </li>
+
+
+
+
 
             <li class="nav-item has-treeview">
                 <a href="{{route('category_special.index')}}" class="nav-link">
@@ -113,7 +253,9 @@ request()->is('admin/categories') || request()->is('admin/categories*') || reque
                 </ul>
             </li>
 
-            <li class="nav-item has-treeview  {{ request()->is('admin/services') || request()->is('admin/services/*') || request()->is('admin/services') || request()->is('admin/services/*') ? 'menu-open' : '' }} ">
+            <li class="nav-item has-treeview  {{ request()->is('admin/services')
+|| request()->is('admin/services/*') || request()->is('admin/services')
+|| request()->is('admin/services/*') ? 'menu-open' : '' }} ">
 
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-medkit"></i>

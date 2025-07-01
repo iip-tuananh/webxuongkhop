@@ -343,8 +343,8 @@
 
         /* Thu font và padding cho link */
         .play-btn a.popup-youtube {
-            font-size: 14px !important; /* override style inline */
-            padding: 4px 6px; /* co gọn padding */
+            font-size: 12px !important; /* override style inline */
+            padding: 4px 10px !important; /* co gọn padding */
             line-height: 1; /* cho khớp chiều cao */
         }
 

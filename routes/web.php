@@ -271,6 +271,11 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
         Route::get('/edit', 'Admin\AboutController@edit')->name('abouts.edit');
     });
 
+    Route::group(['prefix' => 'title-pages'], function () {
+        Route::get('/{page}', 'Admin\TitleController@edit')->name('titlePages.index');
+        Route::post('/update', 'Admin\TitleController@update')->name('titlePages.update');
+    });
+
     Route::group(['prefix' => 'video-block'], function () {
         Route::get('/', 'Admin\VideoBlockController@index')->name('videoBlock.index');
         Route::get('/show', 'Admin\VideoBlockController@show')->name('videoBlock.show');

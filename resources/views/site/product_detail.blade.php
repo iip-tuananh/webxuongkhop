@@ -329,6 +329,10 @@
                 width: 60px !important;
                 height: 100% !important;
             }
+
+            .product-detail-page{
+                gap: 0px;
+            }
         }
 
 
@@ -348,7 +352,6 @@
 
     <style>
         .product-reviews {
-            margin-top: 2rem;
         }
 
         .reviews-list {
@@ -512,7 +515,7 @@
 
     @endphp
 
-    <div class="vl-blog-details-section sp8" ng-controller="Product" style="padding: 30px 0 0">
+    <div class="vl-blog-details-section sp8" ng-controller="Product" style="padding: 10px 0 0">
         <div class="container">
             <div class="product-detail-page">
                 <!-- Left: gallery -->
@@ -570,18 +573,81 @@
                     </div>
                 </div>
 
-                <!-- Thông tin chi tiết -->
+
+{{--                --}}
+{{--                <div class="product-detail-info">--}}
+{{--                    <h2>Thông tin chi tiết sản phẩm</h2>--}}
+{{--                    <div class="detail-content">--}}
+{{--                        {!! $product->body !!}--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+
+                <style>
+                    .btn-detail-toggle {
+                        /* Buộc flex không giãn, không co */
+                        flex: 0 0 auto !important;
+
+                        /* Cố định kích thước */
+                        width: 32px !important;
+                        height: 32px !important;
+
+                        /* Chỉ hiển thị icon, không background nặng */
+                        padding: 0;
+                        background: transparent !important;
+                        border: 1px solid var(--bs-primary) !important;
+                        border-radius: 50% !important;
+
+                        /* Giúp canh icon */
+                        display: inline-flex !important;
+                        align-items: center;
+                        justify-content: center;
+
+                        /* Hiệu ứng nhẹ */
+                        transition: box-shadow .2s ease-in-out;
+                    }
+
+                    /* Hover chỉ còn shadow nhỏ */
+                    .btn-detail-toggle:hover {
+                        background-color: transparent !important;
+                        box-shadow: 0 2px 6px rgba(0,0,0,0.12) !important;
+                    }
+
+                    /* Khi nội dung mở, đổi dấu + → – */
+                    .btn-detail-toggle.opened i {
+                        transform: rotate(45deg);
+                    }
+
+
+                </style>
+
                 <div class="product-detail-info">
-                    <h2>Thông tin chi tiết sản phẩm</h2>
-                    <div class="detail-content">
-                        {!! $product->body !!}
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <h2 class="mb-0">Thông tin chi tiết sản phẩm</h2>
+
+                        <button
+                            id="toggleProductDetailBtn"
+                            class="btn-detail-toggle opened"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#productDetailContent"
+                            aria-expanded="true"
+                            aria-controls="productDetailContent">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+
+
+                    <div class="collapse" id="productDetailContent">
+                        <div class="detail-content">
+                            {!! $product->body !!}
+                        </div>
                     </div>
                 </div>
 
 
                 <!-- Reviews -->
                 <div class="product-reviews">
-                    <h2>Đánh giá sản phẩm</h2>
+                    <h2 style="font-size: 1.5rem">Đánh giá sản phẩm</h2>
                     <div class="reviews-list">
                         @if($reviews->count())
                             @foreach($reviews as $review)
@@ -762,6 +828,29 @@
 
 @push('scripts')
  <script src="https://unpkg.com/swiper@9/swiper-bundle.min.js"></script>
+
+
+ <script>
+     document.addEventListener('DOMContentLoaded', function() {
+         const detailEl = document.getElementById('productDetailContent');
+         const btn      = document.getElementById('toggleProductDetailBtn');
+
+         detailEl.addEventListener('shown.bs.collapse',  () => btn.classList.add('opened'));
+         detailEl.addEventListener('hidden.bs.collapse', () => btn.classList.remove('opened'));
+     });
+
+     document.addEventListener('DOMContentLoaded', function() {
+         var detailEl = document.getElementById('productDetailContent');
+         var bsCollapse = new bootstrap.Collapse(detailEl, {
+             toggle: true  // sẽ mở sẵn
+         });
+         // và đồng thời set nút thành opened
+         document
+             .getElementById('toggleProductDetailBtn')
+             .classList.add('opened');
+     });
+
+ </script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

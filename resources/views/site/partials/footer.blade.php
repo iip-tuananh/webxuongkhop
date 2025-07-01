@@ -246,7 +246,7 @@
         <div class="space100"></div>
         <div class="col-lg-12">
             <div class="copyright-area">
-                <a href="#">© Copyright 2025 Đại Lực Hoàng. All Right Reserved</a>
+                <a href="#">© Bản quyền thuộc về Công Ty Mỹ Phẩm Lê Vân. All Right Reserved</a>
             </div>
         </div>
     </div>

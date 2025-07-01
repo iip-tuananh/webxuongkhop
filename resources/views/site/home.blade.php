@@ -148,6 +148,119 @@
     </div>
 
 
+
+    <div class="case1-section-area" style="padding: 80px 0 0px">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="heading6 space-margin60" style="margin-bottom: 40px">
+                        @if(@$titleMenu['service']['title_1'])
+                            <h5 class="vl-section-subtitle"><img src="/site/img/icons/sub-logo1.svg" alt="" loading="lazy">{{ $titleMenu['service']['title_1'] }}</h5>
+                        @endif
+                        @if(@$titleMenu['service']['title_2'])
+                                <h2 class="vl-section-title text-anime-style-3">{{ $titleMenu['service']['title_2'] }}</h2>
+                       @endif
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="case-slider-area owl-carousel">
+                        @foreach($services as $service)
+                            <div class="case-boxarea">
+                                <div class="img1">
+                                    <img src="{{ @$service->image->path ?? '' }}" alt="" loading="lazy">
+                                </div>
+                                <div class="content-area">
+                                    <a href="#" class="title">{{ $service->name }}</a>
+                                    <div class="description">
+                                        {{ $service->description }}
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+
+            <style>
+                /* 1. Stage + Item flex như trước */
+                .case-slider-area.owl-carousel .owl-stage {
+                    display: flex;
+                    align-items: stretch;
+                }
+                .case-slider-area.owl-carousel .owl-item {
+                    display: flex;
+                }
+
+                /* 2. Ép case-boxarea full height của owl-item */
+                .case-boxarea {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1 1 auto;
+                }
+
+                /* 3. Khóa chiều cao vùng ảnh, đảm bảo đồng đều */
+                .case-boxarea .img1 {
+                    width: 100%;
+                    height: 300px;         /* <-- bạn chỉnh cao này cho phù hợp */
+                    flex-shrink: 0;        /* không cho phép vùng ảnh co nhỏ */
+                    overflow: hidden;
+                }
+                /* 4. Bắt ảnh fill đầy vùng, crop đều */
+                .case-boxarea .img1 img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                /* 5. Phần content giãn đều phần còn lại */
+                .case-boxarea .content-area {
+                    flex: 1 1 auto;
+                    display: flex;         /* nếu muốn căn giữa nội dung */
+                    align-items: center;   /* dọc */
+                    justify-content: center;/* ngang */
+                    padding: 1rem;
+                }
+
+                .case-boxarea {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1 1 auto;
+                }
+
+                .case-boxarea .content-area {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1 1 auto;
+                    padding: 1rem;           /* tuỳ chỉnh khoảng cách bên trong */
+                }
+
+                .case-boxarea .content-area .title {
+                    font-size: 1.1rem;
+                    font-weight: 600;
+                    margin-bottom: 0.5rem;
+                    text-decoration: none;
+                    color: #333;
+                }
+
+                .case-boxarea .content-area .description {
+                    font-size: 1.2rem;
+                    color: #fff;
+                    line-height: 1.4;
+                    /* flex-none để mô tả không giãn */
+                    flex: none;
+                }
+            </style>
+        </div>
+    </div>
+
+
     <style>
         .video-block {
             position: relative;
@@ -241,13 +354,18 @@
     </style>
 
 
-    <div class="team2-section-area sp1" style="padding: 80px 0 60px">
+    <div class="team2-section-area sp1" style="padding: 60px 0 30px">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
                     <div class="team-header space-margin60 heading2">
-                        <h5><img loading="lazy" src="/site/img/icons/sub-logo1.svg" alt="">Cảm nhận của khách hàng</h5>
-                        <h2 class="text-anime-style-3">Cảm nhận của khách hàng</h2>
+                        @if(@$titleMenu['review-video']['title_1'])
+                            <h5><img loading="lazy" src="/site/img/icons/sub-logo1.svg" alt="">{{ $titleMenu['review-video']['title_1'] }}</h5>
+                        @endif
+
+                        @if(@$titleMenu['review-video']['title_2'])
+                                <h2 class="text-anime-style-3">{{ $titleMenu['review-video']['title_2'] }}</h2>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -367,120 +485,18 @@
         </div>
     </div>
 
-    <div class="case1-section-area" style="margin-bottom: 75px">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-5">
-                    <div class="heading6 space-margin60" style="margin-bottom: 40px">
-                        <h5 class="vl-section-subtitle"><img src="/site/img/icons/sub-logo1.svg" alt="" loading="lazy">Dịch vụ</h5>
-                        <h2 class="vl-section-title text-anime-style-3">Dịch vụ của chúng tôi</h2>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="case-slider-area owl-carousel">
-                        @foreach($services as $service)
-                            <div class="case-boxarea">
-                                <div class="img1">
-                                    <img src="{{ @$service->image->path ?? '' }}" alt="" loading="lazy">
-                                </div>
-                                <div class="content-area">
-                                    <a href="#" class="title">{{ $service->name }}</a>
-                                    <div class="description">
-                                        {{ $service->description }}
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-
-
-            <style>
-                /* 1. Stage + Item flex như trước */
-                .case-slider-area.owl-carousel .owl-stage {
-                    display: flex;
-                    align-items: stretch;
-                }
-                .case-slider-area.owl-carousel .owl-item {
-                    display: flex;
-                }
-
-                /* 2. Ép case-boxarea full height của owl-item */
-                .case-boxarea {
-                    display: flex;
-                    flex-direction: column;
-                    flex: 1 1 auto;
-                }
-
-                /* 3. Khóa chiều cao vùng ảnh, đảm bảo đồng đều */
-                .case-boxarea .img1 {
-                    width: 100%;
-                    height: 300px;         /* <-- bạn chỉnh cao này cho phù hợp */
-                    flex-shrink: 0;        /* không cho phép vùng ảnh co nhỏ */
-                    overflow: hidden;
-                }
-                /* 4. Bắt ảnh fill đầy vùng, crop đều */
-                .case-boxarea .img1 img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                }
-
-                /* 5. Phần content giãn đều phần còn lại */
-                .case-boxarea .content-area {
-                    flex: 1 1 auto;
-                    display: flex;         /* nếu muốn căn giữa nội dung */
-                    align-items: center;   /* dọc */
-                    justify-content: center;/* ngang */
-                    padding: 1rem;
-                }
-
-                .case-boxarea {
-                    display: flex;
-                    flex-direction: column;
-                    flex: 1 1 auto;
-                }
-
-                .case-boxarea .content-area {
-                    display: flex;
-                    flex-direction: column;
-                    flex: 1 1 auto;
-                    padding: 1rem;           /* tuỳ chỉnh khoảng cách bên trong */
-                }
-
-                .case-boxarea .content-area .title {
-                    font-size: 1.1rem;
-                    font-weight: 600;
-                    margin-bottom: 0.5rem;
-                    text-decoration: none;
-                    color: #333;
-                }
-
-                .case-boxarea .content-area .description {
-                    font-size: 1.2rem;
-                    color: #fff;
-                    line-height: 1.4;
-                    /* flex-none để mô tả không giãn */
-                    flex: none;
-                }
-            </style>
-        </div>
-    </div>
-
     <div class="service8 sp2" style="padding: 50px 0 50px">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 m-auto">
                     <div class="heading8 text-center space-margin60" style="margin-bottom: 30px">
-                        <h5 data-aos="fade-left" data-aos-duration="800"><img src="/site/img/icons/sub-logo1.svg" loading="lazy" alt="">Quy trình khám chữa</h5>
-                        <h2 class="text-anime-style-3">Quy trình khám chữa</h2>
+                        @if(@$titleMenu['treatment-steps']['title_1'])
+                            <h5 data-aos="fade-left" data-aos-duration="800"><img src="/site/img/icons/sub-logo1.svg" loading="lazy" alt="">{{ $titleMenu['treatment-steps']['title_1'] }}</h5>
+                        @endif
+
+                        @if(@$titleMenu['treatment-steps']['title_2'])
+                            <h2 class="text-anime-style-3">{{ $titleMenu['treatment-steps']['title_2'] }}</h2>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -637,13 +653,13 @@
 
     </style>
     @foreach($categoriesSpecial as $categorySpecial)
-        <div class="shop-others-area sp1" style="padding: 70px 0 70px">
+        <div class="shop-others-area sp1" style="padding: 50px 0 70px">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="heading5 space-margin60">
-                            <h5 data-aos="fade-left" data-aos-duration="800"><img src="/site/img/icons/sub-logo1.svg" loading="lazy" alt="">{{ $categorySpecial->name }}</h5>
-                            <h2 class="text-anime-style-3">{{ $categorySpecial->name }}</h2>
+                            <h2 data-aos="fade-left" data-aos-duration="800"><img src="/site/img/icons/sub-logo1.svg" loading="lazy" alt=""> {{ $categorySpecial->name }}</h2>
+{{--                            <h2 class="text-anime-style-3"><img src="/site/img/icons/sub-logo1.svg" loading="lazy" alt="">{{ $categorySpecial->name }}</h2>--}}
                         </div>
                     </div>
                 </div>
@@ -706,7 +722,11 @@
                             <img loading="lazy" src="{{ @$videoBlock->image->path ?? '' }}" alt="">
                         </a>
                         <div class="play-btn">
-                            <a href="{{ $videoBlock->youtube }}" style="font-size: 18px" class="popup-youtube"><span><i class="fa-solid fa-play"></i></span>{{ $videoBlock->title }}</a>
+                            <a href="{{ $videoBlock->youtube }}" style="font-size: 18px" class="popup-youtube">
+                                <span><i class="fa-solid fa-play"></i>
+                                </span>
+                                {{ $videoBlock->title }}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -743,8 +763,13 @@
             <div class="row">
                 <div class="col-lg-6 m-auto">
                     <div class="heading2 text-center space-margin60">
-                        <h5><img loading="lazy" src="/site/img/icons/sub-logo1.svg" alt="">Đánh giá khách hàng</h5>
-                        <h2 class="text-anime-style-3">Đánh giá khách hàng</h2>
+                        @if(@$titleMenu['review-text']['title_1'])
+                            <h5 data-aos="fade-left" data-aos-duration="800"><img src="/site/img/icons/sub-logo1.svg" loading="lazy" alt="">{{ $titleMenu['review-text']['title_1'] }}</h5>
+                        @endif
+
+                        @if(@$titleMenu['review-text']['title_2'])
+                            <h2 class="text-anime-style-3">{{ $titleMenu['review-text']['title_2'] }}</h2>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -795,8 +820,14 @@
             <div class="row">
                 <div class="col-lg-6 m-auto">
                     <div class="heading2 text-center space-margin60">
-                        <h5><img loading="lazy" src="/site/img/icons/sub-logo1.svg" alt="">Đăng ký tư vấn khám miễn phí</h5>
-                        <h2>Đăng ký tư vấn khám miễn phí</h2>
+                        @if(@$titleMenu['register-form']['title_1'])
+                            <h5 data-aos="fade-left" data-aos-duration="800"><img src="/site/img/icons/sub-logo1.svg" loading="lazy" alt="">{{ $titleMenu['register-form']['title_1'] }}</h5>
+                        @endif
+
+                        @if(@$titleMenu['register-form']['title_2'])
+                            <h2>{{ $titleMenu['register-form']['title_2'] }}</h2>
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -991,8 +1022,13 @@
             <div class="row">
                 <div class="col-lg-6 m-auto">
                     <div class="vl-blog-1-section-box heading6 text-center space-margin60">
-                        <h5 class="vl-section-subtitle"><img loading="lazy" src="/site/img/icons/sub-logo1.svg" alt="">Tin tức & Sự kiện</h5>
-                        <h2 class="vl-section-title text-anime-style-3">Tin tức & Sự kiện</h2>
+                        @if(@$titleMenu['news']['title_1'])
+                            <h5 class="vl-section-subtitle"  data-aos="fade-left" data-aos-duration="800"><img src="/site/img/icons/sub-logo1.svg" loading="lazy" alt="">{{ $titleMenu['news']['title_1'] }}</h5>
+                        @endif
+
+                        @if(@$titleMenu['news']['title_2'])
+                            <h2 class="vl-section-title text-anime-style-3">{{ $titleMenu['news']['title_2'] }}</h2>
+                        @endif
                     </div>
                 </div>
             </div>

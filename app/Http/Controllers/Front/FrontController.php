@@ -30,6 +30,7 @@ use App\Model\Admin\ServiceSpa;
 use App\Model\Admin\Spa;
 use App\Model\Admin\Team;
 use App\Model\Admin\Term;
+use App\Model\Admin\TitlePage;
 use App\Model\Admin\Topic;
 use App\Model\Admin\Tour;
 use App\Model\Admin\TreatmentStep;
@@ -92,7 +93,6 @@ class FrontController extends Controller
         $data['bannersDesktop'] = Banner::query()->with(['image'])->where('type', 'desktop')->orderBy('sort')->get();
         $data['bannersMobile'] = Banner::query()->with(['image'])->where('type', 'mobile')->orderBy('sort')->latest()->get();
 
-
         $ua = $_SERVER['HTTP_USER_AGENT'] ?? '';
         $isMobile = preg_match('/Mobile|Android|iP(hone|od|ad)|IEMobile|BlackBerry/i', $ua);
 
@@ -101,6 +101,15 @@ class FrontController extends Controller
             : $data['bannersDesktop'];
 
         $data['banners'] = $banners;
+
+        $titles = TitlePage::all()
+            ->mapWithKeys(function($page) {
+                return [
+                    $page->page => $page->only(['title_1','title_2'])
+                ];
+            })
+            ->toArray();
+        $data['titleMenu'] = $titles;
 
         return view('site.home', $data);
     }
@@ -1328,6 +1337,31 @@ class FrontController extends Controller
             ->get();
 
         return view('site.search', compact('products','keyWord'));
+    }
+
+    public function onlyme() {
+        $data = [
+           ['id' => 1,
+            'page' => 'service',
+           ],
+            ['id' => 2,
+                'page' => 'review-video',
+            ],
+            ['id' => 3,
+                'page' => 'treatment-steps',
+            ],
+            ['id' => 4,
+                'page' => 'review-text',
+            ],
+            ['id' => 5,
+                'page' => 'register-form',
+            ],
+            ['id' => 6,
+                'page' => 'news',
+            ],
+        ];
+
+        TitlePage::query()->insert($data);
     }
 
 }
