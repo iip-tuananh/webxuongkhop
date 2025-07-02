@@ -1271,12 +1271,21 @@
 
             console.log(maxH)
             // Gán chiều cao
-            $('.service8-boxarea').height(maxH);
-            $('.service8-widgetbox').height(maxH);
+            $('.service8-boxarea, .service8-widgetbox').height(maxH);
+        }
+
+        function handleEqualHeights() {
+            var desktopBreakpoint = 992; // px
+            if (window.innerWidth >= desktopBreakpoint) {
+                setEqualHeights();
+            } else {
+                // trả về auto cho mobile/tablet
+
+            }
         }
 
         // Chạy khi load và khi resize
-        $(window).on('load resize', setEqualHeights);
+        $(window).on('load resize', handleEqualHeights);
     </script>
 
 
